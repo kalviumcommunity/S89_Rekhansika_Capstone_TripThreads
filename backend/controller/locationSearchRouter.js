@@ -27,8 +27,9 @@ locationSearchRouter.post('/sight',async (req, res) => {
       await newLocationInsight.save();
       res.status(201).json({ message: 'Location bookmarked successfully!', location: newLocationInsight });
     } catch (error) {
-      res.status(500).json({ message: 'Error bookmarking location', error });
       console.log(error);
+      res.status(500).json({ message: 'Error bookmarking location', error });
+      
     }
   });
 

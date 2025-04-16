@@ -1,7 +1,9 @@
 const express = require('express');
-const navigationrouter = express.Router();
+const navigationRouter = express.Router();
 
-navigationrouter.get('/transportation', async (req, res) => {
+const navigationPreference = require("../models/navigationPreferenceSchema");
+
+navigationRouter.get('/transportation', async (req, res) => {
     try {
         const { location } = req.query;
         const transportOptions = [
@@ -16,4 +18,15 @@ navigationrouter.get('/transportation', async (req, res) => {
     }
 });
 
-module.exports = navigationrouter;
+navigationRouter.post('/preference',async (req, res) => {
+    try {
+      const { userName, preferredRoutes, transportOptions, mapDirections } = req.body;
+      const newNavigationPreference = new navigationPreference({ userName, preferredRoutes, transportOptions, mapDirections });
+      await newNavigationPreference.save();
+      res.status(201).json({ message: 'Navigation preference saved successfully!', preference: newNavigationPreference });
+    } catch (error) {
+      res.status(500).json({ message: 'Error saving navigation preference', error });
+    }
+  });
+
+module.exports = navigationRouter;

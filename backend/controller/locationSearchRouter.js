@@ -1,6 +1,8 @@
 const express = require('express');
 const locationSearchRouter = express.Router();
 
+const locationInsight = require("../models/locationInsightSchema")
+
 locationSearchRouter.get('/location/:place', async (req, res) => {
     try {
         const { place } = req.params;
@@ -18,5 +20,16 @@ locationSearchRouter.get('/location/:place', async (req, res) => {
     }
 });
 
+locationSearchRouter.post('/sight',async (req, res) => {
+    try {
+      const { userName, locationName, attractions, cuisines, weatherDetails, languageInfo, activities , budgetRange} = req.body;
+      const newLocationInsight = new locationInsight({ userName, locationName, attractions, cuisines, weatherDetails, languageInfo, activities, budgetRange });
+      await newLocationInsight.save();
+      res.status(201).json({ message: 'Location bookmarked successfully!', location: newLocationInsight });
+    } catch (error) {
+      res.status(500).json({ message: 'Error bookmarking location', error });
+      console.log(error);
+    }
+  });
 
 module.exports = locationSearchRouter;

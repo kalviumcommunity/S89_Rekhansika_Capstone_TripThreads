@@ -29,4 +29,19 @@ navigationRouter.post('/preference',async (req, res) => {
     }
   });
 
+navigationRouter.put("/updatepreference/:id",async(req,res)=>{
+    try {
+      const {id} = req.params;
+      if(!id){
+        res.status(400).send({message:"Please provide id"});
+      }
+      const { userName, preferredRoutes, transportOptions, mapDirections } = req.body;
+      const updatedPreference = await navigationPreference.findByIdAndUpdate({_id:id},{userName, preferredRoutes, transportOptions, mapDirections});
+      res.status(200).send({message:"Data Updated successfully", preference:updatedPreference});
+    } catch (error) {
+      console.log(error);
+      res.status(500).send({message:"Error updating post",error})
+    }
+})    
+
 module.exports = navigationRouter;

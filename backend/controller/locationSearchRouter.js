@@ -33,4 +33,19 @@ locationSearchRouter.post('/sight',async (req, res) => {
     }
   });
 
+locationSearchRouter.put("/updatesight/:id",async(req,res)=>{
+    try {
+      const {id} = req.params;
+      if(!id){
+        res.status(400).send({message:"Please provide id"});
+      }
+      const { userName, locationName, attractions, cuisines, weatherDetails, languageInfo, activities , budgetRange } = req.body;
+      const updatedSight = await locationInsight.findByIdAndUpdate({_id:id},{userName, locationName, attractions, cuisines, weatherDetails, languageInfo, activities , budgetRange});
+      res.status(200).send({message:"Data Updated successfully",location:updatedSight});
+    } catch (error) {
+      console.log(error)
+      res.status(500).send({message:"Error updating post",error})
+    }
+})    
+
 module.exports = locationSearchRouter;

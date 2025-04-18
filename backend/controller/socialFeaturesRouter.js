@@ -37,6 +37,40 @@ socialFeaturesRouter.post('/posts',async (req, res) => {
       res.status(500).send({ message: 'Error creating post', error });
     }
   });
+
+socialFeaturesRouter.put("/updatecommunityposts/:id",async(req,res)=>{
+    try {
+      const {id} = req.params;
+      if(!id){
+        return res.status(400).send({message:"Please provide id"});
+      }
+      
+      const { communityName, userName, title, content } = req.body;
+      const updatedCommunityPost = await communityPost.findByIdAndUpdate(
+        {_id:id},
+        {communityName, userName, title, content},
+        {new:true});
+      res.status(200).send({message:"Data Updated successfully", post:updatedCommunityPost});
+    } catch (error) {
+      console.log(error)
+      res.status(500).send({message:"Error updating post",error})
+    }
+}); 
+
+socialFeaturesRouter.put("/updateposts/:id",async(req,res)=>{
+  try {
+    const {id} = req.params;
+    if(!id){
+      return res.status(400).send({message:"Please provide id"});
+    }
+    const { userName, title, content, tags } = req.body;
+    const updatedPost = await post.findByIdAndUpdate({_id:id},{userName, title, content, tags},{new:true});
+    res.status(200).send({message:"Data Updated successfully",post:updatedPost});
+  } catch (error) {
+    console.log(error)
+    res.status(500).send({message:"Error updating post",error})
+  }
+});
   
 
 module.exports = socialFeaturesRouter;

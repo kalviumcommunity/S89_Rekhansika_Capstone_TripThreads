@@ -38,7 +38,7 @@ socialFeaturesRouter.post('/posts',async (req, res) => {
     }
   });
 
-socialFeaturesRouter.put("/updatecommunitypost/:id",async(req,res)=>{
+socialFeaturesRouter.put("/updatecommunityposts/:id",async(req,res)=>{
     try {
       const {id} = req.params;
       if(!id){
@@ -57,7 +57,7 @@ socialFeaturesRouter.put("/updatecommunitypost/:id",async(req,res)=>{
     }
 }); 
 
-socialFeaturesRouter.put("/updatepost/:id",async(req,res)=>{
+socialFeaturesRouter.put("/updateposts/:id",async(req,res)=>{
   try {
     const {id} = req.params;
     if(!id){

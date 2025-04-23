@@ -50,10 +50,10 @@ socialFeaturesRouter.put("/updatecommunityposts/:id",async(req,res)=>{
         {_id:id},
         {communityName, userName, title, content},
         {new:true});
-      res.status(200).send({message:"Data Updated successfully", post:updatedCommunityPost});
+      res.status(200).send({message:"Community Post Updated successfully", post:updatedCommunityPost});
     } catch (error) {
       console.log(error)
-      res.status(500).send({message:"Error updating post",error})
+      res.status(500).send({message:"Error updating community post",error})
     }
 }); 
 
@@ -65,7 +65,7 @@ socialFeaturesRouter.put("/updateposts/:id",async(req,res)=>{
     }
     const { userName, title, content, tags } = req.body;
     const updatedPost = await post.findByIdAndUpdate({_id:id},{userName, title, content, tags},{new:true});
-    res.status(200).send({message:"Data Updated successfully",post:updatedPost});
+    res.status(200).send({message:"Post Updated successfully",post:updatedPost});
   } catch (error) {
     console.log(error)
     res.status(500).send({message:"Error updating post",error})
@@ -81,7 +81,7 @@ socialFeaturesRouter.delete("/deletecommunityposts/:id",async(req,res)=>{
     const deletedCommunityPosts = await communityPost.findByIdAndDelete({_id:id});
     res.status(200).send({message:"Community Post Deleted successfully"});
   } catch (error) {
-    res.status(500).send({message:"Error updating post",error})
+    res.status(500).send({message:"Error deleting post",error})
   }
 });
 
@@ -94,7 +94,7 @@ socialFeaturesRouter.delete("/deleteposts/:id",async(req,res)=>{
     const deletedPosts = await post.findByIdAndDelete({_id:id});
     res.status(200).send({message:"Post Deleted successfully"});
   } catch (error) {
-    res.status(500).send({message:"Error updating post",error})
+    res.status(500).send({message:"Error deleting post",error})
   }
 });
 
@@ -115,7 +115,7 @@ socialFeaturesRouter.patch("/patchcommunityposts/:id", async (req, res) => {
       if (!updatedSight) {
           return res.status(404).send({ message: "Community Post insight not found" });
       }
-      res.status(200).send({ message: "Data updated successfully", Post : updatedSight });
+      res.status(200).send({ message: "Community post updated successfully", Post : updatedSight });
   } catch (error) {
       console.error(error);
       res.status(500).send({ message: "Error updating post", error });
@@ -139,7 +139,7 @@ socialFeaturesRouter.patch("/patchposts/:id", async (req, res) => {
       if (!updatedSight) {
           return res.status(404).send({ message: "Post insight not found" });
       }
-      res.status(200).send({ message: "Data updated successfully", Post : updatedSight });
+      res.status(200).send({ message: "Post updated successfully", Post : updatedSight });
   } catch (error) {
       console.error(error);
       res.status(500).send({ message: "Error updating post", error });

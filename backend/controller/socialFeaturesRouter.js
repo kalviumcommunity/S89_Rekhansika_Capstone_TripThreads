@@ -108,11 +108,11 @@ socialFeaturesRouter.patch("/patchcommunityposts/:id", async (req, res) => {
       if (!userName && !communityName && !title && !content) {
           return res.status(400).send({ message: "Please provide at least one field to update" });
       }
-      const updatedCommunityPost = await communityPost.findByIdAndUpdate({_id:id},
+      const updatedCommunityPosts = await communityPost.findByIdAndUpdate({_id:id},
           { communityName, userName, title, content },
           { new: true},{runValidators: true}
       );
-      if (!updatedCommunityPost) {
+      if (!updatedCommunityPosts) {
           return res.status(404).send({ message: "Community Post insight not found" });
       }
       res.status(200).send({ message: "Community post updated successfully", Post : updatedSight });
@@ -132,11 +132,11 @@ socialFeaturesRouter.patch("/patchposts/:id", async (req, res) => {
       if (!userName && !tags && !title && !content) {
           return res.status(400).send({ message: "Please provide at least one field to update" });
       }
-      const updatedPost = await post.findByIdAndUpdate({_id:id},
+      const updatedPosts = await post.findByIdAndUpdate({_id:id},
           { userName, tags, title, content },
           { new: true},{runValidators: true}
       );
-      if (!updatedPost) {
+      if (!updatedPosts) {
           return res.status(404).send({ message: "Post insight not found" });
       }
       res.status(200).send({ message: "Post updated successfully", Post : updatedSight });

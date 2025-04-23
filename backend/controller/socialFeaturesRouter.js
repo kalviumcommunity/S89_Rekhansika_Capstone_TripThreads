@@ -108,7 +108,7 @@ socialFeaturesRouter.patch("/patchcommunityposts/:id", async (req, res) => {
       if (!userName && !communityName && !title && !content) {
           return res.status(400).send({ message: "Please provide at least one field to update" });
       }
-      const updatedCommunityPost = await communityPost.findByIdAndUpdate({_id:id},
+      const updatedCommunityPosts = await communityPost.findByIdAndUpdate({_id:id},
           { communityName, userName, title, content },
           { new: true}
       );
@@ -132,7 +132,7 @@ socialFeaturesRouter.patch("/patchposts/:id", async (req, res) => {
       if (!userName && !tags && !title && !content) {
           return res.status(400).send({ message: "Please provide at least one field to update" });
       }
-      const updatedPost = await post.findByIdAndUpdate({_id:id},
+      const updatedPosts = await post.findByIdAndUpdate({_id:id},
           { userName, tags, title, content },
           { new: true}
       );

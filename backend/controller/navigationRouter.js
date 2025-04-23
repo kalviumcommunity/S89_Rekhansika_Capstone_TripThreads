@@ -67,7 +67,7 @@ navigationRouter.patch("/patchnavigationpreference/:id", async (req, res) => {
       if (!userName && !preferredRoutes && !transportOptions && !mapDirections) {
           return res.status(400).send({ message: "Please provide at least one field to update" });
       }
-      const updatedSight = await navigationPreference.findByIdAndUpdate({_id:id},
+      const updatedPreference = await navigationPreference.findByIdAndUpdate({_id:id},
           { userName, preferredRoutes, transportOptions, mapDirections },
           { new: true}
       );

@@ -69,9 +69,9 @@ navigationRouter.patch("/patchnavigationpreference/:id", async (req, res) => {
       }
       const updatedPreference = await navigationPreference.findByIdAndUpdate({_id:id},
           { userName, preferredRoutes, transportOptions, mapDirections },
-          { new: true}
+          { new: true},{runValidators: true}
       );
-      if (!updatedSight) {
+      if (!updatedPreference) {
           return res.status(404).send({ message: "Preference insight not found" });
       }
       res.status(200).send({ message: "Preference updated successfully", Preference : updatedSight });

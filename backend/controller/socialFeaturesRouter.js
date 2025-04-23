@@ -53,7 +53,7 @@ socialFeaturesRouter.put("/updatecommunityposts/:id",async(req,res)=>{
       res.status(200).send({message:"Community Post Updated successfully", post:updatedCommunityPost});
     } catch (error) {
       console.log(error)
-      res.status(500).send({message:"Error updating community post",error})
+      res.status(500).send({message:"Error updating community post"})
     }
 }); 
 
@@ -68,7 +68,7 @@ socialFeaturesRouter.put("/updateposts/:id",async(req,res)=>{
     res.status(200).send({message:"Post Updated successfully",post:updatedPost});
   } catch (error) {
     console.log(error)
-    res.status(500).send({message:"Error updating post",error})
+    res.status(500).send({message:"Error updating post"})
   }
 });
 
@@ -81,7 +81,7 @@ socialFeaturesRouter.delete("/deletecommunityposts/:id",async(req,res)=>{
     const deletedCommunityPosts = await communityPost.findByIdAndDelete({_id:id});
     res.status(200).send({message:"Community Post Deleted successfully"});
   } catch (error) {
-    res.status(500).send({message:"Error deleting post",error})
+    res.status(500).send({message:"Error deleting post"})
   }
 });
 
@@ -94,7 +94,7 @@ socialFeaturesRouter.delete("/deleteposts/:id",async(req,res)=>{
     const deletedPosts = await post.findByIdAndDelete({_id:id});
     res.status(200).send({message:"Post Deleted successfully"});
   } catch (error) {
-    res.status(500).send({message:"Error deleting post",error})
+    res.status(500).send({message:"Error deleting post"})
   }
 });
 
@@ -118,7 +118,7 @@ socialFeaturesRouter.patch("/patchcommunityposts/:id", async (req, res) => {
       res.status(200).send({ message: "Community post updated successfully", Post : updatedCommunityPosts });
   } catch (error) {
       console.error(error);
-      res.status(500).send({ message: "Error updating post", error });
+      res.status(500).send({ message: "Error updating post" });
   }
 });
 
@@ -142,7 +142,7 @@ socialFeaturesRouter.patch("/patchposts/:id", async (req, res) => {
       res.status(200).send({ message: "Post updated successfully", Post : updatedPosts });
   } catch (error) {
       console.error(error);
-      res.status(500).send({ message: "Error updating post", error });
+      res.status(500).send({ message: "Error updating post" });
   }
 });
   

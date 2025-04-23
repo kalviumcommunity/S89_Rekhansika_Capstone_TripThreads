@@ -25,7 +25,7 @@ navigationRouter.post('/preference',async (req, res) => {
       await newNavigationPreference.save();
       res.status(201).json({ message: 'Navigation preference saved successfully!', preference: newNavigationPreference });
     } catch (error) {
-      res.status(500).json({ message: 'Error saving navigation preference', error });
+      res.status(500).json({ message: 'Error saving navigation preference' });
     }
   });
 
@@ -40,7 +40,7 @@ navigationRouter.put("/updatepreference/:id",async(req,res)=>{
       res.status(200).send({message:"Preference Updated successfully", preference:updatedPreference});
     } catch (error) {
       console.log(error);
-      res.status(500).send({message:"Error updating preference",error})
+      res.status(500).send({message:"Error updating preference"})
     }
 });
 
@@ -53,7 +53,7 @@ navigationRouter.delete("/deletepreference/:id",async(req,res)=>{
     const deletedPreference = await navigationPreference.findByIdAndDelete({_id:id});
     res.status(200).send({message:"Preference Deleted successfully"});
   } catch (error) {
-    res.status(500).send({message:"Error deleting preference",error})
+    res.status(500).send({message:"Error deleting preference"})
   }
 });
 
@@ -77,7 +77,7 @@ navigationRouter.patch("/patchnavigationpreference/:id", async (req, res) => {
       res.status(200).send({ message: "Preference updated successfully", Preference : updatedSight });
   } catch (error) {
       console.error(error);
-      res.status(500).send({ message: "Error updating preference", error });
+      res.status(500).send({ message: "Error updating preference" });
   }
 });
 

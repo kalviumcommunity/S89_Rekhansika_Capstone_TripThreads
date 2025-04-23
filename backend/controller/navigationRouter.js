@@ -42,6 +42,43 @@ navigationRouter.put("/updatepreference/:id",async(req,res)=>{
       console.log(error);
       res.status(500).send({message:"Error updating post",error})
     }
-})    
+});
+
+navigationRouter.delete("/deletepreference/:id",async(req,res)=>{
+  try {
+    const {id} = req.params;
+    if(!id){
+      return res.status(400).send({message:"Please provide id"});
+    }
+    const deletedPreference = await navigationPreference.findByIdAndDelete({_id:id});
+    res.status(200).send({message:"Preference Deleted successfully"});
+  } catch (error) {
+    res.status(500).send({message:"Error updating post",error})
+  }
+});
+
+navigationRouter.patch("/patchnavigationpreference/:id", async (req, res) => {
+  try {
+      const { id } = req.params;
+      if (!id) {
+          return res.status(400).send({ message: "Please provide a valid id" });
+      }
+      const { userName, preferredRoutes, transportOptions, mapDirections } = req.body;
+      if (!userName && !preferredRoutes && !transportOptions && !mapDirections) {
+          return res.status(400).send({ message: "Please provide at least one field to update" });
+      }
+      const updatedSight = await navigationPreference.findByIdAndUpdate({_id:id},
+          { userName, preferredRoutes, transportOptions, mapDirections },
+          { new: true}
+      );
+      if (!updatedSight) {
+          return res.status(404).send({ message: "Preference insight not found" });
+      }
+      res.status(200).send({ message: "Preference updated successfully", Preference : updatedSight });
+  } catch (error) {
+      console.error(error);
+      res.status(500).send({ message: "Error updating post", error });
+  }
+});
 
 module.exports = navigationRouter;

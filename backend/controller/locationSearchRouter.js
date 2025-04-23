@@ -46,6 +46,43 @@ locationSearchRouter.put("/updatesight/:id",async(req,res)=>{
       console.log(error)
       res.status(500).send({message:"Error updating post",error})
     }
-})    
+});
+
+locationSearchRouter.delete("/deletesight/:id",async(req,res)=>{
+  try {
+    const {id} = req.params;
+    if(!id){
+      return res.status(400).send({message:"Please provide id"});
+    }
+    const deletedSight = await locationInsight.findByIdAndDelete({_id:id});
+    res.status(200).send({message:"location Deleted successfully"});
+  } catch (error) {
+    res.status(500).send({message:"Error updating post",error})
+  }
+});
+
+locationSearchRouter.patch("/patchlocationsight/:id", async (req, res) => {
+  try {
+      const { id } = req.params;
+      if (!id) {
+          return res.status(400).send({ message: "Please provide a valid id" });
+      }
+      const { userName, locationName, attractions, cuisines, weatherDetails, languageInfo, activities, budgetRange } = req.body;
+      if (!userName && !locationName && !attractions && !cuisines && !weatherDetails && !languageInfo && !activities && !budgetRange) {
+          return res.status(400).send({ message: "Please provide at least one field to update" });
+      }
+      const updatedSight = await locationInsight.findByIdAndUpdate({_id:id},
+          { userName, locationName, attractions, cuisines, weatherDetails, languageInfo, activities, budgetRange },
+          { new: true}
+      );
+      if (!updatedSight) {
+          return res.status(404).send({ message: "Location insight not found" });
+      }
+      res.status(200).send({ message: "location updated successfully", location: updatedSight });
+  } catch (error) {
+      console.error(error);
+      res.status(500).send({ message: "Error updating post", error });
+  }
+});
 
 module.exports = locationSearchRouter;

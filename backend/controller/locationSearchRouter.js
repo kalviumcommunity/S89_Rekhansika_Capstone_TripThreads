@@ -44,7 +44,7 @@ locationSearchRouter.put("/updatesight/:id",async(req,res)=>{
       res.status(200).send({message:"Data Updated successfully",location:updatedSight});
     } catch (error) {
       console.log(error)
-      res.status(500).send({message:"Error updating post",error})
+      res.status(500).send({message:"Error updating data",error})
     }
 });
 
@@ -57,7 +57,7 @@ locationSearchRouter.delete("/deletesight/:id",async(req,res)=>{
     const deletedSight = await locationInsight.findByIdAndDelete({_id:id});
     res.status(200).send({message:"location Deleted successfully"});
   } catch (error) {
-    res.status(500).send({message:"Error updating post",error})
+    res.status(500).send({message:"Error deleting data",error})
   }
 });
 
@@ -78,10 +78,10 @@ locationSearchRouter.patch("/patchlocationsight/:id", async (req, res) => {
       if (!updatedSight) {
           return res.status(404).send({ message: "Location insight not found" });
       }
-      res.status(200).send({ message: "location updated successfully", location: updatedSight });
+      res.status(200).send({ message: "Location updated successfully", location: updatedSight });
   } catch (error) {
       console.error(error);
-      res.status(500).send({ message: "Error updating post", error });
+      res.status(500).send({ message: "Error updating data", error });
   }
 });
 

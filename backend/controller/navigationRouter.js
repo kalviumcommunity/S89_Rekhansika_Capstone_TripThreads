@@ -37,10 +37,10 @@ navigationRouter.put("/updatepreference/:id",async(req,res)=>{
       }
       const { userName, preferredRoutes, transportOptions, mapDirections } = req.body;
       const updatedPreference = await navigationPreference.findByIdAndUpdate({_id:id},{userName, preferredRoutes, transportOptions, mapDirections});
-      res.status(200).send({message:"Data Updated successfully", preference:updatedPreference});
+      res.status(200).send({message:"Preference Updated successfully", preference:updatedPreference});
     } catch (error) {
       console.log(error);
-      res.status(500).send({message:"Error updating post",error})
+      res.status(500).send({message:"Error updating preference",error})
     }
 });
 
@@ -53,7 +53,7 @@ navigationRouter.delete("/deletepreference/:id",async(req,res)=>{
     const deletedPreference = await navigationPreference.findByIdAndDelete({_id:id});
     res.status(200).send({message:"Preference Deleted successfully"});
   } catch (error) {
-    res.status(500).send({message:"Error updating post",error})
+    res.status(500).send({message:"Error deleting preference",error})
   }
 });
 
@@ -67,7 +67,7 @@ navigationRouter.patch("/patchnavigationpreference/:id", async (req, res) => {
       if (!userName && !preferredRoutes && !transportOptions && !mapDirections) {
           return res.status(400).send({ message: "Please provide at least one field to update" });
       }
-      const updatedSight = await navigationPreference.findByIdAndUpdate({_id:id},
+      const updatedPreference = await navigationPreference.findByIdAndUpdate({_id:id},
           { userName, preferredRoutes, transportOptions, mapDirections },
           { new: true}
       );
@@ -77,7 +77,7 @@ navigationRouter.patch("/patchnavigationpreference/:id", async (req, res) => {
       res.status(200).send({ message: "Preference updated successfully", Preference : updatedSight });
   } catch (error) {
       console.error(error);
-      res.status(500).send({ message: "Error updating post", error });
+      res.status(500).send({ message: "Error updating preference", error });
   }
 });
 

@@ -73,7 +73,7 @@ locationSearchRouter.patch("/patchlocationsight/:id", async (req, res) => {
       }
       const updatedSight = await locationInsight.findByIdAndUpdate({_id:id},
           { userName, locationName, attractions, cuisines, weatherDetails, languageInfo, activities, budgetRange },
-          { new: true}
+          { new: true},{runValidators: true}
       );
       if (!updatedSight) {
           return res.status(404).send({ message: "Location insight not found" });

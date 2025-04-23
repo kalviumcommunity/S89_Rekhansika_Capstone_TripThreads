@@ -115,7 +115,7 @@ socialFeaturesRouter.patch("/patchcommunityposts/:id", async (req, res) => {
       if (!updatedCommunityPosts) {
           return res.status(404).send({ message: "Community Post insight not found" });
       }
-      res.status(200).send({ message: "Community post updated successfully", Post : updatedSight });
+      res.status(200).send({ message: "Community post updated successfully", Post : updatedCommunityPosts });
   } catch (error) {
       console.error(error);
       res.status(500).send({ message: "Error updating post", error });
@@ -139,7 +139,7 @@ socialFeaturesRouter.patch("/patchposts/:id", async (req, res) => {
       if (!updatedPosts) {
           return res.status(404).send({ message: "Post insight not found" });
       }
-      res.status(200).send({ message: "Post updated successfully", Post : updatedSight });
+      res.status(200).send({ message: "Post updated successfully", Post : updatedPosts });
   } catch (error) {
       console.error(error);
       res.status(500).send({ message: "Error updating post", error });

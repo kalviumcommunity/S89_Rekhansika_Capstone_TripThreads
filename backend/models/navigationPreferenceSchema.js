@@ -1,59 +1,27 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const transportationSchema = new mongoose.Schema({
-    mode_of_transportation: {
+const navigationPreferenceSchema = new mongoose.Schema({
+    userName: {
         type: String,
-        required: true
-    },
-    start_date: {
-        type: Date,
-        required: true
-    },
-    end_date: {
-        type: Date,
         required: true,
-        validate: {
-            validator: function (value) {
-                return value > this.start_date;
-            },
-            message: "End date must be after start date"
-        }
+        ref: 'User'
     },
-    location: {
-        type: String,
-        required: true
-    }
-});
-
-const hotelSchema = new mongoose.Schema({
-    type_of_hotel: {
-        type: String,
-        required: true
+    preferredRoutes: {
+        type: [String], 
+        default: []
     },
-    start_date: {
-        type: Date,
-        required: true
+    transportOptions: {
+        type: [String], 
+        default: []
     },
-    end_date: {
-        type: Date,
+    mapDirections: {
+        type: String, 
         required: true,
-        validate: {
-            validator: function (value) {
-                return value > this.start_date;
-            },
-            message: "End date must be after start date"
-        }
-    },
-    location: {
-        type: String,
-        required: true
+        trim: true
     }
+},{
+    timestamps:true
 });
 
-const bookingsSchema = new mongoose.Schema({
-    transportation: transportationSchema,
-    hotels: [hotelSchema]
-});
-
-const bookings = mongoose.model("bookings", bookingsSchema);
-module.exports = bookings;
+const navigationPreference = mongoose.model('NavigationPreference', navigationPreferenceSchema);
+module.exports = navigationPreference;

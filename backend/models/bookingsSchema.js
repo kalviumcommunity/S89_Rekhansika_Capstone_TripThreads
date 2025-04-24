@@ -11,7 +11,13 @@ const transportationSchema = new mongoose.Schema({
     },
     end_date: {
         type: Date,
-        required: true
+        required: true,
+        validate: {
+            validator: function (value) {
+                return value.getTime() > this.start_date.getTime();
+            },
+            message: "End date must be after start date"
+        }
     },
     location: {
         type: String,
@@ -30,7 +36,13 @@ const hotelSchema = new mongoose.Schema({
     },
     end_date: {
         type: Date,
-        required: true
+        required: true,
+        validate: {
+            validator: function (value) {
+                return value.getTime() > this.start_date.getTime();
+            },
+            message: "End date must be after start date"
+        }
     },
     location: {
         type: String,
@@ -38,10 +50,10 @@ const hotelSchema = new mongoose.Schema({
     }
 });
 
-const bookingsSchema = new mongoose.Schema({
+const bookingSchema = new mongoose.Schema({
     transportation: transportationSchema,
-    hotels: hotelSchema
-});
+    hotels: [hotelSchema] // Allow multiple hotels
+}, { timestamps: true }); // Adds createdAt & updatedAt fields
 
-const bookings = mongoose.model("bookings", bookingsSchema);
-module.exports = bookings;
+const Booking = mongoose.model("Booking", bookingSchema);
+module.exports = Booking;

@@ -52,8 +52,8 @@ const hotelSchema = new mongoose.Schema({
 
 const bookingSchema = new mongoose.Schema({
     transportation: transportationSchema,
-    hotels: [hotelSchema] // Allow multiple hotels
-}, { timestamps: true }); // Adds createdAt & updatedAt fields
+    hotels: [hotelSchema]
+}, { timestamps: true }); 
 
 const Booking = mongoose.model("Booking", bookingSchema);
 module.exports = Booking;

@@ -18,6 +18,10 @@ app.use("/locationSearch",locationSearchRouter);
 app.use("/socialFeatures",socialFeaturesRouter);
 app.use("/navigation",navigationRouter);
 
+app.get("/", (req, res) => {
+    res.send("TripThreads backend is running!");
+});
+
 
 app.listen(3000,async()=>{
     try {

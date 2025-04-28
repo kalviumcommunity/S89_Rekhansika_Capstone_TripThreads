@@ -8,6 +8,10 @@ dotenv.config();
 
 app.use(express.json());
 
+app.get("/ping",(req,res)=>{
+    return res.status(200).send("pong");
+})
+
 const chatbotRouter = require("./controller/chatbotRouter");
 const locationSearchRouter = require("./controller/locationSearchRouter");
 const socialFeaturesRouter = require("./controller/socialFeaturesRouter");

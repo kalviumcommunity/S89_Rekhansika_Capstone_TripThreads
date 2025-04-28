@@ -13,14 +13,16 @@ const locationSearchRouter = require("./controller/locationSearchRouter");
 const socialFeaturesRouter = require("./controller/socialFeaturesRouter");
 const navigationRouter = require("./controller/navigationRouter");
 
+app.get("/", (req, res) => {
+    res.send("TripThreads backend is running!");
+});
+
 app.use("/api/chatbot",chatbotRouter);
 app.use("/locationSearch",locationSearchRouter);
 app.use("/socialFeatures",socialFeaturesRouter);
 app.use("/navigation",navigationRouter);
 
-app.get("/", (req, res) => {
-    res.send("TripThreads backend is running!");
-});
+
 
 
 app.listen(3000,async()=>{

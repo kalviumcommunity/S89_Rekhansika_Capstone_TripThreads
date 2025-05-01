@@ -3,7 +3,7 @@ const navigationRouter = express.Router();
 
 const navigationPreference = require("../models/navigationPreferenceSchema");
 
-navigationRouter.get('/transportation', async (req, res) => {
+navigationRouter.get('/transport', async (req, res) => {
     try {
         const { location } = req.query;
         const transportOptions = [
@@ -18,7 +18,7 @@ navigationRouter.get('/transportation', async (req, res) => {
     }
 });
 
-navigationRouter.post('/preference',async (req, res) => {
+navigationRouter.post('/transport/preference',async (req, res) => {
     try {
       const { userName, preferredRoutes, transportOptions, mapDirections } = req.body;
       const newNavigationPreference = new navigationPreference({ userName, preferredRoutes, transportOptions, mapDirections });
@@ -29,7 +29,7 @@ navigationRouter.post('/preference',async (req, res) => {
     }
   });
 
-navigationRouter.put("/updatepreference/:id",async(req,res)=>{
+navigationRouter.put("/transport/updatepreference/:id",async(req,res)=>{
     try {
       const {id} = req.params;
       if(!id){
@@ -44,7 +44,7 @@ navigationRouter.put("/updatepreference/:id",async(req,res)=>{
     }
 });
 
-navigationRouter.delete("/deletepreference/:id",async(req,res)=>{
+navigationRouter.delete("/transport/deletepreference/:id",async(req,res)=>{
   try {
     const {id} = req.params;
     if(!id){
@@ -57,7 +57,7 @@ navigationRouter.delete("/deletepreference/:id",async(req,res)=>{
   }
 });
 
-navigationRouter.patch("/patchnavigationpreference/:id", async (req, res) => {
+navigationRouter.patch("/transport/patchpreference/:id", async (req, res) => {
   try {
       const { id } = req.params;
       if (!id) {
@@ -74,7 +74,7 @@ navigationRouter.patch("/patchnavigationpreference/:id", async (req, res) => {
       if (!updatedPreference) {
           return res.status(404).send({ message: "Preference insight not found" });
       }
-      res.status(200).send({ message: "Preference updated successfully", Preference : updatedSight });
+      res.status(200).send({ message: "Preference updated successfully", Preference : updatedPreference });
   } catch (error) {
       console.error(error);
       res.status(500).send({ message: "Error updating preference" });

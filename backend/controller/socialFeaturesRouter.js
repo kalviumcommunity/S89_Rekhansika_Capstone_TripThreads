@@ -14,7 +14,7 @@ socialFeaturesRouter.get('/communities', async (req, res) => {
     }
 });
 
-socialFeaturesRouter.post('/communityposts',async (req, res) => {
+socialFeaturesRouter.post('/communities/communityposts',async (req, res) => {
     try {
       const { communityName, userName, title, content } = req.body;
       const newCommunityPost = new communityPost({ communityName, userName, title, content });
@@ -27,7 +27,7 @@ socialFeaturesRouter.post('/communityposts',async (req, res) => {
   });
   
   
-socialFeaturesRouter.post('/posts',async (req, res) => {
+socialFeaturesRouter.post('/communities/posts',async (req, res) => {
     try {
       const { userName, title, content, tags } = req.body;
       const newPost = new post({ userName, title, content, tags });
@@ -38,7 +38,7 @@ socialFeaturesRouter.post('/posts',async (req, res) => {
     }
   });
 
-socialFeaturesRouter.put("/updatecommunityposts/:id",async(req,res)=>{
+socialFeaturesRouter.put("/communities/updatecommunityposts/:id",async(req,res)=>{
     try {
       const {id} = req.params;
       if(!id){
@@ -57,7 +57,7 @@ socialFeaturesRouter.put("/updatecommunityposts/:id",async(req,res)=>{
     }
 }); 
 
-socialFeaturesRouter.put("/updateposts/:id",async(req,res)=>{
+socialFeaturesRouter.put("/communities/updateposts/:id",async(req,res)=>{
   try {
     const {id} = req.params;
     if(!id){
@@ -72,7 +72,7 @@ socialFeaturesRouter.put("/updateposts/:id",async(req,res)=>{
   }
 });
 
-socialFeaturesRouter.delete("/deletecommunityposts/:id",async(req,res)=>{
+socialFeaturesRouter.delete("/communities/deletecommunityposts/:id",async(req,res)=>{
   try {
     const {id} = req.params;
     if(!id){
@@ -85,7 +85,7 @@ socialFeaturesRouter.delete("/deletecommunityposts/:id",async(req,res)=>{
   }
 });
 
-socialFeaturesRouter.delete("/deleteposts/:id",async(req,res)=>{
+socialFeaturesRouter.delete("/communities/deleteposts/:id",async(req,res)=>{
   try {
     const {id} = req.params;
     if(!id){
@@ -98,7 +98,7 @@ socialFeaturesRouter.delete("/deleteposts/:id",async(req,res)=>{
   }
 });
 
-socialFeaturesRouter.patch("/patchcommunityposts/:id", async (req, res) => {
+socialFeaturesRouter.patch("/communities/patchcommunityposts/:id", async (req, res) => {
   try {
       const { id } = req.params;
       if (!id) {
@@ -122,7 +122,7 @@ socialFeaturesRouter.patch("/patchcommunityposts/:id", async (req, res) => {
   }
 });
 
-socialFeaturesRouter.patch("/patchposts/:id", async (req, res) => {
+socialFeaturesRouter.patch("/communities/patchposts/:id", async (req, res) => {
   try {
       const { id } = req.params;
       if (!id) {

@@ -20,7 +20,7 @@ locationSearchRouter.get('/location/:place', async (req, res) => {
     }
 });
 
-locationSearchRouter.post('/sight',async (req, res) => {
+locationSearchRouter.post('/location/sight',async (req, res) => {
     try {
       const { userName, locationName, attractions, cuisines, weatherDetails, languageInfo, activities , budgetRange} = req.body;
       const newLocationInsight = new locationInsight({ userName, locationName, attractions, cuisines, weatherDetails, languageInfo, activities, budgetRange });
@@ -33,14 +33,14 @@ locationSearchRouter.post('/sight',async (req, res) => {
     }
   });
 
-locationSearchRouter.put("/updatesight/:id",async(req,res)=>{
+locationSearchRouter.put("/location/updatesight/:id",async(req,res)=>{
     try {
       const {id} = req.params;
       if(!id){
         res.status(400).send({message:"Please provide id"});
       }
       const { userName, locationName, attractions, cuisines, weatherDetails, languageInfo, activities , budgetRange } = req.body;
-      const updatedSight = await locationInsight.findByIdAndUpdate({_id:id},{userName, locationName, attractions, cuisines, weatherDetails, languageInfo, activities , budgetRange});
+      const updatedSight = await locationInsight.findByIdAndUpdate({_id:id},{userName, locationName, attractions, cuisines, weatherDetails, languageInfo, activities , budgetRange},{new:true});
       res.status(200).send({message:"Data Updated successfully",location:updatedSight});
     } catch (error) {
       console.log(error)
@@ -48,7 +48,7 @@ locationSearchRouter.put("/updatesight/:id",async(req,res)=>{
     }
 });
 
-locationSearchRouter.delete("/deletesight/:id",async(req,res)=>{
+locationSearchRouter.delete("/location/deletesight/:id",async(req,res)=>{
   try {
     const {id} = req.params;
     if(!id){
@@ -61,7 +61,7 @@ locationSearchRouter.delete("/deletesight/:id",async(req,res)=>{
   }
 });
 
-locationSearchRouter.patch("/patchlocationsight/:id", async (req, res) => {
+locationSearchRouter.patch("/location/patchsight/:id", async (req, res) => {
   try {
       const { id } = req.params;
       if (!id) {

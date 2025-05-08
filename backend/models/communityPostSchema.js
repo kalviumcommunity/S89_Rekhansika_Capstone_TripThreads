@@ -47,6 +47,6 @@ const postSchema = new mongoose.Schema({
 });
 
 const communityPost = mongoose.model("Community",communityPostSchema);
-const post = mongoose.model("User",postSchema);
+const post = mongoose.model("user",postSchema);
 
 module.exports = {communityPost , post}

@@ -1,0 +1,128 @@
+/* Base Reset */
+body {
+    margin: 0;
+    font-family: 'Georgia', serif;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Navbar */
+.navbar {
+    background: #1a1a1a;
+    color: white;
+    padding: 1rem ;
+}
+
+.navbar-container {
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1 2rem;
+}
+
+.navbar nav a {
+    color: white;
+    margin-left: 1.5rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.navbar nav a:hover {
+    color: #3498db;
+}
+
+/* Hero Section */
+.home-header {
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)),
+                url('https://wallpapers.com/images/hd/travel-hd-axhrsecphqby11wk.jpg') no-repeat center center/cover;
+    color: white;
+    text-align: center;
+    padding: 10rem 2rem; /* Reduced padding for less width */
+}
+
+.hero-content {
+    max-width: 1000px; /* Set a maximum width for the content */
+    margin: 0 auto;
+}
+
+.hero-content h1 {
+    font-size: 3rem; /* Adjusted font size for better fit */
+    margin-bottom: 1rem;
+}
+
+.hero-content p {
+    font-size: 1.2rem; /* Adjusted font size for better fit */
+    opacity: 0.9;
+}
+
+/* Hero Section */
+.home-header {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.2)),
+                url('https://wallpapers.com/images/hd/travel-hd-axhrsecphqby11wk.jpg') no-repeat center center/cover;
+    color: white;
+    text-align: center;
+    padding: 15rem 15rem;
+}
+
+.hero-content {
+    max-width: 1500px;
+    margin: 0 auto;
+}
+
+.hero-content h1 {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+.hero-content p {
+    font-size: 1.5rem;
+    opacity: 0.9;
+}
+
+/* Features Section */
+.home-features {
+    background: none; /* Removed background image */
+    color: black; /* Adjust text color for contrast */
+    padding: 6rem 2rem;
+}
+
+.home-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.feature-list {
+    list-style: none;
+    padding: 0;
+    margin: 2rem auto 0;
+    max-width: 700px;
+    font-size: 1.25rem;
+    line-height: 2;
+}
+
+/* Footer */
+.home-footer {
+    background: #111;
+    color: #ccc;
+    padding: 0.5rem;
+    text-align: center;
+    margin-top: 2rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+    .hero-content p {
+        font-size: 1.2rem;
+    }
+}

@@ -35,7 +35,8 @@ userRouter.post("/signup", async (req, res) => {
         // Generate JWT token
         const token = jwt.sign(
             { name: newUser.name, email: newUser.email, id: newUser.id },
-            process.env.JWT_PASSWORD
+            process.env.JWT_PASSWORD,
+            {expiresIn: "1d"}
         );
 
         return res.status(201).json({

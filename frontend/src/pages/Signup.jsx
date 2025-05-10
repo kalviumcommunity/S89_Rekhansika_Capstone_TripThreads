@@ -25,7 +25,7 @@ const Signup = () => {
     
         try {
             
-            if(formData.password != formData.confirmPassword){
+            if(formData.password !== formData.confirmPassword){
                 return alert("Password and Confirm Password do not match");
             }
             const response = await axios.post('http://localhost:3000/user/signup', formData);

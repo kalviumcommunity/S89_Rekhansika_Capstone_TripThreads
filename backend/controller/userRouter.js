@@ -8,10 +8,10 @@ const userRouter = express.Router();
 // Signup Route
 userRouter.post("/signup", async (req, res) => {
     try {
-        const { name, email, password } = req.body;
+        const { name, email, password ,confirmPassword } = req.body;
 
         // Validate input
-        if (!name || !email || !password) {
+        if (!name || !email || !password || !confirmPassword) {
             return res.status(400).json({ message: "All details are required" });
         }
 
@@ -72,7 +72,8 @@ userRouter.post("/login", async (req, res) => {
         if (matchedPass) {
             const token = jwt.sign(
                 { name: user.name, email: user.email, id: user.id },
-                process.env.JWT_PASSWORD
+                process.env.JWT_PASSWORD,
+                {expiresIn: "1d"}
             );
             return res.status(200).json({
                 message: "User logged in successfully",

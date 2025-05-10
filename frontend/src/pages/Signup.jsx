@@ -7,6 +7,7 @@ const Signup = () => {
         name: '',
         email: '',
         password: '',
+        confirmPassword:'',
     });
 
     const [error, setError] = useState('');
@@ -23,7 +24,17 @@ const Signup = () => {
         setSuccess('');
     
         try {
+            
+            if(formData.password !== formData.confirmPassword){
+                return alert("Password and Confirm Password do not match");
+            }
             const response = await axios.post('http://localhost:3000/user/signup', formData);
+            localStorage.setItem("token", response.data.token);
+            localStorage.setItem("user", JSON.stringify({
+                name: response.data.name,
+                id: response.data.id,
+                email: formData.email,
+            }));
             setSuccess(response.data.message); // Display success message
             alert('Signup successful! Redirecting to login page...');
             window.location.href = '/login'; // Redirect to login page
@@ -62,6 +73,14 @@ const Signup = () => {
                         name="password"
                         placeholder="Enter your password.."
                         value={formData.password}
+                        onChange={handleChange}
+                        required
+                    />
+                    <input
+                        type="password"
+                        name="confirmPassword"
+                        placeholder="Confirm your password.."
+                        value={formData.confirmPassword}
                         onChange={handleChange}
                         required
                     />

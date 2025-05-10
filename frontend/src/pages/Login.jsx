@@ -18,6 +18,11 @@ const Login = () => {
             const response = await axios.post('http://localhost:3000/user/login', formData);
             alert(response.data.message);
             localStorage.setItem('token', response.data.token);
+            localStorage.setItem('user', JSON.stringify({
+                name: response.data.name,
+                id: response.data.id,
+                email: formData.email,
+            }));
             window.location.href = '/home';
         } catch (error) {
             alert(error.response?.data?.message || 'Something went wrong');
@@ -49,7 +54,7 @@ const Login = () => {
                         onChange={handleChange}
                         required
                     />
-                    <button type="submit">Login</button>
+                    <button type="submit" >Login</button>
                 </form>
                 <p className="signup-link">
                     Don’t have an account? <a href="/signup">Sign up now!</a>

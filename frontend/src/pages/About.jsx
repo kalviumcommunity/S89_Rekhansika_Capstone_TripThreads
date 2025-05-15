@@ -4,8 +4,8 @@ import './About.css';
 const About = () => {
     return (
         <>
-            <header className="navbar">
-                <div className="navbar-container">
+            <header className="about-navbar">
+                <div className="about-container">
                     <div className="logo">TripThreads</div>
                     <nav>
                         <a href="/login">Login</a>
@@ -14,15 +14,15 @@ const About = () => {
                 </div>
             </header>
 
-            <section className="home-header">
+            <section className="about-header">
                 <div className="hero-content">
                     <h1>Welcome to TripThreads 🌍</h1>
                     <p>Collect Memories, Not Things</p>
                 </div>
             </section>
 
-            <section className="home-features">
-                <div className="home-container">
+            <section className="about-features">
+                <div className="about-container">
                     <h2>Why Choose TripThreads?</h2>
                     <ul className="feature-list">
                         <li>🌟 AI-Powered Travel Assistant</li>
@@ -33,7 +33,7 @@ const About = () => {
                 </div>
             </section>
 
-            <footer className="home-footer">
+            <footer className="about-footer">
                 <p>&copy; 2025 TripThreads. All rights reserved.</p>
             </footer>
         </>

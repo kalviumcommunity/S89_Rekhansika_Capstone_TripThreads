@@ -115,3 +115,51 @@
     color: #000;
     font-weight: bold;
 }
+
+/* Google sign-in button */
+.google-signin-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    color: #757575;
+    border: 1px solid #ddd;
+    margin-top: 10px;
+    font-weight: 500;
+}
+
+.google-icon {
+    margin-right: 10px;
+    color: #4285F4;
+}
+
+/* Divider with text */
+.divider {
+    display: flex;
+    align-items: center;
+    margin: 15px 0;
+}
+
+.divider::before,
+.divider::after {
+    content: "";
+    flex: 1;
+    border-bottom: 1px solid #ddd;
+}
+
+.divider span {
+    padding: 0 10px;
+    color: #757575;
+    font-size: 12px;
+}
+
+/* Error message */
+.error-message {
+    background-color: #ffebee;
+    color: #c62828;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    font-size: 14px;
+    text-align: left;
+}

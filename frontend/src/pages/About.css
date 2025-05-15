@@ -12,13 +12,21 @@ a {
 }
 
 /* Navbar */
+
 .about-navbar {
+
+.navbar {
+
     background: #1a1a1a;
     color: white;
     padding: 1rem ;
 }
 
+
 .about-container {
+
+.navbar-container {
+
     max-width: 1200px;
     margin: auto;
     display: flex;
@@ -28,18 +36,29 @@ a {
 }
 
 .about-navbar nav a {
+
+.navbar nav a {
+
     color: white;
     margin-left: 1.5rem;
     font-weight: 500;
     transition: color 0.3s ease;
 }
 
+
 .about-navbar nav a:hover {
+
+.navbar nav a:hover {
+
     color: #3498db;
 }
 
 /* Hero Section */
+
 .about-header {
+
+.home-header {
+
     background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)),
                 url('https://wallpapers.com/images/hd/travel-hd-axhrsecphqby11wk.jpg') no-repeat center center/cover;
     color: white;
@@ -63,7 +82,11 @@ a {
 }
 
 /* Hero Section */
+
 .about-header {
+
+.home-header {
+
     background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.2)),
                 url('https://wallpapers.com/images/hd/travel-hd-axhrsecphqby11wk.jpg') no-repeat center center/cover;
     color: white;
@@ -87,13 +110,21 @@ a {
 }
 
 /* Features Section */
+
 .about-features {
+
+.home-features {
+
     background: none; /* Removed background image */
     color: black; /* Adjust text color for contrast */
     padding: 6rem 2rem;
 }
 
+
 .about-container {
+
+.home-container {
+
     max-width: 1000px;
     margin: 0 auto;
     text-align: center;
@@ -109,7 +140,11 @@ a {
 }
 
 /* Footer */
+
 .about-footer {
+
+.home-footer {
+
     background: #111;
     color: #ccc;
     padding: 0.5rem;

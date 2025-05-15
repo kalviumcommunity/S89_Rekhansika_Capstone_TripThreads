@@ -114,6 +114,7 @@
     text-decoration: none;
     color: #000;
     font-weight: bold;
+
 }
 
 /* Google sign-in button */
@@ -162,4 +163,5 @@
     margin-bottom: 15px;
     font-size: 14px;
     text-align: left;
+
 }

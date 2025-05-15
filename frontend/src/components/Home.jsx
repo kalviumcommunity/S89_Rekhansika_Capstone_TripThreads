@@ -1,3 +1,4 @@
+
 import React from 'react';
 import './Home.css';
 import Header from '../sections/header';
@@ -75,3 +76,15 @@ const Home = () => {
 };
 
 export default Home;
+import React from 'react'
+
+const Home = () => {
+  return (
+    <div>
+      HomePage
+    </div>
+  )
+}
+
+export default Home
+

@@ -56,6 +56,7 @@ const Login = () => {
                     />
                     <button type="submit" >Login</button>
                 </form>
+
                 <button 
                   onClick={() => window.location.href = 'http://localhost:3000/auth/google/'}
                   className="google-signin-button"
@@ -65,6 +66,7 @@ const Login = () => {
                   </span>
                   Sign in with Google
                 </button>
+
                 <p className="signup-link">
                     Don’t have an account? <a href="/signup">Sign up now!</a>
                 </p>

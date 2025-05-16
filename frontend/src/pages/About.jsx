@@ -4,54 +4,38 @@ import './About.css';
 const About = () => {
     return (
         <>
-
-            <header className="about-navbar">
-                <div className="about-container">
-
+            {/* Navbar */}
             <header className="navbar">
                 <div className="navbar-container">
-
                     <div className="logo">TripThreads</div>
-                    <nav>
+                    <nav className="nav-links">
                         <a href="/login">Login</a>
                         <a href="/signup">Sign Up</a>
                     </nav>
                 </div>
             </header>
 
-
-            <section className="about-header">
-
-            <section className="home-header">
-
+            {/* Hero Section */}
+            <section className="hero-section">
                 <div className="hero-content">
                     <h1>Welcome to TripThreads 🌍</h1>
                     <p>Collect Memories, Not Things</p>
                 </div>
             </section>
 
-
-            <section className="about-features">
-                <div className="about-container">
-
-            <section className="home-features">
-                <div className="home-container">
-
-                    <h2>Why Choose TripThreads?</h2>
-                    <ul className="feature-list">
-                        <li>🌟 AI-Powered Travel Assistant</li>
-                        <li>📍 Location-Based Search & Recommendations</li>
-                        <li>💬 Social Features to Connect with Travelers</li>
-                        <li>📓 Share Your Travel Diaries & Experiences</li>
-                    </ul>
-                </div>
+            {/* Features Section */}
+            <section className="features-section">
+                <h2>Why Choose TripThreads?</h2>
+                <ul className="features-list">
+                    <li>🌟 AI-Powered Travel Assistant</li>
+                    <li>📍 Location-Based Search & Recommendations</li>
+                    <li>💬 Connect with Fellow Travelers</li>
+                    <li>📓 Share Your Travel Diaries</li>
+                </ul>
             </section>
 
-
-            <footer className="about-footer">
-
-            <footer className="home-footer">
-
+            {/* Footer */}
+            <footer className="footer">
                 <p>&copy; 2025 TripThreads. All rights reserved.</p>
             </footer>
         </>

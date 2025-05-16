@@ -1,4 +1,3 @@
-
 import React from 'react';
 import './Home.css';
 import Header from '../sections/header';
@@ -6,7 +5,7 @@ import Header from '../sections/header';
 const Home = () => {
   return (
     <div className="home">
-      <Header/>
+      <Header />
 
       <section className="welcome-section">
         <h1>Welcome to TripThread!!</h1>
@@ -31,7 +30,7 @@ const Home = () => {
           <div className="feature-card">
             <img src="https://img.icons8.com/fluency/64/robot-2.png" alt="ChatBot" />
             <h3>AI ChatBox</h3>
-            <p>Our AI chat assistant provides instant answers and personalised recommendations.</p>
+            <p>Our AI chat assistant provides instant answers and personalized recommendations.</p>
           </div>
           <div className="feature-card">
             <img src="https://img.icons8.com/color/64/marker--v1.png" alt="Location" />
@@ -45,7 +44,7 @@ const Home = () => {
           </div>
           <div className="feature-card full-width">
             <img src="https://img.icons8.com/fluency/64/add-user-group-man-man.png" alt="Follow" />
-            <h3>Follow each others and build new friends</h3>
+            <h3>Follow each other and build new friends</h3>
             <p>Stay updated on your friends’ travel experiences and adventures.</p>
           </div>
         </div>
@@ -61,7 +60,7 @@ const Home = () => {
         </div>
         <div className="contact">
           <p>
-            Contact us : <span>+91 9963204753, +91 9884807800</span>
+            Contact us: <span>+91 9963204753, +91 9884807800</span>
           </p>
           <div className="social-icons">
             <i className="fa-brands fa-instagram"></i>
@@ -76,15 +75,3 @@ const Home = () => {
 };
 
 export default Home;
-import React from 'react'
-
-const Home = () => {
-  return (
-    <div>
-      HomePage
-    </div>
-  )
-}
-
-export default Home
-

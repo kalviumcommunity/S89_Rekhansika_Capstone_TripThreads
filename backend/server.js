@@ -18,7 +18,7 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 // Session middleware
 app.use(session({
-  secret: process.env.SESSION_SECRET || 'your_session_secret',
+  secret: process.env.JWT_SECRET,
   resave: false,
   saveUninitialized: false
 }));

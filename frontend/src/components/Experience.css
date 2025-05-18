@@ -8,13 +8,16 @@
 }
 
 /* Experience Cards */
+/* ...existing code... */
 .experience-section {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* 2-3 cards per row */
   gap: 2rem;
-  justify-content: center;
+  justify-items: center;
   padding: 2rem;
   margin-top: 6rem;
 }
+/* ...existing code... */
 
 .card {
   background: #fff;

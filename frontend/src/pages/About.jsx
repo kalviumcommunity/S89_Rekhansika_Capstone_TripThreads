@@ -36,8 +36,25 @@ const About = () => {
 
             {/* Footer */}
             <footer className="footer">
-                <p>&copy; 2025 TripThreads. All rights reserved.</p>
-            </footer>
+        <div className="about">
+          <h4>About our website..</h4>
+          <p>
+            TripThreads is more than a tool—it’s your companion for exploring, discovering, and creating memories around
+            the globe. Whether you're seeking hidden gems or planning the perfect vacation, we've got you covered.
+          </p>
+        </div>
+        <div className="contact">
+          <p>
+            Contact us: <span>+91 9963204753, +91 9884807800</span>
+          </p>
+          <div className="social-icons">
+            <i className="fa-brands fa-instagram"></i>
+            <i className="fa-brands fa-youtube"></i>
+            <i className="fa-brands fa-facebook"></i>
+            <i className="fa-brands fa-twitter"></i>
+          </div>
+        </div>
+      </footer>
         </>
     );
 };

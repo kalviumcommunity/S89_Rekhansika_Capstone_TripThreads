@@ -1,14 +1,111 @@
 /* General Page Styles */
 .booking-page {
   margin: 0;
+  padding: 0;
   font-family: 'Segoe UI', sans-serif;
   background-image: url("https://i.pinimg.com/736x/dd/75/1e/dd751e83adc7782c4cc04da54994d837.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+  min-height: 100vh;
+  width: 100vw;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  align-items: center;
+}
+
+.booking-header {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 2rem;
+  margin: 2rem auto;
+  max-width: 800px;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.booking-header h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.booking-header p {
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  color: #555;
+}
+
+
+.booking-intro {
+  text-align: center;
+  color: rgb(0, 0, 0);
+  margin-top: 7rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 12px;
+  max-width: 950px;
+  margin-left: auto;
+  margin-right: auto;
+  
+}
+
+.booking-intro h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.booking-features {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  padding: 2rem;
+  color: rgb(0, 0, 0);
+  text-align: center;
+}
+
+.booking-features > div {
+  background: rgba(255, 255, 255, 0.4);
+  padding: 1rem;
+  border-radius: 10px;
+  max-width: 250px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+
+/* Main Tabs */
+.booking-tabs {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.booking-tabs button,
+.transport-modes button {
+  background: #f0f0f0;
+  color: #222;
+  border: none;
+  border-radius: 8px;
+  padding: 0.7rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 'background' 0.2s, color 0.2s;
+  max-width: 20rem;
+}
+
+.booking-tabs button.active,
+.transport-modes button.active {
+  background-color: #0077cc;
+  color: #fff;
+}
+
+.booking-tabs button:hover,
+.transport-modes button:hover {
+  background: #0077cc;
+  color: #fff;
 }
 
 /* Main content */
@@ -23,24 +120,38 @@
   margin-top: 6rem;
 }
 
-/* Search Bar */
-.search-bar-main {
+/* Transport Modes */
+.transport-modes {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+.booking-content p {
+  text-align: center;
+  font-style: italic;
+  margin-top: 1rem;
+  gap: 1rem;
+}
+
+/* Form */
+form {
   display: flex;
   flex-direction: column;
   gap: 1rem;
   align-items: center;
-  margin-bottom: 2rem;
 }
 
-.search-bar-main input {
+form input {
   padding: 0.6rem 1rem;
   border-radius: 8px;
   border: 1px solid #aaa;
   width: 100%;
   max-width: 300px;
+  font-size: 1rem;
 }
 
-.search-bar-main button {
+form button {
   margin-top: 0.5rem;
   background-color: #0077cc;
   color: #fff;
@@ -52,7 +163,7 @@
   transition: background-color 0.3s ease;
 }
 
-.search-bar-main button:hover {
+form button:hover {
   background-color: #005fa3;
 }
 
@@ -81,6 +192,32 @@
   background-color: #f8f8f8;
   border-radius: 6px;
   border: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.search-results li button {
+  background: #0077cc;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.4rem 1rem;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.search-results li button:hover {
+  background: #005fa3;
+}
+
+/* Success Message */
+.success-message {
+  margin-top: 1rem;
+  color: green;
+  text-align: center;
+  font-weight: bold;
 }
 
 /* Error & Loading */
@@ -97,62 +234,24 @@
   margin-top: 1rem;
 }
 
-/* Footer */
-.footer {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  background-color: white;
-  padding: 2rem;
-  margin-top: auto;
-  margin-left: 6rem;
-  width: 80%;
-}
-
-.about, .contact {
-  flex: 1;
-  min-width: 250px;
-  background-color: white;
-}
-
-.footer h4 {
-  margin-bottom: 0.5rem;
-}
-
-.footer p {
-  line-height: 1.5;
-}
-
-.social-icons {
-  margin-top: 1rem;
-}
-
-.social-icons i {
-  font-size: 1.5rem;
-  margin-right: 1rem;
-  cursor: pointer;
-  color: #000;
-}
-
-.social-icons i:hover {
-  color: #0077b6;
-}
-
 /* Responsive */
+@media (max-width: 900px) {
+  .booking-content {
+    width: 70%;
+    padding: 1.5rem;
+  }
+}
+
 @media (max-width: 768px) {
   .booking-content {
     width: 90%;
-    padding: 1.5rem;
+    padding: 1.2rem;
   }
+}
 
-  .search-bar-main {
-    flex-direction: column;
-  }
-
-  .footer {
-    flex-direction: column;
-    align-items: flex-start;
-    margin-left: 0;
-    width: 100%;
+@media (max-width: 500px) {
+  .booking-content {
+    width: 98%;
+    padding: 0.5rem;
   }
 }

@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import './ChatbotAI.css'; // Assuming you have a CSS file for styling
+import Header from '../sections/header';
 
 const ChatbotAI = () => {
   const [input, setInput] = useState('');
@@ -59,7 +61,10 @@ const ChatbotAI = () => {
   };
 
   return (
-    <div style={{ 
+  <div className="chatbot-page-bg">
+    <Header/>
+    <div className="chatbot-container">
+      <div style={{ 
       maxWidth: '500px', 
       margin: '20px auto', 
       border: '1px solid #ddd', 
@@ -68,7 +73,7 @@ const ChatbotAI = () => {
     }}>
       <div style={{ 
         padding: '15px', 
-        backgroundColor: '#f5f5f5', 
+        backgroundColor: '#f8f9fa',
         borderBottom: '1px solid #ddd',
         borderRadius: '8px 8px 0 0'
       }}>
@@ -79,7 +84,6 @@ const ChatbotAI = () => {
         height: '300px', 
         overflowY: 'auto', 
         padding: '15px',
-        backgroundColor: '#fafafa'
       }}>
         {messages.length === 0 && (
           <div style={{ color: '#666', fontStyle: 'italic' }}>
@@ -164,6 +168,8 @@ const ChatbotAI = () => {
         </button>
       </div>
     </div>
+    </div>
+  </div>
   );
 };
 

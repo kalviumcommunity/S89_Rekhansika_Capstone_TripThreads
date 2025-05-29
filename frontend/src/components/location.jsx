@@ -178,7 +178,7 @@ const Location = () => {
     } else {
       setResults(placesData);
     }
-  }, [search]);
+  }, [search, placesData]);
 
     const handleFocus = () => {
     if (location.pathname !== '/location') {

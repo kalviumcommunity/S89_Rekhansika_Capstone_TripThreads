@@ -204,6 +204,7 @@ const Location = () => {
       <img
         src={place.image}
         alt={place.name}
+        loading="lazy"
         style={{ width: 320, height: 300, objectFit: 'cover', borderRadius: 8, flexShrink: 0 }}
       />
       <div>

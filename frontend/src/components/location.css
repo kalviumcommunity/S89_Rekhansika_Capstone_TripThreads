@@ -46,13 +46,6 @@
   background: #f0f8ff;
 }
 
-.location-result img {
-  width: 320px;
-  height: 300px;
-  object-fit: cover;
-  border-radius: 8px;
-}
-
 
 .location-result:last-child {
   border-bottom: none;

@@ -1,10 +1,27 @@
+
+.chatbot-page-bg {
+  min-height: 100vh;
+  background-image: url('https://i.pinimg.com/736x/a2/18/61/a2186192100d28cfb8dfee94143647ab.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  min-width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  box-sizing: border-box;
+}
+
 .chatbot-container {
-  max-width: 400px;
-  margin: 2rem auto;
-  background: #fff;
+  max-width: 500px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px);
   border-radius: 8px;
-  box-shadow: 0 2px 8px #ccc;
-  padding: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  /* Remove margin and margin-top since flexbox handles centering */
 }
 
 .chatbot-title {
@@ -66,4 +83,12 @@
 
 .chatbot-send-btn:hover {
   background: #005fa3;
+}
+
+/* Responsive adjustments */
+@media (max-height: 600px) {
+  .chatbot-page-bg {
+    align-items: flex-start;
+    padding-top: 2rem;
+  }
 }

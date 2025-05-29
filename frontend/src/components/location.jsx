@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation,useNavigate} from 'react-router-dom';
 import "./location.css";
 
 const placesData = [
@@ -164,9 +164,10 @@ const placesData = [
 
 const Location = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const initialSearch = location.state?.search || '';
   const [search, setSearch] = useState(initialSearch);
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState(placesData);
 
   useEffect(() => {
     if (search.trim()) {
@@ -175,11 +176,20 @@ const Location = () => {
       );
       setResults(filtered);
     } else {
-      setResults([]);
+      setResults(placesData);
     }
   }, [search]);
 
-  return (
+    const handleFocus = () => {
+    if (location.pathname !== '/location') {
+      navigate('/location');
+    } else {
+      setSearch(''); // Clear search when focused
+      setResults(placesData); // Reset results to show all places
+    }
+  };
+
+    return (
     <div className="location-container">
       <h3 className="location-title">Search for a Location</h3>
       <input
@@ -188,36 +198,48 @@ const Location = () => {
         value={search}
         onChange={e => setSearch(e.target.value)}
         className="location-search-input"
+        onFocus={handleFocus}
       />
-      {search && (
-        <div className="location-results-box">
-{results.length > 0 ? (
-  results.map((place, idx) => (
-    <a
-      key={idx}
-      className="location-result"
-      href={place.link}
-      target="_blank"
-      rel="noopener noreferrer"
-      style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center', gap: '1rem', padding: '10px 0' }}
-    >
-      <img
-        src={place.image}
-        alt={place.name}
-        loading="lazy"
-        style={{ width: 320, height: 300, objectFit: 'cover', borderRadius: 8, flexShrink: 0 }}
-      />
-      <div>
-        <strong style={{ fontSize: '1.1em' }}>{place.name}</strong>
-        <div style={{ fontSize: '0.95em', color: '#555' }}>{place.info}</div>
+      <div className="location-results-box">
+        {results.length > 0 ? (
+          results.map((place, idx) => (
+            <a
+              key={idx}
+              className="location-result"
+              href={place.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                textDecoration: 'none',
+                color: 'inherit',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '1rem',
+                padding: '10px 0'
+              }}
+            >
+              <img
+                src={place.image}
+                alt={place.name}
+                loading="lazy"
+                style={{
+                  width: 320,
+                  height: 300,
+                  objectFit: 'cover',
+                  borderRadius: 8,
+                  flexShrink: 0
+                }}
+              />
+              <div>
+                <strong style={{ fontSize: '1.1em' }}>{place.name}</strong>
+                <div style={{ fontSize: '0.95em', color: '#555' }}>{place.info}</div>
+              </div>
+            </a>
+          ))
+        ) : (
+          <div className="location-no-result">No results found.</div>
+        )}
       </div>
-    </a>
-  ))
-) : (
-  <div className="location-no-result">No results found.</div>
-)}
-        </div>
-      )}
     </div>
   );
 };

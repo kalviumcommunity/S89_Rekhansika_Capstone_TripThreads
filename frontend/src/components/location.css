@@ -30,18 +30,6 @@
   overflow-y: auto;
 }
 
-
-.location-result {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  padding: 16px;
-  border-bottom: 1px solid #ddd;
-  text-decoration: none;
-  color: inherit;
-  width: 100%;
-}
-
 .location-result:hover {
   background: #f0f8ff;
 }

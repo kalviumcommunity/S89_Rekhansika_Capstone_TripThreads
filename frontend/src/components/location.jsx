@@ -183,10 +183,7 @@ const Location = () => {
     const handleFocus = () => {
     if (location.pathname !== '/location') {
       navigate('/location');
-    } else {
-      setSearch(''); // Clear search when focused
-      setResults(placesData); // Reset results to show all places
-    }
+    } 
   };
 
     return (

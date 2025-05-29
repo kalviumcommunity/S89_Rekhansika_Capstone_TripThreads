@@ -2,7 +2,7 @@ const express = require('express');
 const chatbotRouter = express.Router();
 const axios = require('axios');
 
-const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY; // Add your key to .env
+const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY; 
 
 chatbotRouter.get('/recommendations',async (req, res) => {
     try {

@@ -41,7 +41,7 @@ const Header = () => {
   return (
     <nav className="navbar">
       <div className="logo">
-        <img src="/logo.png"  />
+        <img src="/logo.png" alt="TripThreads Logo" style={{ height: "30px" ,borderRadius:'10px'}} />
         <span>TripThreads</span>
       </div>
       <div className="nav-links">

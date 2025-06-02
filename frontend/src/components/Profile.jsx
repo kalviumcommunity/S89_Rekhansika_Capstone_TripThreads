@@ -93,7 +93,10 @@ const Profile = () => {
         }}
         onClick={() => navigate("/home")}
       >
-        TripThreads
+        <div className="logo">
+        <img src="/logo.png" alt="TripThreads Logo" style={{ height: "30px" ,borderRadius:'10px'}} />
+        <span>TripThreads</span>
+      </div>
       </header>
     <div className="profile-container" style={{
       maxWidth: 400,

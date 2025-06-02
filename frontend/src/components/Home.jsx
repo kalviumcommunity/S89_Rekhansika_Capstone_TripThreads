@@ -81,23 +81,19 @@ if (token && email) {
         </div>
       </section>
 
-      <footer className="footer">
+      <footer className="experience-footer">
         <div className="about">
           <h4>About our website..</h4>
           <p>
-            TripThreads is more than a tool—it’s your companion for exploring, discovering, and creating memories around
-            the globe. Whether you're seeking hidden gems or planning the perfect vacation, we've got you covered.
+            TripThreads is more than a tool—it's your companion for exploring, discovering, and creating memories around the globe. Whether you're seeking hidden gems or planning the perfect vacation, we've got you covered.
           </p>
         </div>
         <div className="contact">
-          <p>
-            Contact us: <span>+91 9963204753, +91 9884807800</span>
-          </p>
+          <p>Contact us : <span>+91 9963204753, +91 9884807800</span></p>
           <div className="social-icons">
-            <i className="fa-brands fa-instagram"></i>
-            <i className="fa-brands fa-youtube"></i>
-            <i className="fa-brands fa-facebook"></i>
-            <i className="fa-brands fa-twitter"></i>
+            <img src="https://i.pinimg.com/736x/19/42/d5/1942d5deb0f788e6228054cd92767ff6.jpg" alt="instagram" />
+            <img src="https://i.pinimg.com/736x/bf/70/a6/bf70a612edf2ce2b7b80865989d6df0a.jpg" alt="facebook" />
+            <img src="https://i.pinimg.com/736x/dd/26/a9/dd26a9a2100d2d4575353e0ece4ab2a1.jpg" alt="whatsapp" />
           </div>
         </div>
       </footer>

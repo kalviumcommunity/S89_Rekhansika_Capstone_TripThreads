@@ -80,6 +80,7 @@ userRouter.post("/login", async (req, res) => {
                 token,
                 name: user.name,
                 id: user.id,
+                email: user.email,
             });
         } else {
             return res.status(401).json({ message: "Invalid email or password" });

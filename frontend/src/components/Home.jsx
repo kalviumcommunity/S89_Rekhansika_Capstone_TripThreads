@@ -1,8 +1,27 @@
 import React from 'react';
 import './Home.css';
 import Header from '../sections/header';
+import axios from 'axios';
+import { useEffect } from 'react';
 
 const Home = () => {
+
+  useEffect(() => {
+    // Only fetch if user is not already in localStorage
+    if (!localStorage.getItem("user")) {
+      axios.get("http://localhost:3000/auth/status", { withCredentials: true })
+        .then(res => {
+          if (res.data.authenticated && res.data.user) {
+            localStorage.setItem("user", JSON.stringify({
+              name: res.data.user.displayName || res.data.user.name,
+              email: res.data.user.emails ? res.data.user.emails[0].value : res.data.user.email,
+              id: res.data.user._id || res.data.user.id,
+            }));
+          }
+        })
+        .catch(() => {});
+    }
+  }, []);
   return (
     <div className="home">
       <Header />

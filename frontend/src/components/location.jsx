@@ -159,6 +159,12 @@ const placesData = [
     image: "https://karnatakatourism.org/wp-content/uploads/2020/06/Gokarna5.jpg",
     link: "https://en.wikipedia.org/wiki/Gokarna,_India"
   },
+  {
+    name: "Kerala",
+    info: "Kerala, known as 'God's Own Country', is a state in southern India famous for its backwaters, lush greenery, and unique culture. It offers a blend of natural beauty, Ayurvedic treatments, and vibrant festivals. Popular destinations include Kochi, Alleppey, Munnar, and Wayanad.",
+    image:"https://www.tourmyindia.com/states/kerala/images/best-places-to-visit-kerala.png",
+    link: "https://en.wikipedia.org/wiki/Kerala"
+  },
   // Add more places as needed
 ];
 

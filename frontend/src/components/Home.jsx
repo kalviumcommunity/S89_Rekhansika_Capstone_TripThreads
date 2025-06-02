@@ -19,7 +19,9 @@ const Home = () => {
             }));
           }
         })
-        .catch(() => {});
+        .catch((err) => {
+          console.log("Failed to fetch user data:", err);
+        });
     }
   }, []);
   return (

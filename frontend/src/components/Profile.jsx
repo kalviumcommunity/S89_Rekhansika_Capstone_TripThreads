@@ -50,6 +50,14 @@ const Profile = () => {
 
   const handleSave = () => {
     // In a real app, send updated data to backend here
+    if (!form.name.trim()) {
+    alert("Name is required.");
+    return;
+  }
+  if (!form.email.match(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
+    alert("Enter a valid email.");
+    return;
+  }
     const updatedUser = {
       ...user,
       name: form.name,

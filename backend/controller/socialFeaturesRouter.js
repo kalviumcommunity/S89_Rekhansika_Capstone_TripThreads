@@ -14,6 +14,16 @@ socialFeaturesRouter.get('/communities', async (req, res) => {
     }
 });
 
+socialFeaturesRouter.get("/posts", async (req, res) => {
+  try {
+    const email = req.query.email;
+    const experiences = await post.find({ email });
+    res.json(experiences);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch experiences" });
+  }
+});
+
 socialFeaturesRouter.post('/communities/communityposts',async (req, res) => {
     try {
       const { communityName, userName, title, content } = req.body;
@@ -29,8 +39,8 @@ socialFeaturesRouter.post('/communities/communityposts',async (req, res) => {
   
 socialFeaturesRouter.post('/communities/posts',async (req, res) => {
     try {
-      const { userName, title, content, tags } = req.body;
-      const newPost = new post({ userName, title, content, tags });
+      const { userName, title, description, imageUrl,email } = req.body;
+      const newPost = new post({ userName,email, title, description, imageUrl  });
       await newPost.save();
       res.status(201).send({ message: 'Post created successfully!', post: newPost });
     } catch (error) {
@@ -63,8 +73,8 @@ socialFeaturesRouter.put("/communities/updateposts/:id",async(req,res)=>{
     if(!id){
       return res.status(400).send({message:"Please provide id"});
     }
-    const { userName, title, content, tags } = req.body;
-    const updatedPost = await post.findByIdAndUpdate({_id:id},{userName, title, content, tags},{new:true});
+    const { userName, title, description, imageUrl  } = req.body;
+    const updatedPost = await post.findByIdAndUpdate({_id:id},{userName, title, description, imageUrl },{new:true});
     res.status(200).send({message:"Post Updated successfully",post:updatedPost});
   } catch (error) {
     console.log(error)
@@ -128,12 +138,12 @@ socialFeaturesRouter.patch("/communities/patchposts/:id", async (req, res) => {
       if (!id) {
           return res.status(400).send({ message: "Please provide a valid id" });
       }
-      const {userName, title, content, tags } = req.body;
-      if (!userName && !tags && !title && !content) {
+      const {userName, title, description, imageUrl } = req.body;
+      if (!userName && !imageUrl && !title && !description) {
           return res.status(400).send({ message: "Please provide at least one field to update" });
       }
       const updatedPosts = await post.findByIdAndUpdate({_id:id},
-          { userName, tags, title, content },
+          { userName, description, imageUrl , title },
           { new: true},{runValidators: true}
       );
       if (!updatedPosts) {

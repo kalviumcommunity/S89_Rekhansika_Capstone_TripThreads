@@ -29,19 +29,24 @@ const postSchema = new mongoose.Schema({
         required: true,
         ref: 'User'
     },
+    email:{
+        type: String,
+        required: true,
+        trim: true
+    },
     title:{
         type: String,
         required: true,
         trim: true
     },
-    content:{
+    description:{
         type: String,
         required: true
     },
-    tags: {
-        type: [String], 
-        default: []
-    },
+    imageUrl: { type: String, required: true },
+  liked: { type: Boolean, default: false },
+  date: { type: Date },
+  location: { type: String }
 },{
     timestamps:true
 });

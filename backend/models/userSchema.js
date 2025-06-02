@@ -16,7 +16,13 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-  }
+  },
+  username: { 
+    type: String, trim: true
+   }, 
+  image: { 
+    type: String 
+  },
 }, { timestamps: true });
 
 const User = mongoose.model("userData", userSchema);

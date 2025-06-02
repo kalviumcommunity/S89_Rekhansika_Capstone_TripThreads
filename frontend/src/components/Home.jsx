@@ -6,6 +6,16 @@ import { useEffect } from 'react';
 
 const Home = () => {
 
+  const params = new URLSearchParams(window.location.search);
+const token = params.get('token');
+const name = params.get('name');
+const email = params.get('email');
+if (token && email) {
+  localStorage.setItem('user', JSON.stringify({ token, name, email }));
+  // Optionally, remove query params from URL
+  window.history.replaceState({}, document.title, "/home");
+}
+
   useEffect(() => {
     // Only fetch if user is not already in localStorage
     if (!localStorage.getItem("user")) {

@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const jwt = require("jsonwebtoken");
 
 const mongoose = require("mongoose");
 
@@ -72,8 +73,14 @@ app.get('/auth/google',
 app.get('/auth/google/callback', 
   passport.authenticate('google', { failureRedirect: 'http://localhost:5173/login' }),
   function(req, res) {
+     // Generate JWT
+    const token = jwt.sign(
+      { email: req.user.emails[0].value, name: req.user.displayName, id: req.user.id },
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" }
+    );
     // Redirect to frontend after successful login
-    res.redirect('http://localhost:5173/home');
+    res.redirect(`http://localhost:5173/home?token=${token}&name=${encodeURIComponent(req.user.displayName)}&email=${encodeURIComponent(req.user.emails[0].value)}`);
   }
 );
 

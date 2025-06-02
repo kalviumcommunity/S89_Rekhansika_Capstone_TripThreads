@@ -38,7 +38,11 @@ const Experience = () => {
 
   useEffect(() => {
     if (user && user.email) {
-      axios.get(`http://localhost:3000/socialFeatures/posts?email=${user.email}`)
+      axios.get(`http://localhost:3000/socialFeatures/posts?email=${user.email}`,{
+         headers: {
+          Authorization: `Bearer ${user.token}` // or whatever key you use for the JWT
+          }
+      })
         .then(res => setExperiences(res.data))
         .catch(() => setExperiences([]));
     }
@@ -91,8 +95,21 @@ const handleAddExperience = async (e) => {
         userName: user.name,
         email: user.email,
         ...newExperience
+      },
+    {
+    headers: {
+      Authorization: `Bearer ${user.token}`
+    }
+  }
+);
+      const info = await axios.get(`http://localhost:3000/socialFeatures/posts?email=${user.email}`,{
+        
+        headers: {
+          Authorization: `Bearer ${user.token}`
+        }
+      
       });
-      const info = await axios.get(`http://localhost:3000/socialFeatures/posts?email=${user.email}`);
+      
       setExperiences(info.data);
       handleCloseModal();
     } catch (err) {

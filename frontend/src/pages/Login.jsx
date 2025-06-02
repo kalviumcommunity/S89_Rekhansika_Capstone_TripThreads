@@ -17,12 +17,7 @@ const Login = () => {
         try {
             const response = await axios.post('http://localhost:3000/user/login', formData);
             alert(response.data.message);
-            localStorage.setItem('token', response.data.token);
-            localStorage.setItem('user', JSON.stringify({
-                name: response.data.name,
-                id: response.data.id,
-                email: response.data.email,
-            }));
+            localStorage.setItem('user', JSON.stringify(response.data.user));
             window.location.href = '/home';
         } catch (error) {
             alert(error.response?.data?.message || 'Something went wrong');

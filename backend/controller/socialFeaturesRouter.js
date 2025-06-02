@@ -2,6 +2,7 @@ const express = require('express');
 const socialFeaturesRouter = express.Router();
 
 const {communityPost,post} = require("../models/communityPostSchema");
+const authenticateToken = require("../middleware/auth");
 
 
 socialFeaturesRouter.get('/communities', async (req, res) => {
@@ -14,9 +15,12 @@ socialFeaturesRouter.get('/communities', async (req, res) => {
     }
 });
 
-socialFeaturesRouter.get("/posts", async (req, res) => {
+socialFeaturesRouter.get("/posts", authenticateToken,async (req, res) => {
   try {
     const email = req.query.email;
+    if (req.user.email !== email) {
+      return res.status(403).json({ error: "Forbidden" });
+    }
     const experiences = await post.find({ email });
     res.json(experiences);
   } catch (err) {
@@ -37,9 +41,13 @@ socialFeaturesRouter.post('/communities/communityposts',async (req, res) => {
   });
   
   
-socialFeaturesRouter.post('/communities/posts',async (req, res) => {
+socialFeaturesRouter.post('/communities/posts',authenticateToken,async (req, res) => {
     try {
       const { userName, title, description, imageUrl,email } = req.body;
+      console.log("JWT email:", req.user.email, "Body email:", email); // Add this line
+      if (req.user.email !== email) {
+      return res.status(403).json({ error: "Forbidden" });
+    }
       const newPost = new post({ userName,email, title, description, imageUrl  });
       await newPost.save();
       res.status(201).send({ message: 'Post created successfully!', post: newPost });

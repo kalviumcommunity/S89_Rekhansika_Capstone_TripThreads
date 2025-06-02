@@ -41,12 +41,16 @@ const Profile = () => {
   };
 
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setImage(file);
-      setImagePreview(URL.createObjectURL(file));
-    }
-  };
+  const file = e.target.files[0];
+  if (file) {
+    setImage(file);
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImagePreview(reader.result); // base64 string
+    };
+    reader.readAsDataURL(file);
+  }
+};
 
   const handleSave = () => {
     // In a real app, send updated data to backend here

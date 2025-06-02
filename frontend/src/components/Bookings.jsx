@@ -129,14 +129,14 @@ const handleHotelBook = (option) => {
                   required
                 />
                 <input
-          type="text"
+          type="date"
           placeholder="From Date (e.g. 2024-06-01)"
           value={hotelForm.from}
           onChange={e => setHotelForm({ ...hotelForm, from: e.target.value })}
           required
         />
         <input
-          type="text"
+          type="date"
           placeholder="To Date (e.g. 2024-06-01)"
           value={hotelForm.to}
           onChange={e => setHotelForm({ ...hotelForm, to: e.target.value })}

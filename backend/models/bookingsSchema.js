@@ -51,6 +51,7 @@ const hotelSchema = new mongoose.Schema({
 });
 
 const bookingSchema = new mongoose.Schema({
+    userEmail: { type: String, required: true }, // <-- add this line
     transportation: transportationSchema,
     hotels: [hotelSchema]
 }, { timestamps: true }); 

@@ -21,7 +21,7 @@ const Login = () => {
             localStorage.setItem('user', JSON.stringify({
                 name: response.data.name,
                 id: response.data.id,
-                email: formData.email,
+                email: response.data.email,
             }));
             window.location.href = '/home';
         } catch (error) {

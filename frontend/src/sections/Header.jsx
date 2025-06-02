@@ -60,7 +60,11 @@ const Header = () => {
           className="location-search-input"
         />
         
-        <div className="user-icon">👤</div>
+        <div
+          className="user-icon"
+          style={{ cursor: "pointer" }}
+          onClick={() => navigate("/profile")}
+        >👤</div>
       </div>
     </nav>
   );

@@ -7,6 +7,7 @@ import Booking from './components/Bookings';
 import Experience from './components/Experience';
 import ChatbotAI from './components/ChatbotAI';
 import Location from './components/location';
+import Profile from './components/Profile';
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
                 <Route path='/experiences' element={<Experience/>}/>
                 <Route path='/chatbox' element={<ChatbotAI/>}/>
                 <Route path='/location' element={<Location/>}/>
+                <Route path='/profile' element={<Profile/>}/>
             </Routes>
         </Router>
     );

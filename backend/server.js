@@ -9,8 +9,21 @@ dotenv.config();
 app.use(express.json());
 
 const cors = require('cors');
+const allowedOrigins = [
+  'http://localhost:5173',
+  process.env.FRONTEND_URL // e.g., 'https://yourdomain.com'
+];
+
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: function(origin, callback) {
+    // allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      return callback(null, true);
+    } else {
+      return callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true
 }));
 

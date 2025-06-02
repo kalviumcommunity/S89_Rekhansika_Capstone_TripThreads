@@ -5,6 +5,8 @@ const jwt = require("jsonwebtoken");
 
 const userRouter = express.Router();
 
+
+
 // Signup Route
 userRouter.post("/signup", async (req, res) => {
     try {
@@ -89,6 +91,42 @@ userRouter.post("/login", async (req, res) => {
         console.error("Login Error:", error);
         return res.status(500).json({ error: "Internal Server Error" });
     }
+});
+
+function authenticateJWT(req, res, next) {
+  const authHeader = req.headers.authorization;
+  if (authHeader && authHeader.startsWith("Bearer ")) {
+    const token = authHeader.split(" ")[1];
+    jwt.verify(token, process.env.JWT_PASSWORD, (err, user) => {
+      if (err) return res.status(403).json({ message: "Invalid token" });
+      req.user = user;
+      next();
+    });
+  } else {
+    res.status(401).json({ message: "No token provided" });
+  }
+}
+
+userRouter.put("/profile", authenticateJWT, async (req, res) => {
+  try {
+    const { name, email, username, image } = req.body;
+    if (!name || !email) {
+      return res.status(400).json({ message: "Name and email are required" });
+    }
+    // Optionally validate email format here
+
+    const updated = await User.findByIdAndUpdate(
+      req.user.id,
+      { name, email, username, image },
+      { new: true }
+    );
+    if (!updated) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.json({ message: "Profile updated", user: updated });
+  } catch (err) {
+    res.status(500).json({ message: "Server error" });
+  }
 });
 
 module.exports = userRouter;

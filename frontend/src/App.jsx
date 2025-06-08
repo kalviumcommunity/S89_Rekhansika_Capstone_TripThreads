@@ -8,6 +8,8 @@ import Experience from './components/Experience';
 import ChatbotAI from './components/ChatbotAI';
 import Location from './components/location';
 import Profile from './components/Profile';
+import BookingHistory from './components/BookingHistory';
+import GoogleSuccess from './pages/GoogleSuccess';
 
 
 function App() {
@@ -17,12 +19,15 @@ function App() {
                 <Route path="/" element={<About/>} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/login" element={<Login />} />
+                 <Route path='/google-success' element={<GoogleSuccess/>}/>
                 <Route path='/home' element={<Home/>}/>
                 <Route path='/bookings' element={<Booking/>}/>
                 <Route path='/experiences' element={<Experience/>}/>
                 <Route path='/chatbox' element={<ChatbotAI/>}/>
                 <Route path='/location' element={<Location/>}/>
                 <Route path='/profile' element={<Profile/>}/>
+                <Route path='/bookingshistory' element={<BookingHistory/>}/>
+               
             </Routes>
         </Router>
     );

@@ -9,6 +9,12 @@ dotenv.config();
 
 app.use(express.json());
 
+const bodyParser = require('body-parser');
+
+// Middleware
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 const cors = require('cors');
 const allowedOrigins = [
   'http://localhost:5173',
@@ -103,6 +109,8 @@ const locationSearchRouter = require("./controller/locationSearchRouter");
 const socialFeaturesRouter = require("./controller/socialFeaturesRouter");
 const navigationRouter = require("./controller/navigationRouter");
 const userRouter = require("./controller/userRouter");  
+const bookingsRouter = require('./controller/bookingsRouter');
+
 
 app.get("/", (req, res) => {
     res.send("TripThreads backend is running!");
@@ -113,6 +121,7 @@ app.use("/locationSearch",locationSearchRouter);
 app.use("/socialFeatures",socialFeaturesRouter);
 app.use("/navigation",navigationRouter);
 app.use("/user",userRouter);
+app.use("/api/bookings", bookingsRouter);
 
 
 

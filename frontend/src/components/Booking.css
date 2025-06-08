@@ -1,3 +1,5 @@
+/* filepath: c:\Users\rekha\Downloads\trip-rekha\S89_Rekhansika_Capstone_TripThreads\frontend\src\components\Booking.css */
+
 /* General Page Styles */
 .booking-page {
   margin: 0;
@@ -36,7 +38,6 @@
   color: #555;
 }
 
-
 .booking-intro {
   text-align: center;
   color: rgb(0, 0, 0);
@@ -47,7 +48,6 @@
   max-width: 950px;
   margin-left: auto;
   margin-right: auto;
-  
 }
 
 .booking-intro h1 {
@@ -73,7 +73,6 @@
   box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 
-
 /* Main Tabs */
 .booking-tabs {
   display: flex;
@@ -92,7 +91,7 @@
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
-  transition: 'background' 0.2s, color 0.2s;
+  transition: background 0.2s, color 0.2s;
   max-width: 20rem;
 }
 
@@ -127,6 +126,7 @@
   justify-content: center;
   margin-bottom: 2rem;
 }
+
 .booking-content p {
   text-align: center;
   font-style: italic;

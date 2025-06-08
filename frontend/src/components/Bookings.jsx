@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import './Booking.css';
 import Header from '../sections/header';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const transportModes = [
   { key: 'bus', label: 'Bus' },
@@ -9,240 +11,190 @@ const transportModes = [
   { key: 'taxi', label: 'Taxi' }
 ];
 
-const dummyResults = [
-  { id: 1, name: 'Express Bus', price: '₹500', type: 'bus' },
-  { id: 2, name: 'Superfast Train', price: '₹1200', type: 'train' },
-  { id: 3, name: 'Indigo Flight', price: '₹3500', type: 'flight' },
-  { id: 4, name: 'Ola Taxi', price: '₹800', type: 'taxi' }
-];
-
 const hotelRoomTypes = [
   { key: 'ac', label: 'AC Rooms' },
   { key: 'nonac', label: 'Non AC Rooms' }
 ];
 
-const dummyHotelResults = [
-  { id: 1, name: 'Hotel Paradise', price: '₹2000/night', type: 'ac', location: 'Hyderabad' },
-  { id: 2, name: 'Comfort Stay', price: '₹1200/night', type: 'nonac', location: 'Hyderabad' },
-  { id: 3, name: 'City Inn', price: '₹1800/night', type: 'ac', location: 'Bangalore' },
-  { id: 4, name: 'Budget Lodge', price: '₹900/night', type: 'nonac', location: 'Bangalore' }
-];
-
 const Booking = () => {
   const [mainTab, setMainTab] = useState('');
   const [transportType, setTransportType] = useState('');
-  const [form, setForm] = useState({ start: '', end: '' ,from: '', to: ''});
-  const [results, setResults] = useState([]);
-  const [booked, setBooked] = useState(null);
-
+  const [form, setForm] = useState({ start_date : '', end_date:"",start: '', end: '' });
   const [hotelType, setHotelType] = useState('');
   const [hotelForm, setHotelForm] = useState({ from: '', to: '', location: '' });
-  const [hotelResults, setHotelResults] = useState([]);
-  const [hotelBooked, setHotelBooked] = useState(null);
+  const [message, setMessage] = useState('');
+  const navigate = useNavigate();
+  
+  const [availableTransports, setAvailableTransports] = useState([]);
+  const [showTransportOptions, setShowTransportOptions] = useState(false);
 
-  const handleTransportSearch = (e) => {
-    e.preventDefault();
-    // Filter dummy results by type
-    const filtered = dummyResults.filter(r => r.type === transportType);
-    setResults(filtered);
-    setBooked(null);
-  };
-
-  const handleBook = (option) => {
-    setBooked(option);
-  };
-
-  const handleHotelSearch = (e) => {
+const handleTransportSearch = (e) => {
   e.preventDefault();
-  // Filter dummy hotel results by type and location
-  const filtered = dummyHotelResults.filter(
-    r => r.type === hotelType && r.location.toLowerCase() === hotelForm.location.trim().toLowerCase()
-  );
-  setHotelResults(filtered);
-  setHotelBooked(null);
+  // Example: Filter available transport modes (replace with real API if needed)
+  const options = transportModes.map(mode => ({
+    ...mode,
+    start: form.start,
+    end: form.end,
+    price: Math.floor(Math.random() * 500) + 100 // Random price for demo
+  }));
+  setAvailableTransports(options);
+  setShowTransportOptions(true);
 };
 
-const handleHotelBook = (option) => {
-  setHotelBooked(option);
+const handleSelectTransport = (mode) => {
+  setTransportType(mode.key);
+  setMessage(`Selected ${mode.label} from ${form.start} to ${form.end}`);
+  setShowTransportOptions(false);
+};
+
+  const handleBookingSubmit = async (e) => {
+    e.preventDefault();
+
+    const userEmail = localStorage.getItem('userEmail');
+if (!userEmail) {
+  setMessage('Please log in with your Google or registered account to book.');
+  return;
+}
+
+    const hotels = hotelType && hotelForm.from && hotelForm.to && hotelForm.location
+    ? [{
+        type_of_hotel: hotelType,
+        start_date: hotelForm.from,
+        end_date: hotelForm.to,
+        location: hotelForm.location
+      }]
+    : [];
+
+    const bookingData = {
+      userEmail,
+      transportation: {
+        mode_of_transportation: transportType,
+        start_date: form.start_date,
+        end_date: form.end_date,
+        start_point: form.start,
+        end_point: form.end
+      },
+      hotels
+    };
+
+     try {
+    const response = await axios.post('http://localhost:3000/api/bookings/book', bookingData);
+    if (response.status === 201) {
+      setMessage('Booking successful! A confirmation email has been sent.');
+      // Reset forms or handle further actions
+    } else {
+      setMessage('Booking failed. Please try again.');
+    }
+  } catch (error) {
+    setMessage('An error occurred. Please try again later.',error);
+  }
 };
 
   return (
     <div className="booking-page">
       <Header />
-
       <section className="booking-intro">
-  <h1>Welcome to TripThreads Booking Hub</h1>
-  <p>Your one-stop platform for hassle-free travel <br/> bookings—transportation and hotels <br/>tailored for your journey.</p>
-</section>
-
-<section className="booking-features">
-  <div>
-    <h3>🚗 Wide Range of Transport</h3>
-    <p>Book buses, trains, flights, and taxis—all from one place.</p>
-  </div>
-  <div>
-    <h3>🏨 Verified Hotels</h3>
-    <p>Comfortable stays at competitive prices across major cities.</p>
-  </div>
-  <div>
-    <h3>💳 Secure Payments</h3>
-    <p>Your data is protected with industry-standard encryption.</p>
-  </div>
-</section>
-
+        <h1>Welcome to TripThreads Booking Hub</h1>
+        <p>Your one-stop platform for hassle-free travel bookings.</p>
+      </section>
 
       <main className="booking-content">
-        <img src="" alt="" />
         <h2>Book Your Tickets with Ease</h2>
-  <p style={{ textAlign: 'center', fontSize: '1rem', marginBottom: '1rem' }}>
-    Whether you're traveling across cities or looking for a cozy stay, TripThreads has you covered. 
-    Choose your mode of transport or find the best hotels—all in a few clicks.
-  </p>
-  <br />
-  <div className='booking-tabs' style={{ display: 'flex', justifyContent: 'center', gap: '1rem' }}>
-    <button onClick={() => { setMainTab('transport'); setTransportType(''); setResults([]); }} className={mainTab === 'transport' ? 'active' : ''}>🚍 Transportation</button>
-    <button onClick={() => setMainTab('hotel')} className={mainTab === 'hotel' ? 'active' : ''}>🏨 Hotels</button>
-  </div>
+        <p>{message}</p>
+        <div className='booking-tabs'>
+          <button onClick={() => { setMainTab('transport'); setTransportType(''); }}>🚍 Transportation</button>
+          <button onClick={() => setMainTab('hotel')}>🏨 Hotels</button>
+          <button onClick={() => navigate('/bookingshistory')}>View Booking History</button>
+        </div>
 
         {mainTab === 'transport' && (
           <>
-            {!transportType ? (
-              <div className='transport-modes'>
-                {transportModes.map(mode => (
-                  <button key={mode.key} onClick={() => setTransportType(mode.key)}>{mode.label}</button>
-                ))}
-              </div>
-            ) : (
-              <form onSubmit={handleTransportSearch} style={{ display: 'flex', flexDirection: 'column', gap: '1rem', alignItems: 'center' }}>
-                <input
-                  type="text"
-                  placeholder="Starting Stop"
-                  value={form.start}
-                  onChange={e => setForm({ ...form, start: e.target.value })}
-                  required
-                />
-                <input
-                  type="text"
-                  placeholder="Ending Stop"
-                  value={form.end}
-                  onChange={e => setForm({ ...form, end: e.target.value })}
-                  required
-                />
-                <input
-          type="date"
-          placeholder="From Date (e.g. 2024-06-01)"
-          value={hotelForm.from}
-          onChange={e => setHotelForm({ ...hotelForm, from: e.target.value })}
-          required
-        />
-        <input
-          type="date"
-          placeholder="To Date (e.g. 2024-06-01)"
-          value={hotelForm.to}
-          onChange={e => setHotelForm({ ...hotelForm, to: e.target.value })}
-          required
-        />
-               
-                <button type="submit">Show Options</button>
-                <button type="button" onClick={() => { setTransportType(''); setResults([]); }}>Back</button>
-              </form>
-            )}
+          <form onSubmit={handleTransportSearch}>
+            <input
+              type="date"
+              placeholder="Starting Date"
+              value={form.start_date}
+              onChange={e => setForm({ ...form, start_date: e.target.value })}
+              required
+            />
+            <input
+              type="date"
+              placeholder="Ending Date"
+              value={form.end_date}
+              onChange={e => setForm({ ...form, end_date: e.target.value })}
+              required
+            />
+            <input
+              type="text"
+              placeholder="Starting Stop"
+              value={form.start}
+              onChange={e => setForm({ ...form, start: e.target.value })}
+              required
+            />
+            <input
+              type="text"
+              placeholder="Ending Stop"
+              value={form.end}
+              onChange={e => setForm({ ...form, end: e.target.value })}
+              required
+            />
+            <button type="submit">Show Options</button>
+          </form>
 
-            {results.length > 0 && (
-              <div className="search-results">
-                <h3>Available {transportType.charAt(0).toUpperCase() + transportType.slice(1)}s</h3>
-                <ul>
-                  {results.map(option => (
-                    <li key={option.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span>{option.name} - {option.price}</span>
-                      <button onClick={() => handleBook(option)}>Book</button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {booked && (
-              <div style={{ marginTop: '1rem', color: 'green', textAlign: 'center' }}>
-                Booked: {booked.name} ({booked.price})
-              </div>
-            )}
-          </>
-        )}
-
-        {mainTab === 'hotel' && (
-  <>
-    {!hotelType ? (
-      <div className="transport-modes">
-        {hotelRoomTypes.map(room => (
-          <button key={room.key} onClick={() => setHotelType(room.key)}>{room.label}</button>
-        ))}
-      </div>
-    ) : (
-      <form onSubmit={handleHotelSearch}>
-        <input
-          type="text"
-          placeholder="From Date (e.g. 2024-06-01)"
-          value={hotelForm.from}
-          onChange={e => setHotelForm({ ...hotelForm, from: e.target.value })}
-          required
-        />
-        <input
-          type="text"
-          placeholder="To Date (e.g. 2024-06-05)"
-          value={hotelForm.to}
-          onChange={e => setHotelForm({ ...hotelForm, to: e.target.value })}
-          required
-        />
-        <input
-          type="text"
-          placeholder="Location"
-          value={hotelForm.location}
-          onChange={e => setHotelForm({ ...hotelForm, location: e.target.value })}
-          required
-        />
-        <button type="submit">Show Options</button>
-        <button type="button" onClick={() => { setHotelType(''); setHotelResults([]); }}>Back</button>
-      </form>
-    )}
-
-    {hotelResults.length > 0 && (
-      <div className="search-results">
-        <h3>Available {hotelType === 'ac' ? 'AC' : 'Non AC'} Rooms</h3>
+          {showTransportOptions && (
+      <div className="transport-options">
+        <h3>Available Transport Options</h3>
         <ul>
-          {hotelResults.map(option => (
-            <li key={option.id}>
-              <span>{option.name} - {option.price} - {option.location}</span>
-              <button onClick={() => handleHotelBook(option)}>Book</button>
+          {availableTransports.map(option => (
+            <li key={option.key}>
+              <span>{option.label} | {option.start} → {option.end} | ₹{option.price}</span>
+              <button onClick={() => handleSelectTransport(option)}>Select</button>
             </li>
           ))}
         </ul>
       </div>
     )}
+          </>
+          
+        )}
 
-    {hotelBooked && (
-      <div style={{ marginTop: '1rem', color: 'green', textAlign: 'center' }}>
-        Booked: {hotelBooked.name} ({hotelBooked.price})
-      </div>
-    )}
-  </>
-)}
+        {mainTab === 'hotel' && (
+          <form onSubmit={handleHotelSearch}>
+            <input
+              type="text"
+              placeholder="From Date"
+              value={hotelForm.from}
+              onChange={e => setHotelForm({ ...hotelForm, from: e.target.value })}
+              required
+            />
+            <input
+              type="text"
+              placeholder="To Date"
+              value={hotelForm.to}
+              onChange={e => setHotelForm({ ...hotelForm, to: e.target.value })}
+              required
+            />
+            <input
+              type="text"
+              placeholder="Location"
+              value={hotelForm.location}
+              onChange={e => setHotelForm({ ...hotelForm, location: e.target.value })}
+              required
+            />
+            <button type="submit">Show Options</button>
+          </form>
+        )}
+
+        <button onClick={handleBookingSubmit}>Confirm Booking</button>
       </main>
 
-      <footer className="experience-footer" style={{background:'rgba(255, 255, 255, 0.5)'}}>
+      <footer className="experience-footer">
         <div className="about">
           <h4>About our website..</h4>
-          <p>
-            TripThreads is more than a tool—it's your companion for exploring, discovering, and creating memories around the globe. Whether you're seeking hidden gems or planning the perfect vacation, we've got you covered.
-          </p>
+          <p>TripThreads is more than a tool—it's your companion for exploring, discovering, and creating memories around the globe.</p>
         </div>
         <div className="contact">
           <p>Contact us : <span>+91 9963204753, +91 9884807800</span></p>
-          <div className="social-icons">
-            <img src="https://i.pinimg.com/736x/19/42/d5/1942d5deb0f788e6228054cd92767ff6.jpg" alt="instagram" />
-            <img src="https://i.pinimg.com/736x/bf/70/a6/bf70a612edf2ce2b7b80865989d6df0a.jpg" alt="facebook" />
-            <img src="https://i.pinimg.com/736x/dd/26/a9/dd26a9a2100d2d4575353e0ece4ab2a1.jpg" alt="whatsapp" />
-          </div>
         </div>
       </footer>
     </div>

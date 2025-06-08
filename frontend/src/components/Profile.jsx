@@ -34,6 +34,7 @@ const Profile = () => {
   }, [navigate]);
 
   const handleLogout = () => {
+    localStorage.removeItem('userEmail'); // <-- Add this
     localStorage.removeItem("user");
     localStorage.removeItem("token");
     navigate("/login");

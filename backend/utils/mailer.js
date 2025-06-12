@@ -1,5 +1,15 @@
 const nodemailer = require('nodemailer');
 
+function escapeHtml(str) {
+    if (typeof str !== 'string') return str;
+    return str
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
 const sendConfirmationEmail = async (userEmail, bookingDetails) => {
     const transporter = nodemailer.createTransport({
         service: 'Gmail',
@@ -25,11 +35,11 @@ const sendConfirmationEmail = async (userEmail, bookingDetails) => {
                 <th>End Date</th>
             </tr>
             <tr>
-                <td>${transportation.mode_of_transportation}</td>
-                <td>${transportation.start_point}</td>
-                <td>${transportation.end_point}</td>
-                <td>${transportation.start_date ? new Date(transportation.start_date).toLocaleDateString() : ''}</td>
-                <td>${transportation.end_date ? new Date(transportation.end_date).toLocaleDateString() : ''}</td>
+                <td>${escapeHtml(transportation.mode_of_transportation)}</td>
+                <td>${escapeHtml(transportation.start_point)}</td>
+                <td>${escapeHtml(transportation.end_point)}</td>
+                <td>${transportation.start_date ? escapeHtml(new Date(transportation.start_date).toLocaleDateString()) : ''}</td>
+                <td>${transportation.end_date ? escapeHtml(new Date(transportation.end_date).toLocaleDateString()) : ''}</td>
             </tr>
         </table>
         `;
@@ -49,10 +59,10 @@ const sendConfirmationEmail = async (userEmail, bookingDetails) => {
             </tr>
             ${hotels.map(hotel => `
                 <tr>
-                    <td>${hotel.type_of_hotel}</td>
-                    <td>${hotel.start_date}</td>
-                    <td>${hotel.end_date}</td>
-                    <td>${hotel.location}</td>
+                    <td>${escapeHtml(hotel.type_of_hotel)}</td>
+                    <td>${escapeHtml(hotel.start_date)}</td>
+                    <td>${escapeHtml(hotel.end_date)}</td>
+                    <td>${escapeHtml(hotel.location)}</td>
                 </tr>
             `).join('')}
         </table>

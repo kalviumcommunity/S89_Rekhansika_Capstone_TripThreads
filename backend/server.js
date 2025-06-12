@@ -86,7 +86,7 @@ app.get('/auth/google/callback',
       { expiresIn: "1d" }
     );
     // Redirect to frontend after successful login
-    res.redirect(`http://localhost:5173/google-success?=${token}&name=${encodeURIComponent(req.user.displayName)}&email=${encodeURIComponent(req.user.emails[0].value)}`);
+    res.redirect(`http://localhost:5173/google-success?token=${token}&name=${encodeURIComponent(req.user.displayName)}&email=${encodeURIComponent(req.user.emails[0].value)}`);
   }
 );
 

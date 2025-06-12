@@ -27,15 +27,6 @@ const hotelSchema = new mongoose.Schema({
     start_date: {
         type: Date,
     },
-    end_date: {
-        type: Date,
-        validate: {
-            validator: function (value) {
-                return value.getTime() > this.start_date.getTime();
-            },
-            message: "End date must be after start date"
-        }
-    },
     location: {
         type: String,
     },

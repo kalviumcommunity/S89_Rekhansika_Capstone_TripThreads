@@ -32,14 +32,12 @@ const sendConfirmationEmail = async (userEmail, bookingDetails) => {
                 <th>From</th>
                 <th>To</th>
                 <th>Start Date</th>
-                <th>End Date</th>
             </tr>
             <tr>
                 <td>${escapeHtml(transportation.mode_of_transportation)}</td>
                 <td>${escapeHtml(transportation.start_point)}</td>
                 <td>${escapeHtml(transportation.end_point)}</td>
                 <td>${transportation.start_date ? escapeHtml(new Date(transportation.start_date).toLocaleDateString()) : ''}</td>
-                <td>${transportation.end_date ? escapeHtml(new Date(transportation.end_date).toLocaleDateString()) : ''}</td>
             </tr>
         </table>
         `;

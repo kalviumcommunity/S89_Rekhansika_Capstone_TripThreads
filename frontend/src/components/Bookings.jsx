@@ -11,11 +11,6 @@ const transportModes = [
   { key: 'taxi', label: 'Taxi' }
 ];
 
-const hotelRoomTypes = [
-  { key: 'ac', label: 'AC Rooms' },
-  { key: 'nonac', label: 'Non AC Rooms' }
-];
-
 const hotelOptions = [
   {
     key: 'hotel1',
@@ -48,7 +43,7 @@ const hotelOptions = [
 const Booking = () => {
   const [mainTab, setMainTab] = useState('');
   const [transportType, setTransportType] = useState('');
-  const [form, setForm] = useState({ start_date : '', end_date:"",start: '', end: '' });
+  const [form, setForm] = useState({ start_date : '',start: '', end: '' });
   const [hotelType, setHotelType] = useState('');
   const [hotelForm, setHotelForm] = useState({ from: '', to: '', location: '' ,price:''});
   const [message, setMessage] = useState('');
@@ -62,10 +57,6 @@ const Booking = () => {
 
 const handleTransportSearch = (e) => {
   e.preventDefault();
-  if (new Date(form.end_date) <= new Date(form.start_date)) {
-    setMessage('End date must be after start date.');
-    return;
-  }
   // Example: Filter available transport modes (replace with real API if needed)
   const options = transportModes.map(mode => ({
     ...mode,
@@ -80,12 +71,12 @@ const handleTransportSearch = (e) => {
 const handleSelectTransport = (mode) => {
   setTransportType(mode.key);
   setMessage(`Selected ${mode.label} from ${form.start} to ${form.end}`);
-  setShowTransportOptions(false);
+  
 };
 
 const handleClearTransport = () => {
   setTransportType('');
-  setForm({ start_date: '', end_date: '', start: '', end: '' });
+  setForm({ start_date: '', start: '', end: '' });
   setAvailableTransports([]);
   setShowTransportOptions(false);
   if (mainTab === 'transport') setMessage('');
@@ -124,7 +115,7 @@ const handleSelectHotel = (hotel) => {
   setMessage(
     `Selected ${hotel.type} at ${hotel.name} in ${hotel.location} from ${hotelForm.from} to ${hotelForm.to}`
   );
-  setShowHotelOptions(false);
+  
 };
 
   const handleBookingSubmit = async (e) => {
@@ -147,7 +138,7 @@ if (!userEmail) {
     : [];
 
     const hasTransport =
-  transportType && form.start_date && form.end_date && form.start && form.end;
+  transportType && form.start_date && form.start && form.end;
 
     const bookingData = {
   userEmail,
@@ -155,7 +146,6 @@ if (!userEmail) {
     transportation: {
       mode_of_transportation: transportType,
       start_date: form.start_date,
-      end_date: form.end_date,
       start_point: form.start,
       end_point: form.end,
     }
@@ -166,11 +156,20 @@ if (!userEmail) {
      try {
     const response = await axios.post('http://localhost:3000/api/bookings/book', bookingData);
     if (response.status === 201) {
-      setMessage('Booking successful! A confirmation email has been sent.');
-      // Reset forms or handle further actions
-    } else {
-      setMessage('Booking failed. Please try again.');
-    }
+  setMessage('Booking successful! A confirmation email has been sent.');
+  // Reset forms
+  setForm({ start_date: '', start: '', end: '' });
+  setTransportType('');
+  setAvailableTransports([]);
+  setShowTransportOptions(false);
+
+  setHotelForm({ from: '', to: '', location: '', price: '' });
+  setHotelType('');
+  setAvailableHotels([]);
+  setShowHotelOptions(false);
+} else {
+  setMessage('Booking failed. Please try again.');
+}
   } catch (error) {
     setMessage('An error occurred. Please try again later.',error);
   }
@@ -207,17 +206,8 @@ if (!userEmail) {
           required
         />
       </div>
-      <div className='form-row'>
-        <label htmlFor="end_date">Ending Date:</label>
-        <input
-          id="end_date"
-          type="date"
-          placeholder='Enter end date'
-          value={form.end_date}
-          onChange={e => setForm({ ...form, end_date: e.target.value })}
-          required
-        />
-      </div>
+      
+      
       <div className='form-row'>
         <label htmlFor="start_point">Starting Stop:</label>
         <input

@@ -1,6 +1,6 @@
 const express = require('express');
 const Booking = require('../models/bookingsSchema');
-const { sendConfirmationEmail } = require('./emailService');
+const { sendConfirmationEmail } = require("../utils/mailer");
 
 const bookingsRouter = express.Router();
 

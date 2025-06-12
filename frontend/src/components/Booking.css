@@ -73,6 +73,29 @@
   box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 
+/* Add or update these styles for label/input alignment */
+.form-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  max-width: 350px;
+  margin-bottom: 0.5rem;
+}
+
+.form-row label {
+  min-width: 120px;
+  font-weight: 500;
+  color: #000000;
+  font-size: 1rem;
+  text-align: right;
+}
+
+.form-row input {
+  flex: 1;
+  min-width: 0;
+}
+
 /* Main Tabs */
 .booking-tabs {
   display: flex;

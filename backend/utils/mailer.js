@@ -2,18 +2,78 @@ const nodemailer = require('nodemailer');
 
 const sendConfirmationEmail = async (userEmail, bookingDetails) => {
     const transporter = nodemailer.createTransport({
-        service: 'gmail', // Use your email service
+        service: 'Gmail',
         auth: {
-            user: process.env.EMAIL_USER, // Your email address
-            pass: process.env.EMAIL_PASS, // Your email password
-        },
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASS
+        }
     });
+
+    // Extract details for clarity
+    const { transportation, hotels } = bookingDetails;
+
+    let transportHtml = '';
+    if (transportation) {
+        transportHtml = `
+        <h3>Transportation Details</h3>
+        <table border="1" cellpadding="8" cellspacing="0" style="border-collapse:collapse;">
+            <tr>
+                <th>Mode</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+            </tr>
+            <tr>
+                <td>${transportation.mode_of_transportation}</td>
+                <td>${transportation.start_point}</td>
+                <td>${transportation.end_point}</td>
+                <td>${transportation.start_date ? new Date(transportation.start_date).toLocaleDateString() : ''}</td>
+                <td>${transportation.end_date ? new Date(transportation.end_date).toLocaleDateString() : ''}</td>
+            </tr>
+        </table>
+        `;
+    }
+
+    // Format hotel info if present
+    let hotelHtml = '';
+    if (hotels && hotels.length > 0) {
+        hotelHtml = `
+        <h3>Hotel Details</h3>
+        <table border="1" cellpadding="8" cellspacing="0" style="border-collapse:collapse;">
+            <tr>
+                <th>Type</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Location</th>
+            </tr>
+            ${hotels.map(hotel => `
+                <tr>
+                    <td>${hotel.type_of_hotel}</td>
+                    <td>${hotel.start_date}</td>
+                    <td>${hotel.end_date}</td>
+                    <td>${hotel.location}</td>
+                </tr>
+            `).join('')}
+        </table>
+        `;
+    }
 
     const mailOptions = {
         from: process.env.EMAIL_USER,
         to: userEmail,
-        subject: 'Booking Confirmation',
-        text: `Thank you for your booking!\n\nHere are your booking details:\n${JSON.stringify(bookingDetails, null, 2)}\n\nWe hope you have a great experience!`,
+        subject: 'Your TripThreads Booking Confirmation',
+        html: `
+            <div style="font-family: Arial, sans-serif; color: #222;">
+                <h2 style="color:rgb(0, 0, 0);">Thank you for booking with TripThreads!</h2>
+                <p>Dear Traveler,</p>
+                <p>Your booking has been confirmed. Here are your booking details:</p>
+                ${transportHtml}
+                ${hotelHtml}
+                <p style="margin-top:2rem;">We hope you have a wonderful journey!</p>
+                <p>Best regards,<br/>TripThreads Team</p>
+            </div>
+        `
     };
 
     try {
@@ -24,4 +84,6 @@ const sendConfirmationEmail = async (userEmail, bookingDetails) => {
     }
 };
 
-module.exports = sendConfirmationEmail;
+module.exports = {
+    sendConfirmationEmail
+};

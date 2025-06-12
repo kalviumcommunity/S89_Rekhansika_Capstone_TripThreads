@@ -5,62 +5,113 @@ const BookingHistory = () => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [tab, setTab] = useState('hotels'); // 'hotels' or 'transportation'
 
   useEffect(() => {
-  const fetchBookingHistory = async () => {
-    const userEmail = localStorage.getItem('userEmail') || "user@example.com"; // Get from localStorage or use a default
-    try {
-      const response = await fetch(`/api/bookings/history/${userEmail}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          // Add Authorization header if needed
+    const fetchBookingHistory = async () => {
+      const userEmail = localStorage.getItem('userEmail') || "user@example.com";
+      try {
+        const response = await fetch(`/api/bookings/history/${userEmail}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch booking history');
         }
-      });
 
-      if (!response.ok) {
-        throw new Error('Failed to fetch booking history');
+        const data = await response.json();
+        setBookings(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
       }
+    };
 
-      const data = await response.json();
-      setBookings(data);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+    fetchBookingHistory();
+  }, []);
 
-  fetchBookingHistory();
-}, []);
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
-  if (error) {
-    return <p>Error: {error}</p>;
-  }
+  // Filter bookings for each tab
+  const hotelBookings = bookings.filter(b => b.hotels && b.hotels.length > 0);
+  const transportBookings = bookings.filter(b => b.transportation && b.transportation.mode_of_transportation);
 
   return (
     <div className="booking-history">
       <h2>Your Booking History</h2>
-      {bookings.length === 0 ? (
-        <p>No bookings found.</p>
+      <div style={{ marginBottom: '1rem' }}>
+        <button
+          onClick={() => setTab('hotels')}
+          style={{
+            marginRight: '1rem',
+            background: tab === 'hotels' ? '#0077b6' : '#eee',
+            color: tab === 'hotels' ? '#fff' : '#222',
+            padding: '0.5rem 1.5rem',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer'
+          }}
+        >
+          Hotels
+        </button>
+        <button
+          onClick={() => setTab('transportation')}
+          style={{
+            background: tab === 'transportation' ? '#0077b6' : '#eee',
+            color: tab === 'transportation' ? '#fff' : '#222',
+            padding: '0.5rem 1.5rem',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer'
+          }}
+        >
+          Transportation
+        </button>
+      </div>
+
+      {tab === 'hotels' ? (
+        hotelBookings.length === 0 ? (
+          <p>No hotel bookings found.</p>
+        ) : (
+          <ul>
+            {hotelBookings.map((booking) =>
+              booking.hotels.map((hotel, idx) => (
+                <li key={booking._id + idx} style={{ marginBottom: '1.5rem', borderBottom: '1px solid #ccc', paddingBottom: '1rem' }}>
+                  <h3>Booking ID: {booking._id}</h3>
+                  <p><strong>Hotel Type:</strong> {hotel.type_of_hotel}</p>
+                  <p><strong>Location:</strong> {hotel.location}</p>
+                  <p><strong>From:</strong> {new Date(hotel.start_date).toLocaleDateString()}</p>
+                  <p><strong>To:</strong> {new Date(hotel.end_date).toLocaleDateString()}</p>
+                  <p><strong>Price:</strong> ₹{hotel.price}</p>
+                  <p><strong>Booked On:</strong> {new Date(booking.createdAt).toLocaleDateString()}</p>
+                </li>
+              ))
+            )}
+          </ul>
+        )
       ) : (
-        <ul>
-          {bookings.map((booking) => (
-            <li key={booking._id}>
-              <h3>Booking ID: {booking._id}</h3>
-              <p>Transportation: {booking.transportation.mode_of_transportation}</p>
-              <p>Hotel: {booking.hotels.map(hotel => hotel.type_of_hotel).join(', ')}</p>
-              <p>Start Date: {new Date(booking.transportation.start_date).toLocaleDateString()}</p>
-              <p>End Date: {new Date(booking.transportation.end_date).toLocaleDateString()}</p>
-              <p>Location: {booking.transportation.location}</p>
-              <p>Booked On: {new Date(booking.createdAt).toLocaleDateString()}</p>
-            </li>
-          ))}
-        </ul>
+        transportBookings.length === 0 ? (
+          <p>No transportation bookings found.</p>
+        ) : (
+          <ul>
+            {transportBookings.map((booking) => (
+              <li key={booking._id} style={{ marginBottom: '1.5rem', borderBottom: '1px solid #ccc', paddingBottom: '1rem' }}>
+                <h3>Booking ID: {booking._id}</h3>
+                <p><strong>Mode:</strong> {booking.transportation.mode_of_transportation}</p>
+                <p><strong>From:</strong> {booking.transportation.start_point}</p>
+                <p><strong>To:</strong> {booking.transportation.end_point}</p>
+                <p><strong>Start Date:</strong> {new Date(booking.transportation.start_date).toLocaleDateString()}</p>
+                <p><strong>End Date:</strong> {new Date(booking.transportation.end_date).toLocaleDateString()}</p>
+                <p><strong>Booked On:</strong> {new Date(booking.createdAt).toLocaleDateString()}</p>
+              </li>
+            ))}
+          </ul>
+        )
       )}
     </div>
   );

@@ -38,6 +38,11 @@ const hotelSchema = new mongoose.Schema({
     },
     location: {
         type: String,
+    },
+    price: {
+        type: Number,
+        required: true,
+        min: 0
     }
 });
 

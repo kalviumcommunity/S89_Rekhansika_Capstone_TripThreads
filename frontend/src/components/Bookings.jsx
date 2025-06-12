@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import './Booking.css';
 import Header from '../sections/header';
 import axios from 'axios';
@@ -41,12 +41,29 @@ const hotelOptions = [
 
 
 const Booking = () => {
+
+  useEffect(() => {
+    const userEmail = localStorage.getItem('userEmail');
+    if (!userEmail) {
+      window.location.href = '/login';
+    }
+  }, []);
+
+    const [message, setMessage] = useState('');
+
+  useEffect(() => {
+  if (message) {
+    const timer = setTimeout(() => setMessage(''), 3000); // 3 seconds
+    return () => clearTimeout(timer);
+  }
+}, [message]);
+
   const [mainTab, setMainTab] = useState('');
   const [transportType, setTransportType] = useState('');
   const [form, setForm] = useState({ start_date : '',start: '', end: '' });
   const [hotelType, setHotelType] = useState('');
   const [hotelForm, setHotelForm] = useState({ from: '', to: '', location: '' ,price:''});
-  const [message, setMessage] = useState('');
+
   const navigate = useNavigate();
   
   const [availableTransports, setAvailableTransports] = useState([]);
@@ -122,6 +139,7 @@ const handleSelectHotel = (hotel) => {
     e.preventDefault();
 
     const userEmail = localStorage.getItem('userEmail');
+    console.log('userEmail:', userEmail); // Add this line
 if (!userEmail) {
   setMessage('Please log in with your Google or registered account to book.');
   return;
@@ -177,6 +195,11 @@ if (!userEmail) {
 
   return (
     <div className="booking-page">
+      {message && (
+      <div className="booking-toast">
+        {message}
+      </div>
+    )}
       <Header />
       <section className="booking-intro">
         <h1>Welcome to TripThreads Booking Hub</h1>
@@ -185,7 +208,7 @@ if (!userEmail) {
 
       <main className="booking-content">
         <h2>Book Your Tickets with Ease</h2>
-        <p>{message}</p>
+        
         <div className='booking-tabs'>
           <button onClick={() => { setMainTab('transport'); setTransportType(''); }}>🚍 Transportation</button>
           <button onClick={() => setMainTab('hotel')}>🏨 Hotels</button>
@@ -246,7 +269,7 @@ if (!userEmail) {
         </ul>
       </div>
     )}
-     <button type="button" onClick={handleClearTransport} style={{ marginTop: '1rem', background: '#eee', color: '#333' }}>
+     <button type="button" onClick={handleClearTransport} style={{ marginLeft:'6.5rem',marginTop:"1rem", background: '#0077cc', color: '#fff' }}>
       Clear Transportation
     </button>
           </>
@@ -290,7 +313,7 @@ if (!userEmail) {
           required
         />
       </div>
-      <button type="submit">Show Hotel Options</button>
+      <button type="submit">Show Options</button>
     </form>
     {showHotelOptions && (
   <div className="hotel-options">
@@ -318,7 +341,7 @@ if (!userEmail) {
     </ul>
   </div>
 )}
-<button type="button" onClick={handleClearHotel} style={{ marginTop: '1rem', background: '#eee', color: '#333' }}>
+<button type="button" onClick={handleClearHotel} style={{ marginLeft:'8.5rem',marginTop:"1rem", background: '#0077cc', color: '#fff' }}>
       Clear Hotel
     </button>
   </>

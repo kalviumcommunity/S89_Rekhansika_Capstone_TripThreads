@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import "./Profile.css"; // Import your CSS file for styles
 
 const Profile = () => {
   const [user, setUser] = useState(null);
@@ -7,7 +9,8 @@ const Profile = () => {
   const [form, setForm] = useState({ name: "", email: "", username: "" });
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
-  const [stats, setStats] = useState({ countries: 12, cities: 38 }); // You can load these from backend if needed
+  const [stats, setStats] = useState({ countries: 12, cities: 38 }); 
+  const [successMsg, setSuccessMsg] = useState("");
   const navigate = useNavigate();
   const fileInputRef = useRef();
 
@@ -58,7 +61,7 @@ const Profile = () => {
     }
   };
 
-  const handleSave = () => {
+  const handleSave = async() => {
     if (!form.username.trim()) {
       alert("UserName is required.");
       return;
@@ -72,9 +75,18 @@ const Profile = () => {
       cities: Number(stats.cities), 
       image: imagePreview
     };
-    setUser(updatedUser);
-    localStorage.setItem("user", JSON.stringify(updatedUser));
+     try {
+    const response = await axios.put('http://localhost:3000/user/profile', updatedUser, {
+      headers: { Authorization: `Bearer ${user.token}` }
+    });
+    setUser(response.data);
+    localStorage.setItem("user", JSON.stringify(response.data));
     setEditMode(false);
+    setSuccessMsg("Changes saved successfully!");
+setTimeout(() => setSuccessMsg(""), 3000);
+  } catch (error) {
+    alert("Failed to save profile. Please try again.",error);
+  }
   };
 
   if (!user) return null;
@@ -297,6 +309,11 @@ dangerButton: {
 
   return (
     <div style={styles.pageContainer}>
+    {successMsg && (
+  <div className="profile-toast">
+    {successMsg}
+  </div>
+)}
       <header style={styles.header}>
         <div style={styles.headerContent} onClick={() => navigate("/home")}>
           <div style={styles.logo}>

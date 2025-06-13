@@ -23,6 +23,12 @@ const userSchema = new mongoose.Schema({
   image: { 
     type: String 
   },
+  countries: { 
+    type: Number, default: 0 
+  },
+  cities: {
+    type: Number, default: 0
+  },
 }, { timestamps: true });
 
 const User = mongoose.model("userData", userSchema);

@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 
 const userRouter = express.Router();
 
+const authenticateToken = require("../middleware/auth");
 
 
 // Signup Route
@@ -57,19 +58,13 @@ userRouter.post("/signup", async (req, res) => {
 userRouter.post("/login", async (req, res) => {
     try {
         const { email, password } = req.body;
-
-        // Validate input
         if (!email || !password) {
             return res.status(400).json({ message: "All details are required" });
         }
-
-        // Check if user exists
         const user = await User.findOne({ email });
         if (!user) {
             return res.status(401).json({ message: "Invalid email or password" });
         }
-
-        // Compare passwords
         const matchedPass = bcrypt.compareSync(password, user.password);
         if (user && matchedPass) {
             const token = jwt.sign(
@@ -83,8 +78,12 @@ userRouter.post("/login", async (req, res) => {
         name: user.name,
         email: user.email,
         id: user._id,
+        username: user.username || "",
+        countries: user.countries || 0,
+        cities: user.cities || 0,
+        image: user.image || "",
         token // <-- send the JWT to the frontend
-      }
+    }
             });
         } else {
             return res.status(401).json({ message: "Invalid email or password" });
@@ -93,6 +92,21 @@ userRouter.post("/login", async (req, res) => {
         console.error("Login Error:", error);
         return res.status(500).json({ error: "Internal Server Error" });
     }
+});
+
+// Example: controller/userRouter.js
+userRouter.put('/profile', authenticateToken, async (req, res) => {
+  const { email, name, username, countries, cities, image } = req.body;
+  try {
+    const user = await User.findOneAndUpdate(
+      { email },
+      { name, username, countries, cities, image },
+      { new: true }
+    );
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to update profile' });
+  }
 });
 
 module.exports = userRouter;

@@ -147,6 +147,9 @@ userRouter.get("/following", authenticateToken, async (req, res) => {
 });
 
 userRouter.get("/profile/:id", authenticateToken, async (req, res) => {
+    if (req.user.id !== req.params.id) {
+    return res.status(403).json({ error: "Forbidden: You can only access your own profile." });
+  }
   try {
     const user = await User.findById(req.params.id, "-password");
     if (!user) return res.status(404).json({ error: "User not found" });
@@ -184,7 +187,7 @@ userRouter.post("/follow", authenticateToken, async (req, res) => {
 });
 
 // Check if following
-userRouter.get("/:id/following", authenticateToken,async (req, res) => {
+userRouter.get("/:id/following", authenticateToken, async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
     if (!user) return res.status(404).json({ error: "User not found" });

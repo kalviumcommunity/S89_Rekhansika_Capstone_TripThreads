@@ -49,6 +49,7 @@ const Header = () => {
         <a href="/bookings">Bookings</a>
         <a href="/experiences">Experiences</a>
         <a href="/chatbox">AI ChatBox</a>
+        <a href="/follow-others">Follow Others</a>
       </div>
       <div className="nav-right" style={{ position: 'relative' }}>
         <input
@@ -67,6 +68,7 @@ const Header = () => {
         >👤</div>
       </div>
     </nav>
+    
   );
 };
 

@@ -45,8 +45,7 @@ const postSchema = new mongoose.Schema({
     },
     imageUrl: { type: String, required: true },
   liked: { type: Boolean, default: false },
-  date: { type: Date },
-  location: { type: String }
+  likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }]
 },{
     timestamps:true
 });

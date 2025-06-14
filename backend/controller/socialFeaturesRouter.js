@@ -28,6 +28,43 @@ socialFeaturesRouter.get("/posts", authenticateToken,async (req, res) => {
   }
 });
 
+// Get posts for a user
+socialFeaturesRouter.get("/user/:id/posts", authenticateToken, async (req, res) => {
+  try {
+    const posts = await post.find({ userName: req.params.id }); // or use userId if you store it
+    res.json(posts);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch posts" });
+  }
+});
+
+socialFeaturesRouter.post("/posts/:id/like", authenticateToken, async (req, res) => {
+  try {
+    const postId = req.params.id;
+    const userId = req.user.id;
+
+    // Find the post's author
+    const targetPost = await post.findById(postId);
+    if (!targetPost) return res.status(404).json({ error: "Post not found" });
+
+    // Find the post's author user
+    const author = await User.findOne({ username: targetPost.userName });
+    if (!author) return res.status(404).json({ error: "Author not found" });
+
+    // Check if current user follows the author
+    const currentUser = await User.findById(userId);
+    if (!currentUser.following.includes(author._id)) {
+      return res.status(403).json({ error: "You must follow this user to like their post" });
+    }
+
+    // Add like if not already liked
+    await post.findByIdAndUpdate(postId, { $addToSet: { likes: userId } });
+    res.json({ message: "Post liked" });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to like post" });
+  }
+});
+
 socialFeaturesRouter.post('/communities/communityposts',async (req, res) => {
     try {
       const { communityName, userName, title, content } = req.body;

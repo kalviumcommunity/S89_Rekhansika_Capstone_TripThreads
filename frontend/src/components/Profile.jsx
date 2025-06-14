@@ -22,6 +22,12 @@ const Profile = () => {
   const navigate = useNavigate();
   const fileInputRef = useRef();
 
+  // Logout handler
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    navigate("/login");
+  };
+
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("user"));
     if (!userData) {
@@ -251,6 +257,19 @@ const Profile = () => {
                 >
                   Edit Profile
                 </button>
+                <button
+          onClick={handleLogout}
+          style={{
+            background: "#e74c3c",
+            color: "#fff",
+            border: "none",
+            borderRadius: 6,
+            padding: "0.5rem 1.5rem",
+            cursor: "pointer"
+          }}
+        >
+          Logout
+        </button>
               </>
             )}
           </div>

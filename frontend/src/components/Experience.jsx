@@ -15,6 +15,11 @@ const locationOptions = [
   { value: 'New York', label: 'New York' },
 ];
 
+const visibilityOptions = [
+  { value: "public", label: "Public" },
+  { value: "private", label: "Private" },
+];
+
 const Experience = () => {
   // State per card
   const user = JSON.parse(localStorage.getItem("user"));
@@ -31,10 +36,11 @@ const [liked, setLiked] = useState(() => {
   const [selectedLocation, setSelectedLocation] = useState({});
 
   const [showModal, setShowModal] = useState(false);
-  const [newExperience, setNewExperience] = useState({
+ const [newExperience, setNewExperience] = useState({
     title: '',
     description: '',
-    imageUrl: ''
+    imageUrl: '',
+    visibility: 'public'
   });
 
   const [editModalOpen, setEditModalOpen] = useState(false);
@@ -100,16 +106,24 @@ useEffect(() => {
   };
 
   const handleInputChange = (e) => {
-  const { name, value } = e.target;
-  setNewExperience((prev) => ({ ...prev, [name]: value }));
-};
+    const { name, value } = e.target;
+    setNewExperience((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleVisibilityChange = (selected) => {
+    setNewExperience((prev) => ({ ...prev, visibility: selected.value }));
+  };
+
+  const handleEditVisibilityChange = (selected) => {
+    setEditExperience((prev) => ({ ...prev, visibility: selected.value }));
+  };
 
 const handleAddExperience = async (e) => {
     e.preventDefault();
     if (!newExperience.title || !newExperience.description || !newExperience.imageUrl) return;
     try {
       await axios.post("http://localhost:3000/socialFeatures/communities/posts", {
-        userName: user.name,
+        userName: user.username,
         email: user.email,
         ...newExperience
       },
@@ -153,7 +167,8 @@ const handleEditInputChange = (e) => {
           userName: user.name,
           title: editExperience.title,
           description: editExperience.description,
-          imageUrl: editExperience.imageUrl
+          imageUrl: editExperience.imageUrl,
+          visibility: editExperience.visibility
         }
       );
       setExperiences((prev) =>
@@ -205,6 +220,9 @@ const handleEditInputChange = (e) => {
               <img src={experience.imageUrl} alt={experience.title} />
               <h2><strong>{experience.title}</strong></h2>
               <p>{experience.description}</p>
+              <div style={{fontSize: "0.9rem", color: "#888", marginBottom: "0.5rem"}}>
+                  Visibility: {experience.visibility || "public"}
+                </div>
               <div className="icons">
                 <img
                   src={
@@ -287,6 +305,14 @@ const handleEditInputChange = (e) => {
           onChange={handleEditInputChange}
           required
         />
+        <div style={{margin: "1rem 0"}}>
+                  <Select
+                    options={visibilityOptions}
+                    value={visibilityOptions.find(opt => opt.value === (editExperience.visibility || "public"))}
+                    onChange={handleEditVisibilityChange}
+                    placeholder="Select visibility"
+                  />
+                </div>
         <div style={{marginTop: '1rem'}}>
           <button type="submit">Save</button>
           <button type="button" onClick={() => setEditModalOpen(false)} style={{marginLeft: '1rem'}}>Cancel</button>
@@ -323,6 +349,14 @@ const handleEditInputChange = (e) => {
           onChange={handleInputChange}
           required
         />
+        <div style={{margin: "1rem 0"}}>
+                  <Select
+                    options={visibilityOptions}
+                    value={visibilityOptions.find(opt => opt.value === (newExperience.visibility || "public"))}
+                    onChange={handleVisibilityChange}
+                    placeholder="Select visibility"
+                  />
+                </div>
         <div style={{marginTop: '1rem'}}>
           <button type="submit">Add</button>
           <button type="button" onClick={handleCloseModal} style={{marginLeft: '1rem'}}>Cancel</button>

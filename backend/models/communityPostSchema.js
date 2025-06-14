@@ -43,6 +43,8 @@ const postSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    // In your post schema file
+visibility: { type: String, enum: ["public", "private"], default: "public" },
     imageUrl: { type: String, required: true },
   liked: { type: Boolean, default: false },
   likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }]

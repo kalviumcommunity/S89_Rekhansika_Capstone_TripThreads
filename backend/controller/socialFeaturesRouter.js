@@ -32,13 +32,13 @@ socialFeaturesRouter.get("/posts", authenticateToken,async (req, res) => {
 // Get posts for a user
 socialFeaturesRouter.get("/user/:id/posts", authenticateToken, async (req, res) => {
   try {
-    console.log("Requested user id:", req.params.id);
+    
     const user = await User.findById(req.params.id);
     if (!user) return res.status(404).json({ error: "User not found" });
 
     let query = { userName: user.username };
     // Only show private posts to the owner
-    if (req.user.id !== req.params.id) {
+    if (String(req.user.id) !== String(req.params.id)) {
       query.visibility = "public";
     }
     const posts = await post.find(query);

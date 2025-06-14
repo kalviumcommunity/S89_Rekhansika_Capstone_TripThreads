@@ -14,45 +14,54 @@ const UserPosts = () => {
   const loggedInUserId = loggedInUser?._id || loggedInUser?.id;
 
   useEffect(() => {
-  setLoading(true);
-  setError("");
-  // Fetch profile
-  axios.get(`http://localhost:3000/user/profile/${id}`)
-    .then(res => setProfile(res.data))
-    .catch(() => setError("Failed to load user profile."));
-
-  // Fetch posts
-  axios.get(`http://localhost:3000/socialFeatures/user/${id}/posts`)
-    .then(res => setPosts(res.data))
-    .catch(() => setPosts([]))
-    .finally(() => setLoading(false));
-
-  // Check if following (only if not viewing own profile)
-   if (loggedInUser && loggedInUser.token && id !== loggedInUserId) {
-    axios.get(`http://localhost:3000/user/is-following/${id}`, {
+    setLoading(true);
+    setError("");
+    if (!loggedInUser || !loggedInUser.token) {
+      setError("You must be logged in to view this page.");
+      setLoading(false);
+      return;
+    }
+    // Fetch profile WITH AUTH HEADER
+    axios.get(`http://localhost:3000/user/profile/${id}`, {
       headers: { Authorization: `Bearer ${loggedInUser.token}` }
     })
-      .then(res => setIsFollowing(res.data.isFollowing))
-      .catch(() => setIsFollowing(false));
-  }
-}, [id]);
+      .then(res => setProfile(res.data))
+      .catch(() => setError("Failed to load user profile."));
 
-const handleFollow = async () => {
-  try {
-    await axios.post(
-      "http://localhost:3000/user/follow",
-      { userId: id },
-      { headers: { Authorization: `Bearer ${loggedInUser.token}` } }
-    );
-    // Re-fetch following status from backend
-    const res = await axios.get(`http://localhost:3000/user/is-following/${id}`, {
+    // Fetch posts WITH AUTH HEADER
+    axios.get(`http://localhost:3000/socialFeatures/user/${id}/posts`, {
       headers: { Authorization: `Bearer ${loggedInUser.token}` }
-    });
-    setIsFollowing(res.data.isFollowing);
-  } catch {
-    alert("Failed to follow user.");
-  }
-};
+    })
+      .then(res => setPosts(res.data))
+      .catch(() => setPosts([]))
+      .finally(() => setLoading(false));
+
+    // Check if following (only if not viewing own profile)
+    if (loggedInUser && loggedInUser.token && id !== loggedInUserId) {
+      axios.get(`http://localhost:3000/user/is-following/${id}`, {
+        headers: { Authorization: `Bearer ${loggedInUser.token}` }
+      })
+        .then(res => setIsFollowing(res.data.isFollowing))
+        .catch(() => setIsFollowing(false));
+    }
+  }, [id]);
+
+  const handleFollow = async () => {
+    try {
+      await axios.post(
+        "http://localhost:3000/user/follow",
+        { userId: id },
+        { headers: { Authorization: `Bearer ${loggedInUser.token}` } }
+      );
+      // Re-fetch following status from backend
+      const res = await axios.get(`http://localhost:3000/user/is-following/${id}`, {
+        headers: { Authorization: `Bearer ${loggedInUser.token}` }
+      });
+      setIsFollowing(res.data.isFollowing);
+    } catch {
+      alert("Failed to follow user.");
+    }
+  };
 
   if (loading) return <div style={{ textAlign: "center" }}>Loading...</div>;
   if (error) return <div style={{ color: "red", textAlign: "center" }}>{error}</div>;

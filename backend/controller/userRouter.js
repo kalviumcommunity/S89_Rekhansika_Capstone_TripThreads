@@ -95,18 +95,116 @@ userRouter.post("/login", async (req, res) => {
 });
 
 // Example: controller/userRouter.js
-userRouter.put('/profile', authenticateToken, async (req, res) => {
-  const { email, name, username, countries, cities, image } = req.body;
+// Example for PUT /user/profile
+userRouter.put("/profile", authenticateToken, async (req, res) => {
   try {
-    const user = await User.findOneAndUpdate(
-      { email },
-      { name, username, countries, cities, image },
-      { new: true }
+    const user = await User.findByIdAndUpdate(
+      req.user.id,
+      {
+        name: req.body.name,
+        email: req.body.email,
+        username: req.body.username,
+        countries: req.body.countries,
+        cities: req.body.cities,
+        image: req.body.image,
+      },
+      { new: true } // <--- THIS IS IMPORTANT
     );
     res.json(user);
   } catch (err) {
-    res.status(500).json({ error: 'Failed to update profile' });
+    res.status(500).json({ error: "Failed to update profile" });
   }
 });
+
+userRouter.get("/profile", authenticateToken, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id, "-password");
+    if (!user) return res.status(404).json({ error: "User not found" });
+    res.json(user);
+  } catch {
+    res.status(500).json({ error: "Failed to fetch user profile" });
+  }
+});
+
+// Get full follower user objects
+userRouter.get("/followers", authenticateToken, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).populate("followers", "username name email image");
+    res.json(user.followers);
+  } catch {
+    res.status(500).json({ error: "Failed to fetch followers" });
+  }
+});
+
+// Get full following user objects
+userRouter.get("/following", authenticateToken, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).populate("following", "username name email image");
+    res.json(user.following);
+  } catch {
+    res.status(500).json({ error: "Failed to fetch following" });
+  }
+});
+
+userRouter.get("/profile/:id", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id, "-password");
+    if (!user) return res.status(404).json({ error: "User not found" });
+    res.json(user);
+  } catch {
+    res.status(500).json({ error: "Failed to fetch user profile" });
+  }
+});
+
+// Get all users except self
+userRouter.get("/all", authenticateToken, async (req, res) => {
+  try {
+    const users = await User.find({ _id: { $ne: req.user.id } }, "name email username image");
+    res.json(users);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch users" });
+  }
+});
+
+// Follow a user
+userRouter.post("/follow", authenticateToken, async (req, res) => {
+  try {
+    const toFollowId = req.body.userId;
+    const userId = req.user.id;
+    if (userId === toFollowId) return res.status(400).json({ error: "Cannot follow yourself" });
+
+    // Add to following and followers arrays
+    await User.findByIdAndUpdate(userId, { $addToSet: { following: toFollowId } });
+    await User.findByIdAndUpdate(toFollowId, { $addToSet: { followers: userId } });
+
+    res.json({ message: "Followed successfully" });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to follow user" });
+  }
+});
+
+// Check if following
+userRouter.get("/:id/following", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) return res.status(404).json({ error: "User not found" });
+    // Return an array of string IDs
+    res.json({ following: user.following.map(id => id.toString()) });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch following list" });
+  }
+});
+
+userRouter.get("/is-following/:id", authenticateToken, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    const isFollowing = user.following.map(f => f.toString()).includes(req.params.id);
+    res.json({ isFollowing });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to check following status" });
+  }
+});
+
+
 
 module.exports = userRouter;

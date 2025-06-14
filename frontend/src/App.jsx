@@ -10,6 +10,8 @@ import Location from './components/location';
 import Profile from './components/Profile';
 import BookingHistory from './components/BookingHistory';
 import GoogleSuccess from './pages/GoogleSuccess';
+import FollowOthers from './components/FollowOthers';
+import UserPosts from './components/UserPosts';
 
 
 function App() {
@@ -27,6 +29,8 @@ function App() {
                 <Route path='/location' element={<Location/>}/>
                 <Route path='/profile' element={<Profile/>}/>
                 <Route path='/bookingshistory' element={<BookingHistory/>}/>
+                <Route path='/follow-others' element={<FollowOthers/>}/>
+                <Route path='/user/:id/posts' element={<UserPosts/>}/>
                
             </Routes>
         </Router>

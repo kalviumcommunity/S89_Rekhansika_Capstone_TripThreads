@@ -106,7 +106,6 @@ const BookingHistory = () => {
                 <p><strong>From:</strong> {booking.transportation.start_point}</p>
                 <p><strong>To:</strong> {booking.transportation.end_point}</p>
                 <p><strong>Start Date:</strong> {new Date(booking.transportation.start_date).toLocaleDateString()}</p>
-                <p><strong>End Date:</strong> {new Date(booking.transportation.end_date).toLocaleDateString()}</p>
                 <p><strong>Booked On:</strong> {new Date(booking.createdAt).toLocaleDateString()}</p>
               </li>
             ))}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import "./UserPosts.css";
 
 const UserPosts = () => {
@@ -10,6 +10,7 @@ const UserPosts = () => {
   const [isFollowing, setIsFollowing] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
   const loggedInUser = JSON.parse(localStorage.getItem("user"));
   const loggedInUserId = loggedInUser?._id || loggedInUser?.id;
 
@@ -70,14 +71,35 @@ const UserPosts = () => {
   return (
     <div className="user-posts-container">
       <div className="user-profile-header">
-        {profile.image && <img src={profile.image} alt="Profile" />}
+        <img
+          src={
+            profile.image ||
+            `https://ui-avatars.com/api/?name=${encodeURIComponent(
+              profile.username || profile.name || ""
+            )}&background=1b8dc1&color=fff`
+          }
+          alt="Profile"
+          style={{
+            width: 70,
+            height: 70,
+            borderRadius: "50%",
+            objectFit: "cover",
+            border: "2px solid #1b8dc1",
+            marginRight: "1.2rem"
+          }}
+        />
         <div className="user-profile-details">
           <h2>{profile.username || profile.name || profile.email}</h2>
-          <div className="profile-meta">Email: {profile.email}</div>
+          {/* Only show email if present (i.e., owner) */}
+          {profile.email && (
+            <div className="profile-meta">Email: {profile.email}</div>
+          )}
           <div className="profile-meta">Countries: {profile.countries}</div>
           <div className="profile-meta">Cities: {profile.cities}</div>
-          <b>Followers:</b> {profile.followers ? profile.followers.length : 0} &nbsp;|&nbsp;
-          <b>Following:</b> {profile.following ? profile.following.length : 0}
+          <div>
+            <b>Followers:</b> {profile.followers ? profile.followers.length : 0} &nbsp;|&nbsp;
+            <b>Following:</b> {profile.following ? profile.following.length : 0}
+          </div>
         </div>
         {loggedInUserId && profile._id !== loggedInUserId && (
           isFollowing ? (

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams} from "react-router-dom";
 import "./UserPosts.css";
 
 const UserPosts = () => {
@@ -10,18 +10,18 @@ const UserPosts = () => {
   const [isFollowing, setIsFollowing] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const navigate = useNavigate();
   const loggedInUser = JSON.parse(localStorage.getItem("user"));
   const loggedInUserId = loggedInUser?._id || loggedInUser?.id;
 
   useEffect(() => {
     setLoading(true);
     setError("");
-    if (!loggedInUser || !loggedInUser.token) {
-      setError("You must be logged in to view this page.");
-      setLoading(false);
-      return;
-    }
+    const userData = JSON.parse(localStorage.getItem("user"));
+  if (!userData || !userData.token) {
+    setError("You must be logged in to view this page.");
+    setLoading(false);
+    return;
+  }
     // Fetch profile WITH AUTH HEADER
     axios.get(`http://localhost:3000/user/profile/${id}`, {
       headers: { Authorization: `Bearer ${loggedInUser.token}` }

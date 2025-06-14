@@ -3,6 +3,7 @@ const socialFeaturesRouter = express.Router();
 
 const {communityPost,post} = require("../models/communityPostSchema");
 const authenticateToken = require("../middleware/auth");
+const User = require("../models/userSchema");
 
 
 socialFeaturesRouter.get('/communities', async (req, res) => {
@@ -31,7 +32,16 @@ socialFeaturesRouter.get("/posts", authenticateToken,async (req, res) => {
 // Get posts for a user
 socialFeaturesRouter.get("/user/:id/posts", authenticateToken, async (req, res) => {
   try {
-    const posts = await post.find({ userName: req.params.id }); // or use userId if you store it
+    console.log("Requested user id:", req.params.id);
+    const user = await User.findById(req.params.id);
+    if (!user) return res.status(404).json({ error: "User not found" });
+
+    let query = { userName: user.username };
+    // Only show private posts to the owner
+    if (req.user.id !== req.params.id) {
+      query.visibility = "public";
+    }
+    const posts = await post.find(query);
     res.json(posts);
   } catch (err) {
     res.status(500).json({ error: "Failed to fetch posts" });
@@ -78,20 +88,20 @@ socialFeaturesRouter.post('/communities/communityposts',async (req, res) => {
   });
   
   
-socialFeaturesRouter.post('/communities/posts',authenticateToken,async (req, res) => {
-    try {
-      const { userName, title, description, imageUrl,email } = req.body;
-      console.log("JWT email:", req.user.email, "Body email:", email); // Add this line
-      if (req.user.email !== email) {
+socialFeaturesRouter.post('/communities/posts', authenticateToken, async (req, res) => {
+  try {
+    const { userName, title, description, imageUrl, email, visibility } = req.body;
+    if (req.user.email !== email) {
       return res.status(403).json({ error: "Forbidden" });
     }
-      const newPost = new post({ userName,email, title, description, imageUrl  });
-      await newPost.save();
-      res.status(201).send({ message: 'Post created successfully!', post: newPost });
-    } catch (error) {
-      res.status(500).send({ message: 'Error creating post', error });
-    }
-  });
+    // Include visibility when creating the post
+    const newPost = new post({ userName, email, title, description, imageUrl, visibility });
+    await newPost.save();
+    res.status(201).send({ message: 'Post created successfully!', post: newPost });
+  } catch (error) {
+    res.status(500).send({ message: 'Error creating post', error });
+  }
+});
 
 socialFeaturesRouter.put("/communities/updatecommunityposts/:id",async(req,res)=>{
     try {
@@ -179,25 +189,26 @@ socialFeaturesRouter.patch("/communities/patchcommunityposts/:id", async (req, r
 
 socialFeaturesRouter.patch("/communities/patchposts/:id", async (req, res) => {
   try {
-      const { id } = req.params;
-      if (!id) {
-          return res.status(400).send({ message: "Please provide a valid id" });
-      }
-      const {userName, title, description, imageUrl } = req.body;
-      if (!userName && !imageUrl && !title && !description) {
-          return res.status(400).send({ message: "Please provide at least one field to update" });
-      }
-      const updatedPosts = await post.findByIdAndUpdate({_id:id},
-          { userName, description, imageUrl , title },
-          { new: true},{runValidators: true}
-      );
-      if (!updatedPosts) {
-          return res.status(404).send({ message: "Post insight not found" });
-      }
-      res.status(200).send({ message: "Post updated successfully", Post : updatedPosts });
+    const { id } = req.params;
+    if (!id) {
+      return res.status(400).send({ message: "Please provide a valid id" });
+    }
+    const { userName, title, description, imageUrl, visibility } = req.body;
+    if (!userName && !imageUrl && !title && !description && !visibility) {
+      return res.status(400).send({ message: "Please provide at least one field to update" });
+    }
+    const updatedPosts = await post.findByIdAndUpdate(
+      { _id: id },
+      { userName, description, imageUrl, title, visibility },
+      { new: true, runValidators: true }
+    );
+    if (!updatedPosts) {
+      return res.status(404).send({ message: "Post insight not found" });
+    }
+    res.status(200).send({ message: "Post updated successfully", Post: updatedPosts });
   } catch (error) {
-      console.error(error);
-      res.status(500).send({ message: "Error updating post" });
+    console.error(error);
+    res.status(500).send({ message: "Error updating post" });
   }
 });
   

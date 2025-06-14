@@ -204,7 +204,7 @@ userRouter.get("/:id/following", authenticateToken, async (req, res) => {
 userRouter.get("/is-following/:id", authenticateToken, async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
-    const isFollowing = user.following.map(f => f.toString()).includes(req.params.id);
+    const isFollowing = user.following.includes(req.params.id);
     res.json({ isFollowing });
   } catch (err) {
     res.status(500).json({ error: "Failed to check following status" });

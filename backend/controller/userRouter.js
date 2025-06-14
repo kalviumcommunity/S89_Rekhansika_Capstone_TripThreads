@@ -149,7 +149,12 @@ userRouter.get("/following", authenticateToken, async (req, res) => {
 userRouter.get("/profile/:id", authenticateToken, async (req, res) => {
     
   try {
-    const user = await User.findById(req.params.id, "-password");
+    let projection = "username name image countries cities followers following";
+    // Only allow the owner to see their email
+    if (req.user.id === req.params.id) {
+      projection += " email";
+    }
+    const user = await User.findById(req.params.id).select(projection);
     if (!user) return res.status(404).json({ error: "User not found" });
     res.json(user);
   } catch {

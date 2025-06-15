@@ -53,7 +53,7 @@ socialFeaturesRouter.get("/user/:id/posts", authenticateToken, async (req, res) 
     res.json(posts);
   } catch (err) {
     // Log only generic error
-    console.error("Error fetching posts");
+    console.error("Error fetching posts",err);
     res.status(500).json({ error: "Failed to fetch posts" });
   }
 });

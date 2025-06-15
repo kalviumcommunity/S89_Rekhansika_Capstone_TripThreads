@@ -35,6 +35,7 @@ const [liked, setLiked] = useState(() => {
   const [selectedDate, setSelectedDate] = useState({});
   const [locationPickerOpen, setLocationPickerOpen] = useState({});
   const [selectedLocation, setSelectedLocation] = useState({});
+  const [editMode, setEditMode] = useState(false);
 
   const [showModal, setShowModal] = useState(false);
  const [newExperience, setNewExperience] = useState({
@@ -290,24 +291,6 @@ const handleEditInputChange = (e) => {
                     inline
                   />
                 )}
-                {locationPickerOpen[experience._id] && (
-                    <div style={{margin: "1rem 0"}}>
-                      <Select
-                        options={locationOptions}
-                        value={locationOptions.find(opt => opt.value === experience.location)}
-                        onChange={(selected) => {
-                          // Update the experience location immediately
-                          const updatedExperience = {
-                            ...experience,
-                            location: selected ? selected.value : ''
-                          };
-                          handleEditClick(updatedExperience);
-                          handleEditSave({ preventDefault: () => {} });
-                        }}
-                        placeholder="Select location"
-                      />
-                    </div>
-                  )}
                 <div className="buttons-row">
   <button className="edit-btn" onClick={() => handleEditClick(experience)}>Edit</button>
   <button className="delete-btn" onClick={() => handleDelete(experience._id)}>Delete</button>
@@ -350,13 +333,19 @@ const handleEditInputChange = (e) => {
           onChange={handleEditInputChange}
           required
         />
-        <div style={{margin: "1rem 0"}}>
-                  <Select
-                    options={locationOptions}
-                    value={locationOptions.find(opt => opt.value === editExperience.location)}
-                    onChange={handleEditLocationChange}
-                    placeholder="Select location"
-                  />
+        <div style={{ margin: "1rem 0" }}>
+                  <label>Location</label>
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <input
+                      type="text"
+                      name="location"
+                      placeholder="Enter location"
+                      value={editExperience.location || ""}
+                      onChange={handleEditInputChange}
+                      style={{ flex: 1 }}
+                    />
+                    <FaMapMarkerAlt style={{ marginLeft: 8, color: "#1b8dc1" }} />
+                  </div>
                 </div>
      
         <div style={{margin: "1rem 0"}}>
@@ -403,13 +392,19 @@ const handleEditInputChange = (e) => {
           onChange={handleInputChange}
           required
         />
-        <div style={{margin: "1rem 0"}}>
-                  <Select
-                    options={locationOptions}
-                    value={locationOptions.find(opt => opt.value === newExperience.location)}
-                    onChange={handleLocationChange}
-                    placeholder="Select location"
-                  />
+        <div style={{ margin: "1rem 0" }}>
+                  <label>Location</label>
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <input
+                      type="text"
+                      name="location"
+                      placeholder="Enter location"
+                      value={newExperience.location || ""}
+                      onChange={handleInputChange}
+                      style={{ flex: 1 }}
+                    />
+                    <FaMapMarkerAlt style={{ marginLeft: 8, color: "#1b8dc1" }} />
+                  </div>
                 </div>
         <div style={{margin: "1rem 0"}}>
                   <Select

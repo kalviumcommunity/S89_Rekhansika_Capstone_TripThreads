@@ -86,6 +86,8 @@ socialFeaturesRouter.post("/posts/:id/like", authenticateToken, async (req, res)
   }
 });
 
+
+
 socialFeaturesRouter.post('/communities/communityposts',async (req, res) => {
     try {
       const { communityName, userName, title, content } = req.body;

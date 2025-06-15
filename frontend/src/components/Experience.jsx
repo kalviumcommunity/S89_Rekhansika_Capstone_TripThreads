@@ -8,14 +8,6 @@ import axios from 'axios';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 
 
-const locationOptions = [
-  { value: 'Maldives', label: 'Maldives' },
-  { value: 'Paris', label: 'Paris' },
-  { value: 'Tokyo', label: 'Tokyo' },
-  { value: 'Kerala', label: 'Kerala' },
-  { value: 'New York', label: 'New York' },
-];
-
 const visibilityOptions = [
   { value: "public", label: "Public" },
   { value: "private", label: "Private" },
@@ -34,8 +26,6 @@ const [liked, setLiked] = useState(() => {
   const [datePickerOpen, setDatePickerOpen] = useState({});
   const [selectedDate, setSelectedDate] = useState({});
   const [locationPickerOpen, setLocationPickerOpen] = useState({});
-  const [selectedLocation, setSelectedLocation] = useState({});
-  const [editMode, setEditMode] = useState(false);
 
   const [showModal, setShowModal] = useState(false);
  const [newExperience, setNewExperience] = useState({
@@ -130,14 +120,6 @@ useEffect(() => {
     setNewExperience((prev) => ({ ...prev, visibility: selected.value }));
   };
 
-   const handleNewExperienceLocationChange = (selected) => {
-    setNewExperience((prev) => ({ ...prev, location: selected.value }));
-  };
-
-  const handleEditLocationChange = (selected) => {
-    setEditExperience((prev) => ({ ...prev, location: selected.value }));
-  };
-
   const handleEditVisibilityChange = (selected) => {
     setEditExperience((prev) => ({ ...prev, visibility: selected.value }));
   };
@@ -218,14 +200,6 @@ const handleEditInputChange = (e) => {
     }
   };
 
-  const toggleLocationPicker = (experienceId) => {
-    setLocationPickerOpen(prev => ({
-      ...prev,
-      [experienceId]: !prev[experienceId]
-    }));
-  };
-
-
 
   return (
     <div className="experience-page">
@@ -257,6 +231,7 @@ const handleEditInputChange = (e) => {
     <FaMapMarkerAlt style={{ color: "#1b8dc1", marginRight: 4 }} />
     Location: {experience.location}
   </div>
+  
 )}
               <div style={{fontSize: "0.9rem", color: "#888", marginBottom: "0.5rem"}}>
                   Visibility: {experience.visibility || "public"}

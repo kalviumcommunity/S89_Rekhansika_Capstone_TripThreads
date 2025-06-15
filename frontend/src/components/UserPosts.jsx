@@ -10,31 +10,53 @@ const UserPosts = () => {
   const [isFollowing, setIsFollowing] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [postsError, setPostsError] = useState(""); // Separate error for posts
   const loggedInUser = JSON.parse(localStorage.getItem("user"));
   const loggedInUserId = loggedInUser?._id || loggedInUser?.id;
 
   useEffect(() => {
     setLoading(true);
     setError("");
+    setPostsError("");
+    
     const userData = JSON.parse(localStorage.getItem("user"));
-  if (!userData || !userData.token) {
-    setError("You must be logged in to view this page.");
-    setLoading(false);
-    return;
-  }
+    if (!userData || !userData.token) {
+      setError("You must be logged in to view this page.");
+      setLoading(false);
+      return;
+    }
+
+    console.log("Fetching data for user ID:", id);
+
     // Fetch profile WITH AUTH HEADER
     axios.get(`http://localhost:3000/user/profile/${id}`, {
       headers: { Authorization: `Bearer ${loggedInUser.token}` }
     })
-      .then(res => setProfile(res.data))
-      .catch(() => setError("Failed to load user profile."));
+      .then(res => {
+        console.log("Profile data received:", res.data);
+        setProfile(res.data);
+      })
+      .catch(err => {
+        console.error("Profile fetch error:", err);
+        setError("Failed to load user profile.");
+      });
 
     // Fetch posts WITH AUTH HEADER
     axios.get(`http://localhost:3000/socialFeatures/user/${id}/posts`, {
       headers: { Authorization: `Bearer ${loggedInUser.token}` }
     })
-      .then(res => setPosts(res.data))
-      .catch(() => setPosts([]))
+      .then(res => {
+        console.log("Posts data received:", res.data);
+        setPosts(res.data);
+        if (res.data.length === 0) {
+          console.log("No posts found for this user");
+        }
+      })
+      .catch(err => {
+        console.error("Posts fetch error:", err);
+        setPostsError(`Failed to load posts: ${err.response?.data?.error || err.message}`);
+        setPosts([]);
+      })
       .finally(() => setLoading(false));
 
     // Check if following (only if not viewing own profile)
@@ -65,17 +87,17 @@ const UserPosts = () => {
   };
 
   const handleUnfollow = async () => {
-  try {
-    await axios.post(
-      "http://localhost:3000/user/unfollow",
-      { userId: id },
-      { headers: { Authorization: `Bearer ${loggedInUser.token}` } }
-    );
-    setIsFollowing(false);
-  } catch {
-    alert("Failed to unfollow user.");
-  }
-};
+    try {
+      await axios.post(
+        "http://localhost:3000/user/unfollow",
+        { userId: id },
+        { headers: { Authorization: `Bearer ${loggedInUser.token}` } }
+      );
+      setIsFollowing(false);
+    } catch {
+      alert("Failed to unfollow user.");
+    }
+  };
 
   if (loading) return <div style={{ textAlign: "center" }}>Loading...</div>;
   if (error) return <div style={{ color: "red", textAlign: "center" }}>{error}</div>;
@@ -113,26 +135,38 @@ const UserPosts = () => {
             <b>Followers:</b> {profile.followers ? profile.followers.length : 0} &nbsp;|&nbsp;
             <b>Following:</b> {profile.following ? profile.following.length : 0}
           </div>
+          
         </div>
         {loggedInUserId && profile._id !== loggedInUserId && (
-  isFollowing ? (
-    <button
-      className="follow-btn"
-      style={{ background: "#e74c3c" }}
-      onClick={handleUnfollow}
-    >
-      Unfollow
-    </button>
-  ) : (
-    <button className="follow-btn" onClick={handleFollow}>
-      Follow
-    </button>
-  )
-)}
+          isFollowing ? (
+            <button
+              className="follow-btn"
+              style={{ background: "#e74c3c" }}
+              onClick={handleUnfollow}
+            >
+              Unfollow
+            </button>
+          ) : (
+            <button className="follow-btn" onClick={handleFollow}>
+              Follow
+            </button>
+          )
+        )}
       </div>
+      
       <div className="user-posts-title">Posts</div>
+      
+      {/* Show posts error if any */}
+      {postsError && (
+        <div style={{ color: "red", textAlign: "center", margin: "10px 0" }}>
+          {postsError}
+        </div>
+      )}
+      
       {posts.length === 0 ? (
-        <div className="no-posts-message">No posts yet.</div>
+        <div className="no-posts-message">
+          {postsError ? "Error loading posts." : "No posts yet."}
+        </div>
       ) : (
         <ul className="user-posts-list">
           {posts.map(post => (
@@ -140,6 +174,7 @@ const UserPosts = () => {
               <strong>{post.title}</strong>
               <div>{post.description}</div>
               {post.imageUrl && <img src={post.imageUrl} alt="" />}
+              
             </li>
           ))}
         </ul>

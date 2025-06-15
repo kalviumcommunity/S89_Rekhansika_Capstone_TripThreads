@@ -30,72 +30,34 @@ socialFeaturesRouter.get("/posts", authenticateToken,async (req, res) => {
 });
 
 // Get posts for a user
-// Get posts for a user - FIXED VERSION
 socialFeaturesRouter.get("/user/:id/posts", authenticateToken, async (req, res) => {
   try {
-    console.log("Fetching posts for user ID:", req.params.id);
-    
     const user = await User.findById(req.params.id);
     if (!user) {
-      console.log("User not found:", req.params.id);
       return res.status(404).json({ error: "User not found" });
     }
 
-    console.log("Found user:", {
-      id: user._id,
-      username: user.username,
-      email: user.email,
-      name: user.name
-    });
-
-    // Try multiple approaches to find posts
     let posts = [];
-    
-    // First, try by username if it exists
     if (user.username) {
-      console.log("Searching posts by username:", user.username);
       posts = await post.find({ userName: user.username });
-      console.log("Posts found by username:", posts.length);
     }
-    
-    // If no posts found by username, try by email
     if (posts.length === 0 && user.email) {
-      console.log("Searching posts by email:", user.email);
       posts = await post.find({ email: user.email });
-      console.log("Posts found by email:", posts.length);
     }
-    
-    // If no posts found by email, try by name
     if (posts.length === 0 && user.name) {
-      console.log("Searching posts by name:", user.name);
       posts = await post.find({ userName: user.name });
-      console.log("Posts found by name:", posts.length);
     }
-
-    // Filter for visibility (only show private posts to the owner)
     if (String(req.user.id) !== String(req.params.id)) {
       posts = posts.filter(p => p.visibility === "public");
-      console.log("Filtered public posts:", posts.length);
     }
-
-    console.log("Final posts to return:", posts.length);
-    
-    // Log a sample post for debugging
-    if (posts.length > 0) {
-      console.log("Sample post:", {
-        title: posts[0].title,
-        userName: posts[0].userName,
-        email: posts[0].email,
-        visibility: posts[0].visibility
-      });
-    }
-
     res.json(posts);
   } catch (err) {
-    console.error("Error fetching posts:", err);
-    res.status(500).json({ error: "Failed to fetch posts", details: err.message });
+    // Log only generic error
+    console.error("Error fetching posts");
+    res.status(500).json({ error: "Failed to fetch posts" });
   }
 });
+
 
 socialFeaturesRouter.post("/posts/:id/like", authenticateToken, async (req, res) => {
   try {

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams} from "react-router-dom";
 import "./UserPosts.css";
+import { FaMapMarkerAlt } from "react-icons/fa";
 
 const UserPosts = () => {
   const { id } = useParams(); // userId from URL
@@ -169,15 +170,21 @@ const UserPosts = () => {
         </div>
       ) : (
         <ul className="user-posts-list">
-          {posts.map(post => (
-            <li className="user-post-item" key={post._id}>
-              <strong>{post.title}</strong>
-              <div>{post.description}</div>
-              {post.imageUrl && <img src={post.imageUrl} alt="" />}
-              
-            </li>
-          ))}
-        </ul>
+  {posts.map(post => (
+    <li className="user-post-item" key={post._id}>
+      <strong>{post.title}</strong>
+      <div>{post.description}</div>
+      {/* Display location if present */}
+      {post.location && (
+        <div>
+          <FaMapMarkerAlt style={{ color: "#1b8dc1", marginRight: 4 }} />
+          Location: {post.location}
+        </div>
+      )}
+      {post.imageUrl && <img src={post.imageUrl} alt="" />}
+    </li>
+  ))}
+</ul>
       )}
     </div>
   );

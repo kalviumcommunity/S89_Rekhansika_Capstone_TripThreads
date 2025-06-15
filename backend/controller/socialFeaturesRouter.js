@@ -90,12 +90,12 @@ socialFeaturesRouter.post('/communities/communityposts',async (req, res) => {
   
 socialFeaturesRouter.post('/communities/posts', authenticateToken, async (req, res) => {
   try {
-    const { userName, title, description, imageUrl, email, visibility } = req.body;
+    const { userName, title, description, imageUrl, email, visibility, location } = req.body;
     if (req.user.email !== email) {
       return res.status(403).json({ error: "Forbidden" });
     }
     // Include visibility when creating the post
-    const newPost = new post({ userName, email, title, description, imageUrl, visibility });
+    const newPost = new post({ userName, email, title, description, imageUrl, visibility ,location});
     await newPost.save();
     res.status(201).send({ message: 'Post created successfully!', post: newPost });
   } catch (error) {
@@ -193,13 +193,14 @@ socialFeaturesRouter.patch("/communities/patchposts/:id", async (req, res) => {
     if (!id) {
       return res.status(400).send({ message: "Please provide a valid id" });
     }
-    const { userName, title, description, imageUrl, visibility } = req.body;
-    if (!userName && !imageUrl && !title && !description && !visibility) {
+    const { userName, title, description, imageUrl, visibility, location } = req.body;
+    if (!userName && !imageUrl && !title && !description && !visibility && !location) {
       return res.status(400).send({ message: "Please provide at least one field to update" });
     }
+    // FIX: Add location to the update object
     const updatedPosts = await post.findByIdAndUpdate(
       { _id: id },
-      { userName, description, imageUrl, title, visibility },
+      { userName, description, imageUrl, title, visibility, location }, // <-- include location here
       { new: true, runValidators: true }
     );
     if (!updatedPosts) {

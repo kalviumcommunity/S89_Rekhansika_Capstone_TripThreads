@@ -1,10 +1,11 @@
 import React, { useState,useEffect } from 'react';
 import './Experience.css';
-import Header from '../sections/header';
+import Header from '../sections/Header';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Select from 'react-select';
 import axios from 'axios';
+import { FaMapMarkerAlt } from 'react-icons/fa';
 
 
 const locationOptions = [
@@ -40,17 +41,14 @@ const [liked, setLiked] = useState(() => {
     title: '',
     description: '',
     imageUrl: '',
-    visibility: 'public'
+    visibility: 'public',
+    location: '',
   });
 
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [editExperience, setEditExperience] = useState(null);
-
   const [experiences, setExperiences] = useState([]);
  
-
-  
-
   useEffect(() => {
     if (user && user.email) {
       axios.get(`http://localhost:3000/socialFeatures/posts?email=${user.email}`,{
@@ -91,18 +89,35 @@ useEffect(() => {
     setLocationPickerOpen((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
-  const handleLocationChange = (id, selected) => {
-    setSelectedLocation((prev) => ({ ...prev, [id]: selected }));
-    setLocationPickerOpen((prev) => ({ ...prev, [id]: false }));
-    if (selected) {
+  const handleLocationChange = async (id, selected) => {
+    try {
+      // Update the experience in the backend
+      const response = await axios.patch(`http://localhost:3000/socialFeatures/communities/patchposts/${id}`, {
+        location: selected.value
+      }, {
+        headers: {
+          Authorization: `Bearer ${user.token}`
+        }
+      });
+
+      // Update local state
+      setExperiences((prev) =>
+        prev.map((exp) => (exp._id === id ? { ...exp, location: selected.value } : exp))
+      );
+
+      setLocationPickerOpen((prev) => ({ ...prev, [id]: false }));
       console.log('Location saved:', selected.value);
+    } catch (err) {
+      alert("Failed to update location");
+      console.error(err);
     }
   };
 
   const handleOpenModal = () => setShowModal(true);
   const handleCloseModal = () => {
     setShowModal(false);
-    setNewExperience({ title: '', description: '', imageUrl: '' });
+    setNewExperience({ title: '', description: '', imageUrl: '',visibility: 'public',
+      location: ''  });
   };
 
   const handleInputChange = (e) => {
@@ -112,6 +127,14 @@ useEffect(() => {
 
   const handleVisibilityChange = (selected) => {
     setNewExperience((prev) => ({ ...prev, visibility: selected.value }));
+  };
+
+   const handleNewExperienceLocationChange = (selected) => {
+    setNewExperience((prev) => ({ ...prev, location: selected.value }));
+  };
+
+  const handleEditLocationChange = (selected) => {
+    setEditExperience((prev) => ({ ...prev, location: selected.value }));
   };
 
   const handleEditVisibilityChange = (selected) => {
@@ -168,7 +191,8 @@ const handleEditInputChange = (e) => {
           title: editExperience.title,
           description: editExperience.description,
           imageUrl: editExperience.imageUrl,
-          visibility: editExperience.visibility
+          visibility: editExperience.visibility,
+          location: editExperience.location // include location
         }
       );
       setExperiences((prev) =>
@@ -191,6 +215,13 @@ const handleEditInputChange = (e) => {
         alert("Failed to delete experience",err);
       }
     }
+  };
+
+  const toggleLocationPicker = (experienceId) => {
+    setLocationPickerOpen(prev => ({
+      ...prev,
+      [experienceId]: !prev[experienceId]
+    }));
   };
 
 
@@ -220,6 +251,12 @@ const handleEditInputChange = (e) => {
               <img src={experience.imageUrl} alt={experience.title} />
               <h2><strong>{experience.title}</strong></h2>
               <p>{experience.description}</p>
+             {experience.location && (
+  <div>
+    <FaMapMarkerAlt style={{ color: "#1b8dc1", marginRight: 4 }} />
+    Location: {experience.location}
+  </div>
+)}
               <div style={{fontSize: "0.9rem", color: "#888", marginBottom: "0.5rem"}}>
                   Visibility: {experience.visibility || "public"}
                 </div>
@@ -254,15 +291,23 @@ const handleEditInputChange = (e) => {
                   />
                 )}
                 {locationPickerOpen[experience._id] && (
-                  <div className="location-picker">
-                    <Select
-                      options={locationOptions}
-                      value={selectedLocation[experience._id] || null}
-                      onChange={(selected) => handleLocationChange(experience.id, selected)}
-                      placeholder="Search location..."
-                    />
-                  </div>
-                )}
+                    <div style={{margin: "1rem 0"}}>
+                      <Select
+                        options={locationOptions}
+                        value={locationOptions.find(opt => opt.value === experience.location)}
+                        onChange={(selected) => {
+                          // Update the experience location immediately
+                          const updatedExperience = {
+                            ...experience,
+                            location: selected ? selected.value : ''
+                          };
+                          handleEditClick(updatedExperience);
+                          handleEditSave({ preventDefault: () => {} });
+                        }}
+                        placeholder="Select location"
+                      />
+                    </div>
+                  )}
                 <div className="buttons-row">
   <button className="edit-btn" onClick={() => handleEditClick(experience)}>Edit</button>
   <button className="delete-btn" onClick={() => handleDelete(experience._id)}>Delete</button>
@@ -307,6 +352,15 @@ const handleEditInputChange = (e) => {
         />
         <div style={{margin: "1rem 0"}}>
                   <Select
+                    options={locationOptions}
+                    value={locationOptions.find(opt => opt.value === editExperience.location)}
+                    onChange={handleEditLocationChange}
+                    placeholder="Select location"
+                  />
+                </div>
+     
+        <div style={{margin: "1rem 0"}}>
+                  <Select
                     options={visibilityOptions}
                     value={visibilityOptions.find(opt => opt.value === (editExperience.visibility || "public"))}
                     onChange={handleEditVisibilityChange}
@@ -349,6 +403,14 @@ const handleEditInputChange = (e) => {
           onChange={handleInputChange}
           required
         />
+        <div style={{margin: "1rem 0"}}>
+                  <Select
+                    options={locationOptions}
+                    value={locationOptions.find(opt => opt.value === newExperience.location)}
+                    onChange={handleLocationChange}
+                    placeholder="Select location"
+                  />
+                </div>
         <div style={{margin: "1rem 0"}}>
                   <Select
                     options={visibilityOptions}

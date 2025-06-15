@@ -43,6 +43,7 @@ const postSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    location: { type: String },
     // In your post schema file
 visibility: { type: String, enum: ["public", "private"], default: "public" },
     imageUrl: { type: String, required: true },

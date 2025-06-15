@@ -64,6 +64,19 @@ const UserPosts = () => {
     }
   };
 
+  const handleUnfollow = async () => {
+  try {
+    await axios.post(
+      "http://localhost:3000/user/unfollow",
+      { userId: id },
+      { headers: { Authorization: `Bearer ${loggedInUser.token}` } }
+    );
+    setIsFollowing(false);
+  } catch {
+    alert("Failed to unfollow user.");
+  }
+};
+
   if (loading) return <div style={{ textAlign: "center" }}>Loading...</div>;
   if (error) return <div style={{ color: "red", textAlign: "center" }}>{error}</div>;
   if (!profile) return <div style={{ textAlign: "center" }}>User not found.</div>;
@@ -102,16 +115,20 @@ const UserPosts = () => {
           </div>
         </div>
         {loggedInUserId && profile._id !== loggedInUserId && (
-          isFollowing ? (
-            <button className="follow-btn" style={{ background: "#2ecc40", cursor: "default" }} disabled>
-              Following
-            </button>
-          ) : (
-            <button className="follow-btn" onClick={handleFollow}>
-              Follow
-            </button>
-          )
-        )}
+  isFollowing ? (
+    <button
+      className="follow-btn"
+      style={{ background: "#e74c3c" }}
+      onClick={handleUnfollow}
+    >
+      Unfollow
+    </button>
+  ) : (
+    <button className="follow-btn" onClick={handleFollow}>
+      Follow
+    </button>
+  )
+)}
       </div>
       <div className="user-posts-title">Posts</div>
       {posts.length === 0 ? (

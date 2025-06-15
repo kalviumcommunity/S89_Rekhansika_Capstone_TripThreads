@@ -311,9 +311,9 @@ const Profile = () => {
                 <div style={{ color: "#888" }}>No users found.</div>
               ) : (
                 <ul style={{ listStyle: "none", padding: 0 }}>
-                  {listUsers.map(u => (
-                    <li key={u._id} style={{ display: "flex", alignItems: "center", marginBottom: "1rem" }}>
-                      <img
+  {listUsers.map(u => (
+    <li key={u._id} style={{ display: "flex", alignItems: "center", marginBottom: "1rem" }}>
+      <img
                         src={
                           u.image ||
                           `https://ui-avatars.com/api/?name=${encodeURIComponent(
@@ -331,10 +331,38 @@ const Profile = () => {
                           background: "#e6f2fa",
                         }}
                       />
-                      <span>{u.username || u.name || u.email}</span>
-                    </li>
-                  ))}
-                </ul>
+      <span>{u.username || u.name || u.email}</span>
+      {/* Add this: */}
+      {listType === "following" && (
+        <button
+          style={{
+            marginLeft: "1rem",
+            background: "#e74c3c",
+            color: "#fff",
+            border: "none",
+            borderRadius: 6,
+            padding: "0.3rem 1rem",
+            cursor: "pointer"
+          }}
+          onClick={async () => {
+            try {
+              await axios.post(
+                "http://localhost:3000/user/unfollow",
+                { userId: u._id },
+                { headers: { Authorization: `Bearer ${JSON.parse(localStorage.getItem("user")).token}` } }
+              );
+              setListUsers(listUsers.filter(user => user._id !== u._id));
+            } catch {
+              alert("Failed to unfollow user.");
+            }
+          }}
+        >
+          Unfollow
+        </button>
+      )}
+    </li>
+  ))}
+</ul>
               )}
               <button
                 style={{

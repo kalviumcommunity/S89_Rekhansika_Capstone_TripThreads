@@ -189,6 +189,23 @@ userRouter.post("/follow", authenticateToken, async (req, res) => {
   }
 });
 
+userRouter.post("/unfollow", authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const unfollowId = req.body.userId;
+    if (userId === unfollowId) {
+      return res.status(400).json({ error: "You cannot unfollow yourself." });
+    }
+    // Remove from following
+    await User.findByIdAndUpdate(userId, { $pull: { following: unfollowId } });
+    // Remove from followers
+    await User.findByIdAndUpdate(unfollowId, { $pull: { followers: userId } });
+    res.json({ message: "Unfollowed successfully" });
+  } catch {
+    res.status(500).json({ error: "Failed to unfollow user" });
+  }
+});
+
 // Check if following
 userRouter.get("/:id/following", authenticateToken, async (req, res) => {
   try {

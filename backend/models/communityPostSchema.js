@@ -54,6 +54,6 @@ visibility: { type: String, enum: ["public", "private"], default: "public" },
 });
 
 const communityPost = mongoose.model("Community",communityPostSchema);
-const post = mongoose.model("user",postSchema);
+const post = mongoose.model("Post",postSchema);
 
 module.exports = {communityPost , post}

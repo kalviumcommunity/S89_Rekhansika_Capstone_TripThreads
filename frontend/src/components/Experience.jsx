@@ -129,7 +129,7 @@ const handleAddExperience = async (e) => {
     if (!newExperience.title || !newExperience.description || !newExperience.imageUrl) return;
     try {
       await axios.post("http://localhost:3000/socialFeatures/communities/posts", {
-        userName: user.username,
+        userName: user.name,
         email: user.email,
         ...newExperience
       },

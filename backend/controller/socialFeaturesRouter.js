@@ -112,6 +112,7 @@ socialFeaturesRouter.post('/communities/posts', authenticateToken, async (req, r
     await newPost.save();
     res.status(201).send({ message: 'Post created successfully!', post: newPost });
   } catch (error) {
+    console.log(error);
     res.status(500).send({ message: 'Error creating post', error });
   }
 });
@@ -128,10 +129,10 @@ socialFeaturesRouter.put("/communities/updatecommunityposts/:id",async(req,res)=
         {_id:id},
         {communityName, userName, title, content},
         {new:true});
-      res.status(200).send({message:"Community Post Updated successfully", post:updatedCommunityPost});
+      return res.status(200).send({message:"Community Post Updated successfully", post:updatedCommunityPost});
     } catch (error) {
       console.log(error)
-      res.status(500).send({message:"Error updating community post"})
+      return res.status(500).send({message:"Error updating community post"})
     }
 }); 
 

@@ -19,7 +19,7 @@ if (token && email) {
   useEffect(() => {
     // Only fetch if user is not already in localStorage
     if (!localStorage.getItem("user")) {
-      axios.get("http://localhost:3000/auth/status", { withCredentials: true })
+      axios.get("https://s89-rekhansika-capstone-tripthreads-1.onrender.com/auth/status", { withCredentials: true })
         .then(res => {
           if (res.data.authenticated && res.data.user) {
             localStorage.setItem("user", JSON.stringify({

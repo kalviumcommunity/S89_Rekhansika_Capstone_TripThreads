@@ -22,14 +22,14 @@ const FollowOthers = () => {
       }
       try {
         // Get all users except self
-        const resUsers = await axios.get("http://localhost:3000/user/all", {
+        const resUsers = await axios.get("https://s89-rekhansika-capstone-tripthreads-1.onrender.com/user/all", {
           headers: { Authorization: `Bearer ${userData.token}` },
         });
         setUsers(resUsers.data.filter(u => u._id !== (userData._id || userData.id)));
 
         // Get following list (array of user IDs)
         const resFollowing = await axios.get(
-          `http://localhost:3000/user/${userData._id || userData.id}/following`,
+          `https://s89-rekhansika-capstone-tripthreads-1.onrender.com/user/${userData._id || userData.id}/following`,
           { headers: { Authorization: `Bearer ${userData.token}` } }
         );
         setFollowing(resFollowing.data.following || []);
@@ -47,7 +47,7 @@ const FollowOthers = () => {
     const userData = JSON.parse(localStorage.getItem("user"));
     try {
       await axios.post(
-        "http://localhost:3000/user/follow",
+        "https://s89-rekhansika-capstone-tripthreads-1.onrender.com/user/follow",
         { userId },
         { headers: { Authorization: `Bearer ${userData.token}` } }
       );

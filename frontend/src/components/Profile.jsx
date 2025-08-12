@@ -35,7 +35,7 @@ const Profile = () => {
       return;
     }
     axios
-      .get("http://localhost:3000/user/profile", {
+      .get("https://s89-rekhansika-capstone-tripthreads-1.onrender.com/user/profile", {
         headers: { Authorization: `Bearer ${userData.token}` },
       })
       .then((res) => {
@@ -96,7 +96,7 @@ const Profile = () => {
         imageUrl = imagePreview;
       }
       const res = await axios.put(
-        "http://localhost:3000/user/profile",
+        "https://s89-rekhansika-capstone-tripthreads-1.onrender.com/user/profile",
         {
           name: form.name,
           email: form.email,
@@ -124,7 +124,7 @@ const Profile = () => {
     setShowList(true);
     const userData = JSON.parse(localStorage.getItem("user"));
     const res = await axios.get(
-      `http://localhost:3000/user/${type}`,
+      `https://s89-rekhansika-capstone-tripthreads-1.onrender.com/user/${type}`,
       { headers: { Authorization: `Bearer ${userData.token}` } }
     );
     setListUsers(res.data);

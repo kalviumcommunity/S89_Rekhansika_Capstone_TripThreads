@@ -172,7 +172,7 @@ if (!userEmail) {
 };
 
      try {
-    const response = await axios.post('http://localhost:3000/api/bookings/book', bookingData);
+    const response = await axios.post('https://s89-rekhansika-capstone-tripthreads-1.onrender.com/api/bookings/book', bookingData);
     if (response.status === 201) {
   setMessage('Booking successful! A confirmation email has been sent.');
   // Reset forms

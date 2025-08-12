@@ -30,7 +30,7 @@ const UserPosts = () => {
     console.log("Fetching data for user ID:", id);
 
     // Fetch profile WITH AUTH HEADER
-    axios.get(`http://localhost:3000/user/profile/${id}`, {
+    axios.get(`https://s89-rekhansika-capstone-tripthreads-1.onrender.com/user/profile/${id}`, {
       headers: { Authorization: `Bearer ${loggedInUser.token}` }
     })
       .then(res => {
@@ -43,7 +43,7 @@ const UserPosts = () => {
       });
 
     // Fetch posts WITH AUTH HEADER
-    axios.get(`http://localhost:3000/socialFeatures/user/${id}/posts`, {
+    axios.get(`https://s89-rekhansika-capstone-tripthreads-1.onrender.com/socialFeatures/user/${id}/posts`, {
       headers: { Authorization: `Bearer ${loggedInUser.token}` }
     })
       .then(res => {
@@ -62,7 +62,7 @@ const UserPosts = () => {
 
     // Check if following (only if not viewing own profile)
     if (loggedInUser && loggedInUser.token && id !== loggedInUserId) {
-      axios.get(`http://localhost:3000/user/is-following/${id}`, {
+      axios.get(`https://s89-rekhansika-capstone-tripthreads-1.onrender.com/user/is-following/${id}`, {
         headers: { Authorization: `Bearer ${loggedInUser.token}` }
       })
         .then(res => setIsFollowing(res.data.isFollowing))
@@ -73,12 +73,12 @@ const UserPosts = () => {
   const handleFollow = async () => {
     try {
       await axios.post(
-        "http://localhost:3000/user/follow",
+        "https://s89-rekhansika-capstone-tripthreads-1.onrender.com/user/follow",
         { userId: id },
         { headers: { Authorization: `Bearer ${loggedInUser.token}` } }
       );
       // Re-fetch following status from backend
-      const res = await axios.get(`http://localhost:3000/user/is-following/${id}`, {
+      const res = await axios.get(`https://s89-rekhansika-capstone-tripthreads-1.onrender.com/user/is-following/${id}`, {
         headers: { Authorization: `Bearer ${loggedInUser.token}` }
       });
       setIsFollowing(res.data.isFollowing);
@@ -90,7 +90,7 @@ const UserPosts = () => {
   const handleUnfollow = async () => {
     try {
       await axios.post(
-        "http://localhost:3000/user/unfollow",
+        "https://s89-rekhansika-capstone-tripthreads-1.onrender.com/user/unfollow",
         { userId: id },
         { headers: { Authorization: `Bearer ${loggedInUser.token}` } }
       );

@@ -29,7 +29,7 @@ const Signup = () => {
             if(formData.password !== formData.confirmPassword){
                 return alert("Password and Confirm Password do not match");
             }
-            const response = await axios.post('http://localhost:3000/user/signup', formData);
+            const response = await axios.post('https://s89-rekhansika-capstone-tripthreads-1.onrender.com/user/signup', formData);
             localStorage.setItem("token", response.data.token);
             localStorage.setItem("user", JSON.stringify({
                 name: response.data.name,

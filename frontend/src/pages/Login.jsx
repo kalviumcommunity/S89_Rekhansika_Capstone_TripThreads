@@ -15,7 +15,7 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:3000/user/login', formData);
+            const response = await axios.post('https://s89-rekhansika-capstone-tripthreads-1.onrender.com/user/login', formData);
             alert(response.data.message);
             localStorage.setItem('user', JSON.stringify(response.data.user));
             localStorage.setItem('userEmail', response.data.user.email); // <-- Add this line
@@ -54,7 +54,7 @@ const Login = () => {
                 </form>
 
                 <button 
-                  onClick={() => window.location.href = 'http://localhost:3000/auth/google/'}
+                  onClick={() => window.location.href = 'https://s89-rekhansika-capstone-tripthreads-1.onrender.com/auth/google/'}
                   className="google-signin-button"
                 >
                   <span style={{ marginRight: '8px', verticalAlign: 'middle' }}>

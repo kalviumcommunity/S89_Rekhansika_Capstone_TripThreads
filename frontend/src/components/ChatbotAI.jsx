@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './ChatbotAI.css'; // Assuming you have a CSS file for styling
-import Header from '../sections/header';
+import Header from '../sections/Header';
 
 const ChatbotAI = () => {
   const [input, setInput] = useState('');

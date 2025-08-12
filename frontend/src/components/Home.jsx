@@ -1,6 +1,6 @@
 import React from 'react';
 import './Home.css';
-import Header from '../sections/header';
+import Header from '../sections/Header';
 import axios from 'axios';
 import { useEffect } from 'react';
 

@@ -1,6 +1,6 @@
 import React, { useState,useEffect } from 'react';
 import './Booking.css';
-import Header from '../sections/header';
+import Header from '../sections/Header';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 

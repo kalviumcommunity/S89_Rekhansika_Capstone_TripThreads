@@ -7,10 +7,10 @@ router.get('/google', passport.authenticate('google', { scope: ['profile', 'emai
 
 // Google callback route
 router.get('/google/callback', 
-  passport.authenticate('google', { failureRedirect: 'http://localhost:5173/login' }),
+  passport.authenticate('google', { failureRedirect: 'https://s89-rekhansika-capstone-trip-threads-ncd6-jv2f93y3g.vercel.app/login' }),
   function(req, res) {
     // Redirect to frontend after successful login
-    res.redirect('http://localhost:5173/home');
+    res.redirect('https://s89-rekhansika-capstone-trip-threads-ncd6-jv2f93y3g.vercel.app/home');
   }
 );
 

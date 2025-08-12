@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const cors = require('cors');
 const allowedOrigins = [
-  'http://localhost:5173',
+  'https://s89-rekhansika-capstone-trip-threads-ncd6-jv2f93y3g.vercel.app',
   process.env.FRONTEND_URL // e.g., 'https://yourdomain.com'
 ];
 

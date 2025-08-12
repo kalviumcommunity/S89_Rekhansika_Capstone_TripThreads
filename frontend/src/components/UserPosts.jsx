@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams} from "react-router-dom";
-import "./UserPosts.css";
+import "./Userposts.css";
 import { FaMapMarkerAlt } from "react-icons/fa";
 
 const UserPosts = () => {

@@ -6,11 +6,11 @@ const router = express.Router();
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 // Google callback route
-router.get('/google/callback', 
-  passport.authenticate('google', { failureRedirect: 'https://s89-rekhansika-capstone-trip-threads-ncd6-jv2f93y3g.vercel.app/login' }),
+router.get('/google/callback',
+  passport.authenticate('google', { failureRedirect: 'https://s89-rekhansika-capstone-trip-threads-ncd6-dr0zlzcru.vercel.app/login' }),
   function(req, res) {
     // Redirect to frontend after successful login
-    res.redirect('https://s89-rekhansika-capstone-trip-threads-ncd6-jv2f93y3g.vercel.app/home');
+    res.redirect('https://s89-rekhansika-capstone-trip-threads-ncd6-dr0zlzcru.vercel.app/home');
   }
 );
 

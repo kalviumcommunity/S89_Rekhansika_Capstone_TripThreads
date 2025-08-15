@@ -113,3 +113,69 @@
     color: #000;
     font-weight: bold;
 }
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .signup-container {
+        padding: 1rem;
+        height: 100vh;
+        overflow-y: auto;
+    }
+
+    .navbar {
+        padding: 1rem 0;
+    }
+
+    .navbar-container {
+        padding: 0 1rem;
+    }
+
+    .navbar .logo {
+        font-size: 1.3rem;
+    }
+
+    .signup-box {
+        max-width: 90%;
+        padding: 30px 20px;
+        margin-top: 60px;
+        border-radius: 12px;
+    }
+
+    .signup-box h2 {
+        font-size: 24px;
+    }
+
+    .signup-box p {
+        font-size: 12px;
+    }
+
+    .signup-box input {
+        padding: 14px;
+        font-size: 16px; /* Prevent zoom on iOS */
+        margin-bottom: 15px;
+    }
+
+    .signup-box button {
+        width: 100%;
+        padding: 14px;
+        font-size: 16px;
+        margin-left: 0;
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .signup-box {
+        max-width: 95%;
+        padding: 25px 15px;
+        margin-top: 50px;
+    }
+
+    .signup-box h2 {
+        font-size: 22px;
+    }
+
+    .navbar .logo {
+        font-size: 1.2rem;
+    }
+}

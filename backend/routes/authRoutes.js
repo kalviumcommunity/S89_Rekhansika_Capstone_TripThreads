@@ -7,10 +7,10 @@ router.get('/google', passport.authenticate('google', { scope: ['profile', 'emai
 
 // Google callback route
 router.get('/google/callback',
-  passport.authenticate('google', { failureRedirect: 'https://s89-rekhansika-capstone-trip-threads-ex78-kbt2cqghk.vercel.app/login' }),
+  passport.authenticate('google', { failureRedirect: 'https://s89-rekhansika-capstone-trip-threads-ex78-oj8mn3414.vercel.app/login' }),
   function(req, res) {
     // Redirect to frontend after successful login
-    res.redirect('https://s89-rekhansika-capstone-trip-threads-ex78-kbt2cqghk.vercel.app/home');
+    res.redirect('https://s89-rekhansika-capstone-trip-threads-ex78-oj8mn3414.vercel.app/home');
   }
 );
 

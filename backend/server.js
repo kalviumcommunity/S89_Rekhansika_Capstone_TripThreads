@@ -17,17 +17,28 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const cors = require('cors');
 const allowedOrigins = [
-  'https://s89-rekhansika-capstone-trip-threads-ncd6-jv2f93y3g.vercel.app',
-  process.env.FRONTEND_URL // e.g., 'https://yourdomain.com'
+  'https://s89-rekhansika-capstone-trip-threads-ex78-oj8mn3414.vercel.app', // Latest deployment
+  'https://s89-rekhansika-capstone-trip-threads-ex78-kbt2cqghk.vercel.app', // Previous deployment
+  'https://s89-rekhansika-capstone-trip-threads-ncd6-jv2f93y3g.vercel.app', // Keep old URL for backward compatibility
+  process.env.FRONTEND_URL, // e.g., 'https://yourdomain.com'
+  'http://localhost:5173', // For local development
+  'http://localhost:3000'  // For local development
 ];
 
 app.use(cors({
   origin: function(origin, callback) {
     // allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
+
+    // Allow any Vercel deployment URL for this project
+    if (origin && origin.includes('s89-rekhansika-capstone-trip-threads') && origin.includes('vercel.app')) {
+      return callback(null, true);
+    }
+
     if (allowedOrigins.indexOf(origin) !== -1) {
       return callback(null, true);
     } else {
+      console.log('CORS blocked origin:', origin);
       return callback(new Error('Not allowed by CORS'));
     }
   },
@@ -77,7 +88,7 @@ app.get('/auth/google',
 );
 
 app.get('/auth/google/callback',
-  passport.authenticate('google', { failureRedirect: 'https://s89-rekhansika-capstone-trip-threads-ex78-kbt2cqghk.vercel.app/login' }),
+  passport.authenticate('google', { failureRedirect: 'https://s89-rekhansika-capstone-trip-threads-ex78-oj8mn3414.vercel.app/login' }),
   function(req, res) {
      // Generate JWT
     const token = jwt.sign(
@@ -86,7 +97,7 @@ app.get('/auth/google/callback',
       { expiresIn: "1d" }
     );
     // Redirect to frontend after successful login
-    res.redirect(`https://s89-rekhansika-capstone-trip-threads-ex78-kbt2cqghk.vercel.app/google-success?token=${token}&name=${encodeURIComponent(req.user.displayName)}&email=${encodeURIComponent(req.user.emails[0].value)}`);
+    res.redirect(`https://s89-rekhansika-capstone-trip-threads-ex78-oj8mn3414.vercel.app/google-success?token=${token}&name=${encodeURIComponent(req.user.displayName)}&email=${encodeURIComponent(req.user.emails[0].value)}`);
   }
 );
 

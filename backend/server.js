@@ -16,37 +16,22 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const cors = require('cors');
+const allowedOrigins = [
+  'https://s89-rekhansika-capstone-trip-threads-ncd6-jv2f93y3g.vercel.app',
+  process.env.FRONTEND_URL // e.g., 'https://yourdomain.com'
+];
 
-// More flexible CORS configuration
 app.use(cors({
   origin: function(origin, callback) {
-    // Allow requests with no origin (like mobile apps, Postman, curl requests)
+    // allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
-
-    // Allow localhost for development
-    if (origin.includes('localhost') || origin.includes('127.0.0.1')) {
+    if (allowedOrigins.indexOf(origin) !== -1) {
       return callback(null, true);
+    } else {
+      return callback(new Error('Not allowed by CORS'));
     }
-
-    // Allow Vercel deployments (any subdomain of vercel.app)
-    if (origin.includes('vercel.app')) {
-      return callback(null, true);
-    }
-
-    // Allow specific production domains if FRONTEND_URL is set
-    if (process.env.FRONTEND_URL && origin === process.env.FRONTEND_URL) {
-      return callback(null, true);
-    }
-
-    // For development, you can temporarily allow all origins
-    // Uncomment the line below for debugging (NOT recommended for production)
-    // return callback(null, true);
-
-    return callback(new Error('Not allowed by CORS'));
   },
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+  credentials: true
 }));
 
 

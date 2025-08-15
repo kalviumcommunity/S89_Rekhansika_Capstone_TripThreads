@@ -1,10 +1,17 @@
 .user-posts-container {
   max-width: 650px;
-  margin: 2.5rem auto;
+  margin: 5.5rem auto 2.5rem auto;
   background: #fff;
   border-radius: 14px;
   box-shadow: 0 4px 24px rgba(27, 141, 193, 0.10);
   padding: 2.5rem 2rem 2rem 2rem;
+}
+
+@media (max-width: 768px) {
+  .user-posts-container {
+    margin: 4.5rem auto 2rem auto;
+    padding: 2rem 1.5rem;
+  }
 }
 
 .user-profile-header {

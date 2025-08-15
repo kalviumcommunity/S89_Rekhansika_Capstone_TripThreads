@@ -1,0 +1,330 @@
+.simple-maps-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.simple-maps-container {
+  padding: clamp(1rem, 4vw, 2rem);
+  margin-top: clamp(80px, 10vh, 90px);
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  width: clamp(90%, 95vw, 100%);
+}
+
+.simple-maps-container h2 {
+  text-align: center;
+  color: #1b8dc1;
+  margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.maps-controls {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  border-radius: clamp(12px, 3vw, 20px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  margin-bottom: clamp(1.5rem, 4vw, 2rem);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.search-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #333;
+  font-size: 1.1rem;
+}
+
+.input-with-button {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.input-group input {
+  padding: 1rem;
+  border: 2px solid #e1e8ed;
+  border-radius: 12px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  flex: 1;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: #1b8dc1;
+  box-shadow: 0 0 0 3px rgba(27, 141, 193, 0.1);
+}
+
+.current-location-btn {
+  background: linear-gradient(135deg, #1b8dc1 0%, #156a94 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 1rem;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+  min-width: 60px;
+  box-shadow: 0 4px 12px rgba(27, 141, 193, 0.3);
+}
+
+.current-location-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(27, 141, 193, 0.4);
+}
+
+.button-group {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.get-directions-btn,
+.clear-btn,
+.google-maps-btn,
+.center-btn {
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.get-directions-btn {
+  background: linear-gradient(135deg, #1b8dc1 0%, #156a94 100%);
+  color: white;
+}
+
+.get-directions-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(27, 141, 193, 0.4);
+}
+
+.get-directions-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.clear-btn {
+  background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+  color: white;
+}
+
+.clear-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+}
+
+.google-maps-btn {
+  background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+  color: white;
+}
+
+.google-maps-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
+}
+
+.route-info {
+  background: linear-gradient(135deg, #e8f4fd 0%, #d1ecf1 100%);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border-left: 4px solid #1b8dc1;
+  margin-top: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.route-info h3 {
+  margin: 0 0 1rem 0;
+  color: #1b8dc1;
+  font-size: 1.3rem;
+}
+
+.route-info p {
+  margin: 0.5rem 0;
+  color: #333;
+  font-size: 1.1rem;
+}
+
+.map-container {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+.map-placeholder {
+  height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.placeholder-content {
+  text-align: center;
+  padding: 2rem;
+}
+
+.placeholder-content h3 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.placeholder-content p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+}
+
+.features-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+.feature span:first-child {
+  font-size: 1.2rem;
+}
+
+.quick-actions {
+  background: white;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.quick-actions h3 {
+  text-align: center;
+  color: #1b8dc1;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+}
+
+.action-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.action-buttons button {
+  padding: 1rem;
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.action-buttons button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(240, 147, 251, 0.4);
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+  .search-section {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .simple-maps-container {
+    padding: 1rem;
+  }
+
+  .search-section {
+    grid-template-columns: 1fr;
+  }
+
+  .button-group {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .simple-maps-container h2 {
+    font-size: 2rem;
+  }
+
+  .features-list {
+    grid-template-columns: 1fr;
+  }
+
+  .action-buttons {
+    grid-template-columns: 1fr;
+  }
+
+  .get-directions-btn,
+  .clear-btn,
+  .google-maps-btn,
+  .center-btn {
+    justify-content: center;
+    padding: 0.875rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .input-with-button {
+    flex-direction: column;
+  }
+  
+  .current-location-btn {
+    min-width: auto;
+  }
+  
+  .get-directions-btn,
+  .clear-btn,
+  .google-maps-btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9rem;
+  }
+  
+  .placeholder-content h3 {
+    font-size: 1.5rem;
+  }
+  
+  .placeholder-content p {
+    font-size: 1rem;
+  }
+}

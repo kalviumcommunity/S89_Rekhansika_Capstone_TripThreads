@@ -1,0 +1,321 @@
+/* Responsive Design System for TripThreads */
+
+/* CSS Variables for consistent breakpoints */
+:root {
+  --breakpoint-xs: 320px;
+  --breakpoint-sm: 576px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+  --breakpoint-xl: 1200px;
+  --breakpoint-xxl: 1400px;
+
+  /* Header heights */
+  --header-height: 60px;
+  --header-height-mobile: 52px;
+  
+  /* Responsive spacing */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-xxl: 3rem;
+  
+  /* Responsive font sizes */
+  --font-xs: 0.75rem;
+  --font-sm: 0.875rem;
+  --font-base: 1rem;
+  --font-lg: 1.125rem;
+  --font-xl: 1.25rem;
+  --font-2xl: 1.5rem;
+  --font-3xl: 1.875rem;
+  --font-4xl: 2.25rem;
+  
+  /* Container widths */
+  --container-sm: 540px;
+  --container-md: 720px;
+  --container-lg: 960px;
+  --container-xl: 1140px;
+  --container-xxl: 1320px;
+}
+
+/* Base responsive setup */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Responsive container system */
+.container {
+  width: 100%;
+  padding-right: var(--spacing-md);
+  padding-left: var(--spacing-md);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+/* Responsive images and media */
+img, video, iframe {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Responsive tables */
+.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Responsive text utilities */
+.text-responsive {
+  font-size: clamp(var(--font-sm), 2.5vw, var(--font-lg));
+}
+
+.heading-responsive {
+  font-size: clamp(var(--font-xl), 4vw, var(--font-4xl));
+}
+
+/* Responsive grid system */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: calc(var(--spacing-md) * -0.5);
+  margin-left: calc(var(--spacing-md) * -0.5);
+}
+
+.col {
+  flex: 1 0 0%;
+  padding-right: calc(var(--spacing-md) * 0.5);
+  padding-left: calc(var(--spacing-md) * 0.5);
+}
+
+/* Responsive utilities */
+.d-none { display: none !important; }
+.d-block { display: block !important; }
+.d-flex { display: flex !important; }
+.d-grid { display: grid !important; }
+
+/* Hide/show at different breakpoints */
+.d-sm-none { display: none !important; }
+.d-md-none { display: none !important; }
+.d-lg-none { display: none !important; }
+
+/* Responsive spacing utilities */
+.p-responsive { padding: clamp(var(--spacing-sm), 3vw, var(--spacing-xl)); }
+.m-responsive { margin: clamp(var(--spacing-sm), 3vw, var(--spacing-xl)); }
+
+/* Mobile-first breakpoints */
+@media (min-width: 576px) {
+  .container {
+    max-width: var(--container-sm);
+  }
+  
+  .d-sm-none { display: none !important; }
+  .d-sm-block { display: block !important; }
+  .d-sm-flex { display: flex !important; }
+  
+  html { font-size: 17px; }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: var(--container-md);
+  }
+  
+  .d-md-none { display: none !important; }
+  .d-md-block { display: block !important; }
+  .d-md-flex { display: flex !important; }
+  
+  html { font-size: 18px; }
+}
+
+@media (min-width: 992px) {
+  .container {
+    max-width: var(--container-lg);
+  }
+  
+  .d-lg-none { display: none !important; }
+  .d-lg-block { display: block !important; }
+  .d-lg-flex { display: flex !important; }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: var(--container-xl);
+  }
+}
+
+@media (min-width: 1400px) {
+  .container {
+    max-width: var(--container-xxl);
+  }
+}
+
+/* Touch-friendly interactions */
+@media (hover: none) and (pointer: coarse) {
+  button, .btn, a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --border-color: #000;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #2d2d2d;
+    --text-primary: #ffffff;
+    --text-secondary: #cccccc;
+  }
+}
+
+/* Print styles */
+@media print {
+  .no-print { display: none !important; }
+  
+  body {
+    font-size: 12pt;
+    line-height: 1.4;
+  }
+  
+  h1, h2, h3 {
+    page-break-after: avoid;
+  }
+  
+  img {
+    max-width: 100% !important;
+  }
+}
+
+/* Focus management for accessibility */
+:focus-visible {
+  outline: 2px solid #1b8dc1;
+  outline-offset: 2px;
+}
+
+/* Skip link for accessibility */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: #1b8dc1;
+  color: white;
+  padding: 8px;
+  text-decoration: none;
+  border-radius: 4px;
+  z-index: 10000;
+}
+
+.skip-link:focus {
+  top: 6px;
+}
+
+/* Responsive form elements */
+input, textarea, select, button {
+  font-size: inherit;
+  line-height: inherit;
+}
+
+/* Responsive button sizing */
+.btn-responsive {
+  padding: clamp(0.5rem, 2vw, 1rem) clamp(1rem, 4vw, 2rem);
+  font-size: clamp(0.875rem, 2.5vw, 1.125rem);
+}
+
+/* Responsive card layouts */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--spacing-lg);
+}
+
+@media (max-width: 767px) {
+  .card-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+}
+
+/* Responsive navigation */
+.nav-responsive {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@media (max-width: 767px) {
+  .nav-responsive {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+/* Responsive modal/popup adjustments */
+@media (max-width: 767px) {
+  .popup-container {
+    margin: 1rem;
+    max-height: calc(100vh - 2rem);
+  }
+  
+  .popup-content {
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
+  }
+}
+
+/* Responsive text sizing */
+.responsive-text {
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+}
+
+.responsive-heading {
+  font-size: clamp(1.5rem, 5vw, 3rem);
+  line-height: 1.2;
+}
+
+/* Responsive spacing classes */
+.gap-responsive {
+  gap: clamp(0.5rem, 2vw, 2rem);
+}
+
+.padding-responsive {
+  padding: clamp(1rem, 4vw, 3rem);
+}
+
+.margin-responsive {
+  margin: clamp(1rem, 4vw, 3rem);
+}

@@ -1,44 +1,74 @@
 .experience-page {
-  background: url("https://i.pinimg.com/736x/18/be/1f/18be1f7af1db345172b4096613fef6a2.jpg") no-repeat center center fixed;
+  background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+              url("https://i.pinimg.com/736x/18/be/1f/18be1f7af1db345172b4096613fef6a2.jpg") no-repeat center center fixed;
   background-size: cover;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  padding-bottom: 2rem;
-  border: 1px solid #ccc;
-  
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+  padding-bottom: clamp(1rem, 3vw, 2rem);
+  position: relative;
+  overflow-x: hidden;
 }
 
-/* ...existing code... */
+.experience-container {
+  padding: clamp(1rem, 4vw, 2rem);
+  margin-top: clamp(80px, 10vh, 90px);
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  width: clamp(90%, 95vw, 100%);
+}
 
 .no-experiences {
-  background: #fff;
-  border-radius: 12px;
-  padding: 2.5rem 2rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.10);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: clamp(12px, 3vw, 20px);
+  padding: clamp(2rem, 5vw, 3rem) clamp(1.5rem, 4vw, 2rem);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   text-align: center;
   grid-column: 1 / -1;
-  margin: 0 auto 2rem auto;
-  max-width: 400px;
+  margin: 0 auto clamp(1.5rem, 4vw, 2rem) auto;
+  max-width: clamp(350px, 80vw, 450px);
   display: flex;
   flex-direction: column;
   align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .add-experience-btn {
-  padding: 0.7rem 2rem;
-  border-radius: 6px;
+  padding: clamp(0.6rem, 2vw, 0.8rem) clamp(1.5rem, 4vw, 2.5rem);
+  border-radius: clamp(8px, 2vw, 12px);
   border: none;
-  background: #0077b6;
+  background: linear-gradient(135deg, #1b8dc1 0%, #156a94 100%);
   color: #fff;
-  font-weight: bold;
-  font-size: 1.1rem;
+  font-weight: 600;
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
   cursor: pointer;
-  margin-top: 1rem;
-  transition: background 0.2s;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  margin-top: clamp(1rem, 3vw, 1.5rem);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(27, 141, 193, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.add-experience-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.add-experience-btn:hover::before {
+  left: 100%;
 }
 
 .add-experience-btn:hover {
-  background: #023e8a;
+  background: linear-gradient(135deg, #156a94 0%, #1b8dc1 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(27, 141, 193, 0.4);
 }
 
 

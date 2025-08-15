@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './Booking.css';
+import Header from '../sections/Header';
 
 const BookingHistory = () => {
   const [bookings, setBookings] = useState([]);
@@ -9,12 +10,19 @@ const BookingHistory = () => {
 
   useEffect(() => {
     const fetchBookingHistory = async () => {
-      const userEmail = localStorage.getItem('userEmail') || "user@example.com";
+      const user = JSON.parse(localStorage.getItem("user"));
+      if (!user || !user.email) {
+        setError("User not logged in");
+        setLoading(false);
+        return;
+      }
+
       try {
-        const response = await fetch(`/api/bookings/history/${userEmail}`, {
+        const response = await fetch(`https://s89-rekhansika-capstone-tripthreads-1.onrender.com/api/bookings/history/${user.email}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${user.token}`
           }
         });
 
@@ -26,6 +34,7 @@ const BookingHistory = () => {
         setBookings(data);
       } catch (err) {
         setError(err.message);
+        console.error("Error fetching booking history:", err);
       } finally {
         setLoading(false);
       }
@@ -43,7 +52,9 @@ const BookingHistory = () => {
 
   return (
     <div className="booking-history">
-      <h2>Your Booking History</h2>
+      <Header />
+      <div style={{ padding: '2rem', marginTop: '80px' }}>
+        <h2>Your Booking History</h2>
       <div style={{ marginBottom: '1rem' }}>
         <button
           onClick={() => setTab('hotels')}
@@ -112,6 +123,7 @@ const BookingHistory = () => {
           </ul>
         )
       )}
+      </div>
     </div>
   );
 };

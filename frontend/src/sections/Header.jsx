@@ -48,6 +48,7 @@ const Header = () => {
         <a href="/home">Home</a>
         <a href="/bookings">Bookings</a>
         <a href="/experiences">Experiences</a>
+        <a href="/maps">Maps</a>
         <a href="/chatbox">AI ChatBox</a>
         <a href="/follow-others">Follow Others</a>
       </div>

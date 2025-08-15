@@ -12,6 +12,11 @@ import BookingHistory from './components/BookingHistory';
 import GoogleSuccess from './pages/GoogleSuccess';
 import FollowOthers from './components/FollowOthers';
 import UserPosts from './components/UserPosts';
+import SimpleMap from './components/SimpleMap';
+
+// Import responsive styles
+import './styles/responsive.css';
+import './styles/utilities.css';
 
 
 function App() {
@@ -31,7 +36,8 @@ function App() {
                 <Route path='/bookingshistory' element={<BookingHistory/>}/>
                 <Route path='/follow-others' element={<FollowOthers/>}/>
                 <Route path='/user/:id/posts' element={<UserPosts/>}/>
-               
+                <Route path='/maps' element={<SimpleMap/>}/>
+
             </Routes>
         </Router>
     );

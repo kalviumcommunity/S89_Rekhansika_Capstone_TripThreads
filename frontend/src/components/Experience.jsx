@@ -28,6 +28,7 @@ const [liked, setLiked] = useState(() => {
   const [locationPickerOpen, setLocationPickerOpen] = useState({});
 
   const [showModal, setShowModal] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
  const [newExperience, setNewExperience] = useState({
     title: '',
     description: '',
@@ -126,33 +127,66 @@ useEffect(() => {
 
 const handleAddExperience = async (e) => {
     e.preventDefault();
-    if (!newExperience.title || !newExperience.description || !newExperience.imageUrl) return;
+    if (!newExperience.title || !newExperience.description || !newExperience.imageUrl) {
+      alert("Please fill all required fields.");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    // Create optimistic experience object
+    const optimisticExperience = {
+      _id: Date.now().toString(), // temporary ID
+      userName: user.name,
+      email: user.email,
+      ...newExperience,
+      createdAt: new Date().toISOString()
+    };
+
     try {
-      await axios.post("https://s89-rekhansika-capstone-tripthreads-1.onrender.com/socialFeatures/communities/posts", {
+      // Close modal immediately and add optimistic update
+      handleCloseModal();
+      setExperiences(prev => [optimisticExperience, ...prev]);
+      alert("Experience added successfully!");
+
+      // Add the experience to backend (in background)
+      const response = await axios.post("https://s89-rekhansika-capstone-tripthreads-1.onrender.com/socialFeatures/communities/posts", {
         userName: user.name,
         email: user.email,
         ...newExperience
       },
-    {
-    headers: {
-      Authorization: `Bearer ${user.token}`
-    }
-  }
-);
-      const info = await axios.get(`https://s89-rekhansika-capstone-tripthreads-1.onrender.com/socialFeatures/posts?email=${user.email}`,{
-        
+      {
         headers: {
           Authorization: `Bearer ${user.token}`
         }
-      
       });
-      
-      setExperiences(info.data);
-      handleCloseModal();
+
+      // Replace optimistic update with real data
+      if (response.data) {
+        setExperiences(prev =>
+          prev.map(exp =>
+            exp._id === optimisticExperience._id ? response.data : exp
+          )
+        );
+      } else {
+        // If no response data, refresh from server
+        const info = await axios.get(`https://s89-rekhansika-capstone-tripthreads-1.onrender.com/socialFeatures/posts?email=${user.email}`,{
+          headers: {
+            Authorization: `Bearer ${user.token}`
+          }
+        });
+        setExperiences(info.data);
+      }
+
     } catch (err) {
-      alert("Failed to add experience",err);
+      // Remove optimistic update on error
+      setExperiences(prev => prev.filter(exp => exp._id !== optimisticExperience._id));
+      alert("Failed to add experience. Please try again.");
+      console.error("Error adding experience:", err);
+    } finally {
+      setIsSubmitting(false);
     }
-  };
+};
 
   const handleEditClick = (experience) => {
   setEditExperience(experience);
@@ -390,8 +424,12 @@ const handleEditInputChange = (e) => {
                   />
                 </div>
         <div style={{marginTop: '1rem'}}>
-          <button type="submit">Add</button>
-          <button type="button" onClick={handleCloseModal} style={{marginLeft: '1rem'}}>Cancel</button>
+          <button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? 'Adding...' : 'Add'}
+          </button>
+          <button type="button" onClick={handleCloseModal} style={{marginLeft: '1rem'}} disabled={isSubmitting}>
+            Cancel
+          </button>
         </div>
       </form>
 

@@ -76,8 +76,8 @@ app.get('/auth/google',
   passport.authenticate('google', { scope: ['profile', 'email'] })
 );
 
-app.get('/auth/google/callback', 
-  passport.authenticate('google', { failureRedirect: 'https://s89-rekhansika-capstone-trip-threads-ncd6-jv2f93y3g.vercel.app/login' }),
+app.get('/auth/google/callback',
+  passport.authenticate('google', { failureRedirect: 'https://s89-rekhansika-capstone-trip-threads-ex78-kbt2cqghk.vercel.app/login' }),
   function(req, res) {
      // Generate JWT
     const token = jwt.sign(
@@ -86,7 +86,7 @@ app.get('/auth/google/callback',
       { expiresIn: "1d" }
     );
     // Redirect to frontend after successful login
-    res.redirect(`https://s89-rekhansika-capstone-trip-threads-ncd6-jv2f93y3g.vercel.app/google-success?token=${token}&name=${encodeURIComponent(req.user.displayName)}&email=${encodeURIComponent(req.user.emails[0].value)}`);
+    res.redirect(`https://s89-rekhansika-capstone-trip-threads-ex78-kbt2cqghk.vercel.app/google-success?token=${token}&name=${encodeURIComponent(req.user.displayName)}&email=${encodeURIComponent(req.user.emails[0].value)}`);
   }
 );
 

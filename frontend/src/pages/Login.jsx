@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './Login.css'; // Add this line for styles
+import './Login.css';
 
 const Login = () => {
     const [formData, setFormData] = useState({
@@ -8,25 +8,44 @@ const Login = () => {
         password: '',
     });
 
+    const [popup, setPopup] = useState({ show: false, message: '' });
+
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const showPopup = (message) => {
+        setPopup({ show: true, message });
+        setTimeout(() => setPopup({ show: false, message: '' }), 2500);
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const response = await axios.post('https://s89-rekhansika-capstone-tripthreads-1.onrender.com/user/login', formData);
-            alert(response.data.message);
+            showPopup(
+                <>
+                    Login successful!<br />
+                    <span style={{ fontSize: "0.9em" }}>Redirecting to home page...</span>
+                </>
+            );
             localStorage.setItem('user', JSON.stringify(response.data.user));
-            localStorage.setItem('userEmail', response.data.user.email); // <-- Add this line
-            window.location.href = '/home';
+            localStorage.setItem('userEmail', response.data.user.email);
+            setTimeout(() => {
+                window.location.href = '/home';
+            }, 1500);
         } catch (error) {
-            alert(error.response?.data?.message || 'Something went wrong');
+            showPopup(error.response?.data?.message || 'Something went wrong');
         }
     };
 
     return (
         <div className="login-container">
+            {popup.show && (
+                <div className="custom-alert">
+                    {popup.message}
+                </div>
+            )}
             <header className="navbar">
                 <a href="/" className="logo">TripThreads</a>
             </header>
@@ -50,9 +69,8 @@ const Login = () => {
                         onChange={handleChange}
                         required
                     />
-                    <button type="submit" >Login</button>
+                    <button type="submit">Login</button>
                 </form>
-
                 <button 
                   onClick={() => window.location.href = 'https://s89-rekhansika-capstone-tripthreads-1.onrender.com/auth/google/'}
                   className="google-signin-button"
@@ -62,7 +80,6 @@ const Login = () => {
                   </span>
                   Sign in with Google
                 </button>
-
                 <p className="signup-link">
                     Don’t have an account? <a href="/signup">Sign up now!</a>
                 </p>

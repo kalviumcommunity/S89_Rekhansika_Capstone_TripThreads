@@ -3,7 +3,6 @@ import axios from "axios";
 import { useParams} from "react-router-dom";
 import "./Userposts.css";
 import { FaMapMarkerAlt } from "react-icons/fa";
-import Header from "../sections/Header";
 
 const UserPosts = () => {
   const { id } = useParams(); // userId from URL
@@ -107,7 +106,6 @@ const UserPosts = () => {
 
   return (
     <div className="user-posts-container">
-      <Header/>
       <div className="user-profile-header">
         <img
           src={

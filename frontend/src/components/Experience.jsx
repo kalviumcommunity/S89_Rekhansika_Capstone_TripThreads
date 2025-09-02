@@ -516,5 +516,3 @@ const handleEditInputChange = (e) => {
 };
 
 export default Experience;
-
-

@@ -173,11 +173,13 @@ if (!userEmail) {
 };
 
      try {
-    const response = await axios.post('https://s89-rekhansika-capstone-tripthreads-1.onrender.com/api/bookings/book', bookingData);
-    if (response.status === 201) {
-  setMessage('Booking successful! A confirmation email has been sent.');
+const response = await axios.post(
+      `${import.meta.env.VITE_API_BASE_URL}/api/bookings/book`,
+      bookingData
+    );    if (response.status === 201) {
+      setMessage('Booking successful! A confirmation email has been sent.');
   // Reset forms
-  setForm({ start_date: '', start: '', end: '' });
+    setForm({ start_date: '', start: '', end: '' });
   setTransportType('');
   setAvailableTransports([]);
   setShowTransportOptions(false);

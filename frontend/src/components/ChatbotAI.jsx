@@ -22,7 +22,7 @@ const ChatbotAI = () => {
     try {
       console.log('Sending message:', currentInput); // Debug log
       
-      const response = await fetch('https://s89-rekhansika-capstone-tripthreads-1.onrender.com/api/chatbot/chat', {
+      const response = await fetch('http://localhost:3000/api/chatbot/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

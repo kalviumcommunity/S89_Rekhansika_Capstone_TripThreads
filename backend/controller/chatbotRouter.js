@@ -30,7 +30,7 @@ chatbotRouter.post('/chat', async (req, res) => {
     const response = await axios.post(
       'https://openrouter.ai/api/v1/chat/completions',
       {
-        model: "deepseek/deepseek-chat-v3-0324:free", // or "deepseek-coder" if you want code answers
+        model: "openai/gpt-3.5-turbo", // or "deepseek-coder" if you want code answers
         messages: [
           {
             role: "system",

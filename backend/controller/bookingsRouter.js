@@ -12,6 +12,7 @@ bookingsRouter.post('/book', async (req, res) => {
     try {
         const newBooking = new Booking({ userEmail, transportation, hotels });
         await newBooking.save();
+        console.log('Booking saved:', newBooking); // <-- Add this
 
         // Send confirmation email
         await sendConfirmationEmail(userEmail, newBooking);

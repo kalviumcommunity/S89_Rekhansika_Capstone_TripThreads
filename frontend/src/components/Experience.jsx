@@ -43,7 +43,7 @@ const [liked, setLiked] = useState(() => {
  
   useEffect(() => {
     if (user && user.email) {
-      axios.get(`https://s89-rekhansika-capstone-tripthreads-1.onrender.com/socialFeatures/posts?email=${user.email}`,{
+      axios.get(`http://localhost:3000/socialFeatures/posts?email=${user.email}`,{
          headers: {
           Authorization: `Bearer ${user.token}` // or whatever key you use for the JWT
           }
@@ -84,7 +84,7 @@ useEffect(() => {
   const handleLocationChange = async (id, selected) => {
     try {
       // Update the experience in the backend
-      const response = await axios.patch(`https://s89-rekhansika-capstone-tripthreads-1.onrender.com/socialFeatures/communities/patchposts/${id}`, {
+      const response = await axios.patch(`http://localhost:3000/socialFeatures/communities/patchposts/${id}`, {
         location: selected.value
       }, {
         headers: {
@@ -150,7 +150,7 @@ const handleAddExperience = async (e) => {
       alert("Experience added successfully!");
 
       // Add the experience to backend (in background)
-      const response = await axios.post("https://s89-rekhansika-capstone-tripthreads-1.onrender.com/socialFeatures/communities/posts", {
+      const response = await axios.post("http://localhost:3000/socialFeatures/communities/posts", {
         userName: user.name,
         email: user.email,
         ...newExperience
@@ -170,7 +170,7 @@ const handleAddExperience = async (e) => {
         );
       } else {
         // If no response data, refresh from server
-        const info = await axios.get(`https://s89-rekhansika-capstone-tripthreads-1.onrender.com/socialFeatures/posts?email=${user.email}`,{
+        const info = await axios.get(`http://localhost:3000/socialFeatures/posts?email=${user.email}`,{
           headers: {
             Authorization: `Bearer ${user.token}`
           }
@@ -202,7 +202,7 @@ const handleEditInputChange = (e) => {
   const handleEditSave = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.patch(`https://s89-rekhansika-capstone-tripthreads-1.onrender.com/socialFeatures/communities/patchposts/${editExperience._id}`, 
+      const res = await axios.patch(`http://localhost:3000/socialFeatures/communities/patchposts/${editExperience._id}`, 
         {
           userName: user.name,
           title: editExperience.title,
@@ -226,7 +226,7 @@ const handleEditInputChange = (e) => {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this experience?")) {
       try {
-        await axios.delete(`https://s89-rekhansika-capstone-tripthreads-1.onrender.com/socialFeatures/communities/deleteposts/${id}`);
+        await axios.delete(`http://localhost:3000/socialFeatures/communities/deleteposts/${id}`);
         setExperiences((prev) => prev.filter((exp) => exp._id !== id));
       } catch (err) {
         alert("Failed to delete experience",err);

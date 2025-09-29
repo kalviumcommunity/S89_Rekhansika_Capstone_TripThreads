@@ -51,7 +51,7 @@ app.use(cors({
     }
   },
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
 
@@ -107,8 +107,7 @@ app.get('/auth/google/callback',
       { expiresIn: "1d" }
     );
     // Redirect to frontend after successful login
-    res.redirect(`https://s89-rekhansika-capstone-trip-threads-ex78-bvo8b31tz.vercel.app/google-success?token=${token}&name=${encodeURIComponent(req.user.displayName)}&email=${encodeURIComponent(req.user.emails[0].value)}`);
-  }
+res.redirect(`http://localhost:5173/google-success?token=${token}&name=${encodeURIComponent(req.user.displayName)}&email=${encodeURIComponent(req.user.emails[0].value)}`);  }
 );
 
 // Auth status route for frontend authentication check

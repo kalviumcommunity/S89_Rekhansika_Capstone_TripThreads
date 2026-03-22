@@ -34,6 +34,7 @@ userRouter.post("/signup", async (req, res) => {
             email,
             password: hashedPassword,
         });
+        await newUser.save();
 
         // Generate JWT token
         const token = jwt.sign(

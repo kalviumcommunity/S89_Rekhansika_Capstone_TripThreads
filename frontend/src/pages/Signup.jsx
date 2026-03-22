@@ -39,11 +39,11 @@ const Signup = () => {
         showPopup(
             <>
                 User registered successfully.<br />
-                <span style={{ fontSize: "0.9em" }}>Redirecting to login page...</span>
+                <span style={{ fontSize: "0.9em" }}>Redirecting to home page...</span>
             </>
         );
         setTimeout(() => {
-            window.location.href = '/login';
+            window.location.href = '/home';
         }, 2000);
     } catch (error) {
         const msg = error.response?.data?.message || 'Something went wrong';
